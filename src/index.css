@@ -16,7 +16,26 @@ a {
   text-decoration: none;
   color: inherit;
 }
+button {
+  cursor: pointer;
+}
 
+.blue_btn {
+  background: var(--blue-color);
+  border: none;
+  outline: none;
+  padding: 0.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+}
 :root {
   --bg-primary: #fff;
   --bg-secondary: #f0f2f5;

@@ -1,6 +1,8 @@
 
 
 function App() {
+  console.log('');
+
   return (
     <div className="App">
       hello

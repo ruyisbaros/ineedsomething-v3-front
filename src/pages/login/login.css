@@ -18,8 +18,10 @@
 }
 
 .login_1 img {
+    display: block;
     width: 80px;
     background: transparent;
+    margin: 0 auto;
 }
 
 .login_2 {
@@ -76,4 +78,42 @@
 
 .sign_extra {
     font-size: 15px;
+}
+@media (min-width:850px) {
+    .login_wrap {
+        display: flex;
+        align-items: center;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .login_wrap {
+        height: 85vh;
+
+    }
+}
+
+@media (min-width:1000px) {
+    .login_wrap {
+        height: 95vh;
+    }
+
+    .login_1 {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .login_1 img {
+        width: 100px;
+    }
+
+    .login_1 span {
+        color: #000;
+        font-size: 25px;
+    }
+
+    .login_2_wrap {
+        width: 400px;
+    }
 }

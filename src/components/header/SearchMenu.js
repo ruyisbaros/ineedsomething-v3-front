@@ -1,26 +1,42 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Return, Search } from '../../svg'
 import { useOutsideClick } from './../../utils/helpers';
 
 const SearchMenu = ({ setShowSearchMenu, showSearchMenu }) => {
     const color = "#65676b"
-    const el = useRef(null)
-    useOutsideClick(el, () => {
+    const [iconShow, setIconShow] = useState(true)
+    const menuRef = useRef(null)
+    const inputRef = useRef(null)
+
+    useOutsideClick(menuRef, () => {
         setShowSearchMenu(!showSearchMenu)
     })
+
+    useEffect(() => {
+        inputRef.current.focus()
+    }, [])
+
     return (
-        <div className='header_left search_area scrollbar' ref={el}>
+        <div className='header_left search_area scrollbar' ref={menuRef}>
             <div className="search_wrap">
                 <div className="header_logo">
-                    <div className="circle hover1">
+                    <div className="circle hover1" onClick={() => setShowSearchMenu(!showSearchMenu)}>
                         <Return color={color} />
                     </div>
                 </div>
-                <div className="search">
-                    <div>
+                <div className="search" onClick={() => {
+                    inputRef.current.focus()
+                }}>
+                    {iconShow && <div>
                         <Search color={color} />
-                    </div>
-                    <input type="text" placeholder='Search iNeedSomething' />
+                    </div>}
+                    <input
+                        type="text"
+                        placeholder='Search iNeedSomething'
+                        ref={inputRef}
+                        onFocus={() => setIconShow(false)}
+                        onBlur={() => setIconShow(true)}
+                    />
                 </div>
             </div>
             <div className="search_history_header">

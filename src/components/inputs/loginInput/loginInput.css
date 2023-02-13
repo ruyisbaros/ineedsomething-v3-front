@@ -27,10 +27,11 @@
     border-color: #b94a48 !important;
 }
 
-.err_i {
+.input_wrap i {
     position: absolute;
     right: 5px;
     top: 15px;
+    transform: scale(0.8);
 }
 
 .input_error {

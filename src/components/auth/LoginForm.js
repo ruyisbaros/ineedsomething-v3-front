@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import logo from "../../assets/output-onlinejpgtools (1).png"
 import { Formik, Form } from 'formik'
 import * as Yup from "yup"
-import LoginInput from './../inputs/loginInput/LoginInput';
+import LoginInput from '../inputs/loginInput/LoginInput';
 
 const LoginForm = () => {
     const [login, setLogin] = useState({ email: "", password: "" })
     const { email, password } = login;
-    console.log(login);
+    //console.log(login);
     const handleLoginChange = (e) => {
         const { name, value } = e.target;
         setLogin({ ...login, [name]: value });

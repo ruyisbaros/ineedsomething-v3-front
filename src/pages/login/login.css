@@ -269,6 +269,17 @@
     max-width: 900px
 }
 
+/* Birth and gender errors */
+.reg_grid .input_error {
+    width: 300px;
+    position: absolute;
+    top: 70px;
+}
+
+.reg_grid .error_arrow_bottom {
+    transform: translateY(1px);
+}
+
 /* Responsive */
 @media (min-width:539px) {
     .login_footer_wrap {
@@ -292,6 +303,10 @@
 @media (min-width:650px) {
     .login_footer_wrap {
         max-width: 640px;
+    }
+
+    .reg_grid .input_error {
+        width: 350px;
     }
 }
 

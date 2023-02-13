@@ -8,12 +8,7 @@ const RegisterInput = ({ placeholder, bottom, ...props }) => {
     const desktopView1 = useMediaQuery({
         query: "(min-width:539px)"
     })
-    const desktopView2 = useMediaQuery({
-        query: "(min-width:850px)"
-    })
-    const desktopView3 = useMediaQuery({
-        query: "(min-width:1170px)"
-    })
+
     return (
         <div className="input_wrap register_input_wrap">
 

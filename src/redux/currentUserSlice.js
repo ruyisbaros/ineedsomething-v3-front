@@ -1,9 +1,9 @@
 
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
-    currentUser: null,
-    token: "",
+    currentUser: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
 };
 
 const currentUserSlicer = createSlice({
@@ -11,8 +11,8 @@ const currentUserSlicer = createSlice({
     initialState,
     reducers: {
         userLoggedSuccess: (state, action) => {
-            state.currentUser = action.payload.currentUser;
-            state.token = action.payload.token;
+            state.currentUser = action.payload;
+
         },
         updateCurrentUser: (state, action) => {
             state.token = action.payload.token;

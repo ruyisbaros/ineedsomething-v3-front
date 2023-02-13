@@ -1,6 +1,5 @@
 import React from 'react'
 import { useField, ErrorMessage } from 'formik'
-import { RiErrorWarningFill } from "react-icons/ri"
 import "./loginInput.css"
 
 const LoginInput = ({ placeholder, bottom, ...props }) => {

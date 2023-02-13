@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { AiOutlinePlus } from "react-icons/ai"
-import { MdAddToDrive } from "react-icons/md"
 
 const AuthFooter = () => {
     return (

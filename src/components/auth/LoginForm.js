@@ -1,13 +1,22 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from "../../assets/output-onlinejpgtools (1).png"
 import { Formik, Form } from 'formik'
 import * as Yup from "yup"
 import LoginInput from '../inputs/loginInput/LoginInput';
+import { useDispatch } from 'react-redux';
+import axios from '../../axios'
+import { toast } from 'react-toastify'
+import CircleLoader from "react-spinners/CircleLoader"
+import { userLoggedSuccess } from '../../redux/currentUserSlice';
+import Cookies from "js-cookie"
 
-const LoginForm = () => {
+const LoginForm = ({ setVisible, visible }) => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [login, setLogin] = useState({ email: "", password: "" })
     const { email, password } = login;
+    const [loading, setLoading] = useState(false)
     //console.log(login);
     const handleLoginChange = (e) => {
         const { name, value } = e.target;
@@ -17,6 +26,20 @@ const LoginForm = () => {
         email: Yup.string().required("Email address is required").email("Must be valid email"),
         password: Yup.string().required("Password is required").min(6)
     })
+    const submitLogin = async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.post("/auth/login", login)
+            console.log(data)
+            dispatch(userLoggedSuccess(data))
+            Cookies.set("user", JSON.stringify(data))
+            navigate("/")
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
+        }
+    }
     return (
         <div className="login_wrap">
             <div className="login_1">
@@ -32,6 +55,9 @@ const LoginForm = () => {
                             password
                         }}
                         validationSchema={loginValidation}
+                        onSubmit={() => {
+                            submitLogin()
+                        }}
                     >
                         {
                             (formik) => (
@@ -50,14 +76,17 @@ const LoginForm = () => {
                                         onChange={handleLoginChange}
                                         bottom={true}
                                     />
-                                    <button type='submit' className='blue_btn'>Log In</button>
+                                    <button type='submit' className='blue_btn'>{loading ? <CircleLoader color='#fff' loading={loading} size={30} /> : "Log In"}</button>
+                                    {/*  <div style={{ display: "flex", justifyContent: "center" }}>
+                                        <CircleLoader color='#1876f2' loading={loading} size={30} />
+                                    </div> */}
                                 </Form>
                             )
                         }
                     </Formik>
                     <Link to="/forgot_pwd" className='forgot_password' >Forgotten password ?</Link>
                     <div className="sign_splitter"></div>
-                    <button className="blue_btn open_signup">Create Account</button>
+                    <button onClick={() => setVisible(!visible)} className="blue_btn open_signup">Create Account</button>
 
                 </div>
                 <Link to="/" className='sign_extra'>

@@ -1,4 +1,5 @@
 import { floor, random } from 'lodash';
+import { useEffect } from 'react';
 import { avatarColors } from './static';
 
 
@@ -20,4 +21,21 @@ export function generateAvatar(text, bcgColor, fgColor = "white") {
     context.fillText(text, 155, 85)
 
     return canvas.toDataURL("image/png")
+}
+
+export function useOutsideClick(ref, fn) {
+    useEffect(() => {
+        const listener = (e) => {
+            if (!ref.current || ref.current.contains(e.target)) {
+                return;
+            }
+            fn()
+        }
+        document.addEventListener("mousedown", listener)
+        document.addEventListener("touchstart", listener)
+        return () => {
+            document.removeEventListener("mousedown", listener)
+            document.removeEventListener("touchstart", listener)
+        }
+    }, [ref])
 }

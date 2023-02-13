@@ -16,6 +16,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
 button {
   cursor: pointer;
 }
@@ -36,6 +37,7 @@ button {
   gap: 6px;
 
 }
+
 :root {
   --bg-primary: #fff;
   --bg-secondary: #f0f2f5;
@@ -58,6 +60,7 @@ button {
   --shadow-3: rgba(0, 0, 0, 0.3);
   --shadow-inset: rgba(255, 255, 255, 0.5);
 }
+
 /* Blur screen */
 .blur {
   position: fixed;
@@ -68,5 +71,15 @@ button {
   background: rgba(255, 255, 255, 0.768);
   z-index: 99;
 }
+
+/* Hovers */
+.hover1:hover {
+  background: var(--bg-secondary);
+}
+
+.hover2:hover {
+  background: var(--bg-third);
+}
+
 
 @import url("./styles/icons/icons.css")

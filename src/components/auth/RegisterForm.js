@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Form, Formik } from 'formik'
 import RegisterInput from '../inputs/registerInput/RegisterInput'
 import * as Yup from "yup"
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { userLoggedSuccess } from '../../redux/currentUserSlice'
 import Cookies from "js-cookie"
 import { useNavigate } from 'react-router-dom'
+import { useOutsideClick } from './../../utils/helpers';
 
 
 const RegisterForm = ({ visible, setVisible }) => {
@@ -46,6 +47,12 @@ const RegisterForm = ({ visible, setVisible }) => {
     password: Yup.string().required("Password is required").min(6)
   })
 
+  /* Outside click close */
+  const el = useRef(null)
+  useOutsideClick(el, () => {
+    setVisible(!visible)
+  })
+
   const submitRegister = async () => {
     /* e.preventDefault() */
     try {
@@ -65,7 +72,7 @@ const RegisterForm = ({ visible, setVisible }) => {
   }
   return (
     <div className='blur'>
-      <div className="register">
+      <div className="register" ref={el}>
         <div className="register_header">
           <span onClick={() => setVisible(!visible)} className='close_register'>&times;</span>
           <span className='sign_title'>Sign Up</span>

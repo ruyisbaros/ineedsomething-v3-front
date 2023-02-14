@@ -6,8 +6,7 @@ const DisplayAccess = ({ setVisible }) => {
             <div className="absolute_wrap_header">
                 <div
                     className="circle hover1"
-                    onClick={(e) => {
-                        e.stopPropagation()
+                    onClick={() => {
                         setVisible(0);
                     }}
                 >

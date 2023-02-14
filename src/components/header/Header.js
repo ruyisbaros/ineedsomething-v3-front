@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import logo from "../../assets/output-onlinejpgtools (1).png"
@@ -12,13 +12,26 @@ import Messenger from './../../svg/messenger';
 import ArrowDown from './../../svg/arrowDown';
 import SearchMenu from './SearchMenu'
 import AllMenu from './AllMenu'
+import { useOutsideClick } from './../../utils/helpers';
+import UserMenu from './UserMenu'
 
 const Header = () => {
     const color = "#65676b"
     const { user } = useSelector(store => store.currentUser.loggedUser)
     const [showSearchMenu, setShowSearchMenu] = useState(false)
     const [showAllMenu, setShowAllMenu] = useState(false)
+    const [showUserMenu, setShowUserMenu] = useState(false)
+    const allMenuRef = useRef(null)
+    const userMenuRef = useRef(null)
     /* Outside click close */
+    useOutsideClick(allMenuRef, () => {
+
+        setShowAllMenu(false)
+    })
+
+    useOutsideClick(userMenuRef, () => {
+        setShowUserMenu(false)
+    })
 
     return (
         <header>
@@ -61,8 +74,10 @@ const Header = () => {
                     <img src={user?.picture} alt="" />
                     <span>{user?.first_name}</span>
                 </Link>
-                <div className="circle_icon hover1" onClick={() => setShowAllMenu(!showAllMenu)}>
+                <div ref={allMenuRef} className="circle_icon hover1" >
+                    <div onClick={() => setShowAllMenu(!showAllMenu)}>
                     <Menu />
+                    </div>
                     {showAllMenu && <AllMenu />}
                 </div>
                 <div className="circle_icon hover1">
@@ -72,8 +87,12 @@ const Header = () => {
                     <Notifications />
                     <div className="right_notifications">9</div>
                 </div>
-                <div className="circle_icon hover1">
+                <div ref={userMenuRef} className="circle_icon hover1" onClick={() => {
+
+                    setShowUserMenu((prev) => !prev)
+                }}>
                     <ArrowDown />
+                    {showUserMenu && <UserMenu user={user} />}
                 </div>
             </div>
         </header>

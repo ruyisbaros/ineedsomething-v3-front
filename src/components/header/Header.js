@@ -11,11 +11,13 @@ import "./header.css"
 import Messenger from './../../svg/messenger';
 import ArrowDown from './../../svg/arrowDown';
 import SearchMenu from './SearchMenu'
+import AllMenu from './AllMenu'
 
 const Header = () => {
     const color = "#65676b"
     const { user } = useSelector(store => store.currentUser.loggedUser)
     const [showSearchMenu, setShowSearchMenu] = useState(false)
+    const [showAllMenu, setShowAllMenu] = useState(false)
     /* Outside click close */
 
     return (
@@ -59,8 +61,9 @@ const Header = () => {
                     <img src={user?.picture} alt="" />
                     <span>{user?.first_name}</span>
                 </Link>
-                <div className="circle_icon hover1">
+                <div className="circle_icon hover1" onClick={() => setShowAllMenu(!showAllMenu)}>
                     <Menu />
+                    {showAllMenu && <AllMenu />}
                 </div>
                 <div className="circle_icon hover1">
                     <Messenger />

@@ -81,5 +81,14 @@ button {
   background: var(--bg-third);
 }
 
+/* Scroll bar */
+.scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: #aeaeafa1;
+  border-radius: 5px;
+}
 
 @import url("./styles/icons/icons.css")

@@ -5,6 +5,7 @@ import HomeLeft from '../../components/home/left/HomeLeft';
 import HomeRight from './../../components/home/right/HomeRight';
 import Stories from '../../components/home/stories/Stories';
 import "./home.css"
+import CreatePost from '../../components/post/create_post/CreatePost';
 
 const Home = () => {
     const { user } = useSelector(store => store.currentUser.loggedUser)
@@ -14,6 +15,7 @@ const Home = () => {
             <HomeLeft user={user} />
             <div className="home_middle">
                 <Stories />
+                <CreatePost user={user} />
             </div>
             <HomeRight user={user} />
         </div>

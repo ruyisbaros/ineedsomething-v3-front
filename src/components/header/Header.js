@@ -76,7 +76,9 @@ const Header = () => {
                 </Link>
                 <div ref={allMenuRef} className={showAllMenu ? "circle_icon active_header hover1" : "circle_icon hover1"} >
                     <div onClick={() => setShowAllMenu(!showAllMenu)}>
-                    <Menu />
+                        <div style={{ transform: "translateY(2px)" }}>
+                            <Menu />
+                        </div>
                     </div>
                     {showAllMenu && <AllMenu />}
                 </div>

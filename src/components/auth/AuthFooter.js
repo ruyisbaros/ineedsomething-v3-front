@@ -56,7 +56,7 @@ const AuthFooter = () => {
             </div>
             <div className="login_footer_wrap">
                 <Link to="/" style={{ fontSize: "12px", marginTop: "10px" }}>
-                    Ahmet © 2022
+                    Ahmet © 2023
                 </Link>
             </div>
         </footer>

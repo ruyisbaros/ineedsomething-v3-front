@@ -3,7 +3,7 @@
     margin-top: 50px;
     left: 6px;
     max-height: 100vh;
-    width: 300px;
+    width: 15vw;
     overflow-y: auto;
     color: var(--color-primary);
     padding: 15px 0;
@@ -115,7 +115,7 @@
 }
 
 .fb_copyright {
-    margin-top: 1rem;
-    margin-left: 2rem;
+    display: flex;
+    justify-content: center;
     font-size: 13px;
 }

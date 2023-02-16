@@ -585,6 +585,15 @@ header {
 }
 
 @media (max-width:750px) {
+    .header_right {
+        padding-right: 2rem;
+    }
+
+    header svg,
+    .header_right svg {
+        width: 20px;
+    }
+
     .middle_icon:nth-child(4) {
         display: none;
     }

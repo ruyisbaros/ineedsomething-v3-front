@@ -96,6 +96,7 @@
 }
 
 @media (max-width:820px) {
+
     .home {
         width: 100vw;
     }
@@ -130,19 +131,33 @@
 
     .home_middle {
         position: absolute;
-        margin-left: 50px !important;
+        margin-left: 0;
     }
 
     .stories {
         width: 100% !important;
+        grid-template-columns: repeat(6, 15vw);
     }
 
+    .create_post_icon {
+        font-size: 12px;
+    }
 
-    .stories {
-        grid-template-columns: repeat(6, 16.5vw);
+    .open_post {
+        font-size: 14px;
+    }
+
+    .create_post svg {
+        width: 20px;
     }
 
     .white_circle {
         display: none;
+    }
+}
+
+@media (max-width:550px) {
+    .stories {
+        grid-template-columns: repeat(6, 16vw);
     }
 }

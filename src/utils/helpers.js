@@ -1,5 +1,5 @@
 import { floor, random } from 'lodash';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { avatarColors } from './static';
 
 
@@ -42,4 +42,15 @@ export function useOutsideClick(ref, fn) {
 
 export function capitalName(name) {
     return name?.slice(0, 1).toUpperCase() + name.slice(1)
+}
+
+export function useEffectOnce(callBack) {
+    const calledOnce = useRef(false)
+
+    useEffect(() => {
+        if (!calledOnce.current) {
+            callBack()
+            calledOnce.current = true
+        }
+    }, [callBack])
 }

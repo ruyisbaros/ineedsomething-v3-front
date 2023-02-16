@@ -10,6 +10,7 @@
     transform: translate(-50%, -40%);
     z-index: 99;
     text-align: center;
+    border-radius: 10px;
 }
 
 .popup_header {

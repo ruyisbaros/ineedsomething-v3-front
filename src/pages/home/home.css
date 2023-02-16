@@ -15,7 +15,8 @@
 @media (max-width:1175px) {
 
     .stories,
-    .create_post {
+    .create_post,
+    .send_verification {
         width: 85% !important;
     }
 
@@ -77,7 +78,8 @@
     }
 
     .stories,
-    .create_post {
+    .create_post,
+    .send_verification {
         width: 67% !important;
     }
 
@@ -110,7 +112,8 @@
     }
 
     .stories,
-    .create_post {
+    .create_post,
+    .send_verification {
         width: 85% !important;
     }
 

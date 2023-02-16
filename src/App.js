@@ -8,9 +8,35 @@ import ForgotPassword from './pages/forgot_password/ForgotPassword';
 import LoggedInRoutes from './routes/LoggedInRoutes';
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from './pages/home/Activate';
+import axios from './axios';
+import { refreshToken } from "./redux/currentUserSlice";
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import { useEffectOnce } from './utils/helpers';
+import { useCallback } from "react";
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  const refreshTokenFunc = useCallback(async () => {
+    try {
+      const { data } = await axios.get("/auth/refresh_token");
+      //console.log(data);
+      dispatch(
+        refreshToken(data)
+      );
+      Cookies.set("user", JSON.stringify(data))
+    } catch (error) {
+
+      toast.error(error.response.data.message)
+    }
+  }, [dispatch]);
+
+  useEffectOnce(() => {
+    refreshTokenFunc()
+  })
 
   return (
     <>

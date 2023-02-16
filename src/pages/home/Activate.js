@@ -12,9 +12,10 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import "./home.css"
 import { activateUserAccount } from '../../redux/currentUserSlice';
+import { useEffectOnce } from './../../utils/helpers';
 
 const Activate = () => {
-    const { user } = useSelector(store => store.currentUser.loggedUser)
+    const { user, token: token1 } = useSelector(store => store.currentUser.loggedUser)
     const { token } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -26,11 +27,13 @@ const Activate = () => {
     const activateAccount = useCallback(async () => {
         try {
             setLoading(true)
-            const { data } = await axios.post("/auth/activate_account", { token })
+            const { data } = await axios.post("/auth/activate_account", { token }, {
+                headers: { "Authorization": `Bearer ${token1}` }
+            })
             setLoading(false)
-            setSuccess(data.message)
-            Cookies.set("user", JSON.stringify({ ...user, verified: true }))
-            dispatch(activateUserAccount())
+            setSuccess("Account has been activated successfully")
+            Cookies.set("user", JSON.stringify(data))
+            dispatch(activateUserAccount(data))
             setTimeout(() => {
                 navigate("/")
             }, 3000)
@@ -38,14 +41,15 @@ const Activate = () => {
             setLoading(false)
             setError(error.response.data.message)
             toast.error(error.response.data.message)
-            /* setTimeout(() => {
+            setTimeout(() => {
                 navigate("/")
-            }, 3000) */
+            }, 3000)
         }
-    }, [token, dispatch, user])
-    useEffect(() => {
+    }, [token1, token, dispatch, navigate])
+
+    useEffectOnce(() => {
         activateAccount()
-    }, [activateAccount])
+    })
 
     return (
         <div className='home'>

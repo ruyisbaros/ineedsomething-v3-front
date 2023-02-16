@@ -1,0 +1,28 @@
+.send_verification {
+    background: #fff;
+    box-shadow: 0 1px 2px var(--shadow-1);
+    font-size: 14px;
+    color: var(--color-primary);
+    padding: 20px;
+}
+
+.send_verification p {
+    font-weight: 600;
+    padding: 5px;
+    color: red
+}
+
+.animator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.send_verification span:last-of-type {
+    cursor: pointer;
+    color: var(--blue-color)
+}
+
+.send_verification span:last-of-type:hover {
+    text-decoration: underline;
+}

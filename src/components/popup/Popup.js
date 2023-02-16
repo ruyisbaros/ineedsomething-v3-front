@@ -9,7 +9,7 @@ const Popup = ({ type, header, text, loading }) => {
             <div className="popup">
                 <div className={`popup_header ${type === "success" ? "success_text" : "error_text"}`}>{header}</div>
                 <div className="popup_message">{text}</div>
-                <PropagateLoader color='#1876f2' loading={loading} size={15} />
+                <PropagateLoader color='#1876f2' loading={true} size={15} />
             </div>
         </div>
     )

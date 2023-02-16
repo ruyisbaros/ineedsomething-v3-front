@@ -5,7 +5,7 @@ import HomeLeft from '../../components/home/left/HomeLeft';
 import HomeRight from './../../components/home/right/HomeRight';
 import Stories from '../../components/home/stories/Stories';
 import CreatePost from '../../components/post/create_post/CreatePost';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Popup from '../../components/popup/Popup';
 import axios from './../../axios';
 import { toast } from 'react-toastify';
@@ -17,6 +17,7 @@ const Activate = () => {
     const { user } = useSelector(store => store.currentUser.loggedUser)
     const { token } = useParams()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     //console.log(token)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
@@ -30,12 +31,18 @@ const Activate = () => {
             setSuccess(data.message)
             Cookies.set("user", JSON.stringify({ ...user, verified: true }))
             dispatch(activateUserAccount())
+            setTimeout(() => {
+                navigate("/")
+            }, 3000)
         } catch (error) {
             setLoading(false)
             setError(error.response.data.message)
             toast.error(error.response.data.message)
+            /* setTimeout(() => {
+                navigate("/")
+            }, 3000) */
         }
-    }, [token, dispatch])
+    }, [token, dispatch, user])
     useEffect(() => {
         activateAccount()
     }, [activateAccount])

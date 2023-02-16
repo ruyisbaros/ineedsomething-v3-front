@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { capitalName } from '../../../utils/helpers'
 import LeftLink from './LeftLink'
 import { left } from '../../../utils/static'
 import { IoIosArrowUp } from "react-icons/io"

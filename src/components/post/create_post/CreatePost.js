@@ -1,5 +1,4 @@
 import React from 'react'
-import { capitalName } from '../../../utils/helpers'
 import "./createPost.css"
 import LiveVideo from './../../../svg/liveVideo';
 import Photo from './../../../svg/photo';

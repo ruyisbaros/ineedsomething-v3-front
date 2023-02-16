@@ -1,5 +1,4 @@
 import React from 'react'
-import { capitalName } from "../../../utils/helpers"
 
 const Contact = ({ user }) => {
     return (

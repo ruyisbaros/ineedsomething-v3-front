@@ -11,7 +11,7 @@ const CreatePost = ({ user }) => {
             <div className="create_post_header">
                 <img src={user?.picture} alt="" />
                 <div className="open_post">
-                    What's on your mind, {capitalName(user?.first_name)}?
+                    What's on your mind, {user?.first_name}?
                 </div>
             </div>
             <div className="create_splitter"></div>

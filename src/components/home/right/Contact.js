@@ -7,7 +7,7 @@ const Contact = ({ user }) => {
             <div className="contact_img">
                 <img src={user?.picture} alt="" />
             </div>
-            <span>{capitalName(user?.first_name)}{" "}{capitalName(user?.last_name)}</span>
+            <span>{user?.first_name}{" "}{user?.last_name}</span>
         </div>
     )
 }

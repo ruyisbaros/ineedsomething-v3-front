@@ -16,7 +16,7 @@ const Stories = () => {
         query: "(max-width:820px)"
     })
     const max = query820px ? 4 : query870px ? 3 : query1175px ? 4 : 5
-    console.log(query870px, max)
+    //console.log(query870px, max)
     return (
         <div className='stories'>
             <div className="create_story_card">

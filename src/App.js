@@ -29,7 +29,6 @@ function App() {
       );
       Cookies.set("user", JSON.stringify(data))
     } catch (error) {
-
       toast.error(error.response.data.message)
     }
   }, [dispatch]);

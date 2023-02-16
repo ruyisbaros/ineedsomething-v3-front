@@ -1,11 +1,29 @@
 import React, { useState, useRef } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import HelpAndSupport from './user-menu-comps/HelpAndSupport';
 import SettingsPrivacy from './user-menu-comps/SettingsPrivacy';
 import DisplayAccess from './user-menu-comps/DisplayAccess';
+import { useDispatch } from 'react-redux';
+import { authLogout } from '../../redux/currentUserSlice';
+import axios from './../../axios';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 
 const UserMenu = ({ user }) => {
     const [visible, setVisible] = useState(0)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        try {
+            await axios.get("/auth/logout")
+            dispatch(authLogout())
+            Cookies.set("user", "")
+            navigate("/login")
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }
     return (
         <div className='menu' >
             {visible === 0 &&
@@ -66,7 +84,7 @@ const UserMenu = ({ user }) => {
                         <div className="small_circle">
                             <i className="logout_filled_icon"></i>
                         </div>
-                        <span>Logout</span>
+                        <span onClick={handleLogout}>Logout</span>
 
                     </div>
                 </div>

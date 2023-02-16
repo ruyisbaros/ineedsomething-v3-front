@@ -15,11 +15,9 @@ const currentUserSlicer = createSlice({
 
         },
         activateUserAccount: (state, action) => {
-
             state.loggedUser = action.payload;
         },
         updateCurrentUser: (state, action) => {
-
             state.loggedUser = action.payload.currentUser;
         },
         refreshToken: (state, action) => {
@@ -28,7 +26,6 @@ const currentUserSlicer = createSlice({
         },
         authLogout: (state) => {
             state.loggedUser = null;
-            state.token = "";
         },
     },
 });

@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import CircleLoader from "react-spinners/CircleLoader"
+import axios from './../../axios';
 
-const SendEmail = ({ user }) => {
+const SendEmail = ({ user, setVisible }) => {
+    const [loading, setLoading] = useState(false)
+    const handleSendMail = async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.get(`/auth/send_verify_code/${user?.email}`)
+            //console.log(data)
+            toast.success(data.message)
+            setVisible(2)
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
+        }
+    }
     return (
         <div className="reset_form dynamic_height">
             <div className="reset_form_header">Reset Your Password</div>
@@ -26,7 +43,10 @@ const SendEmail = ({ user }) => {
             </div>
             <div className="reset_form_btns">
                 <Link to="/login" className='gray_btn'>Cancel</Link>
-                <button type='submit' className="blue_btn ">Continue</button>
+                <button onClick={handleSendMail} type='submit' className="blue_btn ">Continue</button>
+            </div>
+            <div className="animator">
+                <CircleLoader color="#1876f2" loading={loading} size={30} />
             </div>
         </div>
 

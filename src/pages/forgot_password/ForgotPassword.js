@@ -19,11 +19,11 @@ const ForgotPassword = () => {
     const navigate = useNavigate()
 
     const [email, setEmail] = useState("")
-    const [visible, setVisible] = useState(3)
+    const [visible, setVisible] = useState(0)
     const [code, setCode] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-
+    const [tempUser, setTempUser] = useState(null)
 
     const handleLogout = async () => {
         try {
@@ -52,12 +52,17 @@ const ForgotPassword = () => {
                     </Link>}
             </div>
             <div className="reset_wrap">
-                {visible === 0 && <SearchAccount email={email} setEmail={setEmail} />}
-                {visible === 1 && <SendEmail user={loggedUser?.user} />}
+                {visible === 0 && <SearchAccount email={email}
+                    setEmail={setEmail}
+                    setTempUser={setTempUser}
+                    setVisible={setVisible}
+
+                />}
+                {visible === 1 && tempUser && <SendEmail user={tempUser} setVisible={setVisible} />}
                 {visible === 2 && <CodeVerification code={code}
-                    setCode={setCode} />}
+                    setCode={setCode} setVisible={setVisible} user={tempUser} />}
                 {visible === 3 && <ChangePassword
-                    user={loggedUser?.user}
+                    user={tempUser}
                     password={password}
                     confirmPassword={confirmPassword}
                     setPassword={setPassword}

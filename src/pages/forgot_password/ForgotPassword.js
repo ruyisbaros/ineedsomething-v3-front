@@ -35,9 +35,6 @@ const ForgotPassword = () => {
             toast.error(error.response.data.message)
         }
     }
-
-
-    const submitReset = () => { }
     return (
         <div className='reset'>
             <div className="reset_header">
@@ -52,7 +49,8 @@ const ForgotPassword = () => {
                     </Link>}
             </div>
             <div className="reset_wrap">
-                {visible === 0 && <SearchAccount email={email}
+                {visible === 0 && <SearchAccount
+                    email={email}
                     setEmail={setEmail}
                     setTempUser={setTempUser}
                     setVisible={setVisible}

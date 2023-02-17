@@ -11,8 +11,8 @@ const CodeVerification = ({ code, setCode, setVisible, user }) => {
     const [loading, setLoading] = useState(false)
     const validateFunc = Yup.object({
         code: Yup.string().required("Code is required")
-            .min(5, "Must be min 5 characters")
-            .max(5, "Must be max 5 characters")
+            .min(10, "Must be min 10 characters")
+            .max(10, "Must be max 10 characters")
     })
 
     const handleCodeVerify = async () => {
@@ -41,7 +41,7 @@ const CodeVerification = ({ code, setCode, setVisible, user }) => {
                 }}
                 validationSchema={validateFunc}
                 onSubmit={() => {
-
+                    handleCodeVerify()
                 }}
             >
                 {(form) => (
@@ -55,7 +55,7 @@ const CodeVerification = ({ code, setCode, setVisible, user }) => {
                         />
                         <div className="reset_form_btns">
                             <Link to="/login" className='gray_btn'>Cancel</Link>
-                            <button onClick={handleCodeVerify} type='submit' className="blue_btn ">Continue</button>
+                            <button type='submit' className="blue_btn ">Continue</button>
                         </div>
                         <div className="animator">
                             <CircleLoader color="#1876f2" loading={loading} size={30} />

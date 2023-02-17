@@ -7,13 +7,13 @@ import Friends from './../../svg/friends';
 import Watch from './../../svg/watch';
 import Market from './../../svg/market';
 import Gaming from './../../svg/gaming';
-import "./header.css"
 import Messenger from './../../svg/messenger';
 import ArrowDown from './../../svg/arrowDown';
 import SearchMenu from './SearchMenu'
 import AllMenu from './AllMenu'
 import { useOutsideClick } from './../../utils/helpers';
 import UserMenu from './UserMenu'
+import "./header.css"
 
 const Header = () => {
     const color = "#65676b"

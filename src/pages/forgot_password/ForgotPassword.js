@@ -1,8 +1,71 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import logo from "../../assets/output-onlinejpgtools (1).png"
+import { useSelector, useDispatch } from 'react-redux';
+import axios from './../../axios';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { authLogout } from '../../redux/currentUserSlice';
+import SearchAccount from './SearchAccount';
+import SendEmail from './SendEmail';
+import CodeVerification from './CodeVerification';
+import "./forgot.css"
+import AuthFooter from './../../components/auth/AuthFooter';
+import ChangePassword from './ChangePassword';
 
 const ForgotPassword = () => {
+    const { loggedUser } = useSelector(store => store.currentUser)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+    const [email, setEmail] = useState("")
+    const [visible, setVisible] = useState(3)
+    const [code, setCode] = useState("")
+    const [password, setPassword] = useState("")
+    const [confirmPassword, setConfirmPassword] = useState("")
+
+
+    const handleLogout = async () => {
+        try {
+            await axios.get("/auth/logout")
+            dispatch(authLogout())
+            Cookies.set("user", "")
+            navigate("/login")
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }
+
+
+    const submitReset = () => { }
     return (
-        <div>ForgotPassword</div>
+        <div className='reset'>
+            <div className="reset_header">
+                <img src={logo} alt="" />
+                {loggedUser ?
+                    <Link to="/profile" className="right_reset">
+                        <img src={loggedUser?.user?.picture} alt="" />
+                        <button onClick={handleLogout} className='blue_btn '>Logout</button>
+                    </Link>
+                    : <Link to="/login" className='right_reset'>
+                        <button className='blue_btn '> Login</button>
+                    </Link>}
+            </div>
+            <div className="reset_wrap">
+                {visible === 0 && <SearchAccount email={email} setEmail={setEmail} />}
+                {visible === 1 && <SendEmail user={loggedUser?.user} />}
+                {visible === 2 && <CodeVerification code={code}
+                    setCode={setCode} />}
+                {visible === 3 && <ChangePassword
+                    user={loggedUser?.user}
+                    password={password}
+                    confirmPassword={confirmPassword}
+                    setPassword={setPassword}
+                    setConfirmPassword={setConfirmPassword}
+                />}
+            </div>
+            <AuthFooter />
+        </div>
     )
 }
 

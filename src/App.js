@@ -10,7 +10,7 @@ import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from './pages/home/Activate';
 import axios from './axios';
 import { refreshToken } from "./redux/currentUserSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
@@ -18,6 +18,7 @@ import { useCallback } from "react";
 
 
 function App() {
+  const { loggedUser } = useSelector(store => store.currentUser)
   const dispatch = useDispatch();
 
   const refreshTokenFunc = useCallback(async () => {
@@ -34,7 +35,9 @@ function App() {
   }, [dispatch]);
 
   useEffectOnce(() => {
-    refreshTokenFunc()
+    if (loggedUser) {
+      refreshTokenFunc()
+    }
   })
 
   return (
@@ -50,6 +53,7 @@ function App() {
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
+        <Route path="/forgot_pwd" element={<ForgotPassword />} />
 
       </Routes>
     </>

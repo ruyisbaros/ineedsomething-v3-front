@@ -10,7 +10,7 @@ const AuthFooter = () => {
                 <Link to="/">العربية</Link>
                 <Link to="/">ⵜⴰⵎⴰⵣⵉⵖⵜ</Link>
                 <Link to="/">Español (España)</Link>
-                <Link to="/">italiano</Link>
+                <Link to="/">Italiano</Link>
                 <Link to="/">Deutsch</Link>
                 <Link to="/">Português (Brasil)</Link>
                 <Link to="/">हिन्दी</Link>
@@ -25,12 +25,12 @@ const AuthFooter = () => {
                 <Link to="/">Sign Up</Link>
                 <Link to="/">Log in</Link>
                 <Link to="/">Messenger</Link>
-                <Link to="/">Facebook Lite</Link>
+                <Link to="/"> Lite</Link>
                 <Link to="/">Watch</Link>
                 <Link to="/">Places</Link>
                 <Link to="/">Games</Link>
                 <Link to="/">Marketplace</Link>
-                <Link to="/">Facebook Pay</Link>
+                <Link to="/"> Pay</Link>
                 <Link to="/">Oculus</Link>
                 <Link to="/">Portal</Link>
                 <Link to="/">Instagram</Link>

@@ -1,28 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
-import Picker from "emoji-picker-react"
+import React, { useState, useRef } from 'react'
 import "./createPostPopup.css"
+import EmojiPickerComp from './EmojiPickerComp'
+import AddToYourPost from './AddToYourPost'
+import ImagePreview from './ImagePreview'
 
 
 const CreatePostPopup = ({ user }) => {
     const [text, setText] = useState("")
-    const [showPrev, setShowPrev] = useState(false)
-    const [showPicker, setShowPicker] = useState(false)
-    const [cursorPosition, setCursorPosition] = useState()
-    const textRef = useRef(null)
+    const [showPrev, setShowPrev] = useState(true)
+    const [images, setImages] = useState([])
 
-    useEffect(() => {
-        textRef.current.selectionEnd = cursorPosition
-    }, [cursorPosition])
-
-    const handleEmoji = ({ emoji }) => {
-        const ref = textRef.current
-        ref.focus()
-        const start = text.substring(0, ref.selectionStart)
-        const end = text.substring(ref.selectionStart)
-        const newText = start + emoji + end
-        setText(newText)
-        setCursorPosition(start.length + emoji.length)
-    }
+    console.log(images)
     return (
         <div className='blur'>
             <div className="postBox">
@@ -43,30 +31,16 @@ const CreatePostPopup = ({ user }) => {
                         </div>
                     </div>
                 </div>
-                {/* <textarea
-                    className='post_input'
-                    placeholder={`What is on your mind ${user?.first_name.slice(0, 1).toUpperCase() + user?.first_name.slice(1)} ?`}
-                    maxLength="100"
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
-                ></textarea> */}
-                {!showPrev && <div className="flex_center">
-                    <textarea
-                        ref={textRef}
-                        className='post_input'
-                        placeholder={`What is on your mind ${user?.first_name.slice(0, 1).toUpperCase() + user?.first_name.slice(1)} ?`}
-                        maxLength="100"
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                    ></textarea>
-                </div>}
-                <div className="post_emojis_wrap">
-                    {showPicker && <div className="comment_emoji_picker rlmove">
-                        <Picker onEmojiClick={handleEmoji} />
-                    </div>}
-                    <img src="../../../icons/colorful.png" alt="" />
-                    <i onClick={() => setShowPicker(!showPicker)} className="emoji_icon_large"></i>
-                </div>
+                {!showPrev ?
+                    (<>
+                        <EmojiPickerComp user={user} text={text} setText={setText} />
+                    </>)
+                    : (
+                        <ImagePreview images={images} setImages={setImages} user={user} text={text} setText={setText} />
+                    )
+                }
+                <AddToYourPost />
+                <button type='submit' className="post_submit">Post</button>
             </div>
         </div>
     )

@@ -34,6 +34,7 @@
 .left_link span {
     margin-bottom: 4px;
     margin-left: 1px;
+    text-transform: capitalize;
 }
 
 .col {
@@ -118,4 +119,5 @@
     display: flex;
     justify-content: center;
     font-size: 13px;
+    transform: translateX(-55px);
 }

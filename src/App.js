@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
 import { useCallback } from "react";
+import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
   return (
     <>
       <ToastContainer position="bottom-center" limit={1} />
+      <CreatePostPopup user={loggedUser?.user} />
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>

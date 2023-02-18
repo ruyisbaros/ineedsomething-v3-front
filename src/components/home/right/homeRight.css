@@ -69,4 +69,5 @@
 
 .contact span {
     transform: translateY(-5px);
+    text-transform: capitalize;
 }

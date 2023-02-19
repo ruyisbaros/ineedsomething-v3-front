@@ -1,21 +1,43 @@
 import React, { useState, useRef } from 'react'
-import "./createPostPopup.css"
 import EmojiPickerComp from './EmojiPickerComp'
 import AddToYourPost from './AddToYourPost'
 import ImagePreview from './ImagePreview'
 import { useOutsideClick } from './../../../utils/helpers';
+import { useDispatch } from 'react-redux';
+import { createPostWithBackground } from '../../../services/PostServices'
+import { addPostRedux } from '../../../redux/postsSlicer';
+import { PulseLoader } from 'react-spinners';
+import "./createPostPopup.css"
 
 
-const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
+const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
+    const postBoxRef = useRef(null)
+    const dispatch = useDispatch();
+
     const [text, setText] = useState("")
     const [showPrev, setShowPrev] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [images, setImages] = useState([])
     const [background, setBackground] = useState("")
-    const postBoxRef = useRef(null)
 
-    useOutsideClick(postBoxRef, setShowCreatePostPopup)
 
-    console.log(images)
+    useOutsideClick(postBoxRef, () => {
+        setShowCreatePostPopup(false)
+    })
+    const handleCreatePost = async () => {
+        if (background) {
+            const data = await createPostWithBackground(null, user?._id, token, background, text, null, setLoading)
+            setBackground("")
+            setText("")
+            dispatch(addPostRedux(data))
+            console.log(data)
+            setTimeout(() => {
+                setShowCreatePostPopup(false)
+            }, 1000)
+        }
+    }
+
+
     return (
         <div className='blur'>
             <div className="postBox" ref={postBoxRef}>
@@ -51,7 +73,12 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
                     )
                 }
                 <AddToYourPost setShowPrev={setShowPrev} />
-                <button type='submit' className="post_submit">Post</button>
+                <button
+                    type='submit'
+                    className="post_submit"
+                    onClick={handleCreatePost}
+                    disabled={loading}
+                >{loading ? <PulseLoader color='#fff' size={5} /> : "Post"}</button>
             </div>
         </div>
     )

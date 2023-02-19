@@ -3,20 +3,24 @@ import "./createPostPopup.css"
 import EmojiPickerComp from './EmojiPickerComp'
 import AddToYourPost from './AddToYourPost'
 import ImagePreview from './ImagePreview'
+import { useOutsideClick } from './../../../utils/helpers';
 
 
-const CreatePostPopup = ({ user }) => {
+const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
     const [text, setText] = useState("")
     const [showPrev, setShowPrev] = useState(false)
     const [images, setImages] = useState([])
     const [background, setBackground] = useState("")
+    const postBoxRef = useRef(null)
+
+    useOutsideClick(postBoxRef, setShowCreatePostPopup)
 
     console.log(images)
     return (
         <div className='blur'>
-            <div className="postBox">
+            <div className="postBox" ref={postBoxRef}>
                 <div className="box_header">
-                    <div className="small_circle">
+                    <div className="small_circle" onClick={() => setShowCreatePostPopup(false)}>
                         <i className="exit_icon"></i>
                     </div>
                     <span>Create Post</span>
@@ -34,7 +38,13 @@ const CreatePostPopup = ({ user }) => {
                 </div>
                 {!showPrev ?
                     (<>
-                        <EmojiPickerComp user={user} text={text} setText={setText} />
+                        <EmojiPickerComp
+                            user={user}
+                            text={text}
+                            setText={setText}
+                            background={background}
+                            setBackground={setBackground}
+                        />
                     </>)
                     : (
                         <ImagePreview setShowPrev={setShowPrev} images={images} setImages={setImages} user={user} text={text} setText={setText} />

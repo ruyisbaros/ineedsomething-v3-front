@@ -8,7 +8,7 @@ import "./home.css"
 import CreatePost from '../../components/post/create_post/CreatePost';
 import NotActivateUser from './../../components/home/activation/NotActivateUser';
 
-const Home = () => {
+const Home = ({ setShowCreatePostPopup }) => {
     const { user } = useSelector(store => store.currentUser.loggedUser)
 
     return (
@@ -18,7 +18,7 @@ const Home = () => {
             <div className="home_middle">
                 <Stories />
                 {!user.verified && <NotActivateUser />}
-                <CreatePost user={user} />
+                <CreatePost user={user} setShowCreatePostPopup={setShowCreatePostPopup} />
             </div>
             <HomeRight user={user} />
         </div>

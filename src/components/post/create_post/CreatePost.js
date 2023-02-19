@@ -4,12 +4,12 @@ import LiveVideo from './../../../svg/liveVideo';
 import Photo from './../../../svg/photo';
 import Feeling from './../../../svg/feeling';
 
-const CreatePost = ({ user }) => {
+const CreatePost = ({ user, setShowCreatePostPopup }) => {
     return (
         <div className='create_post'>
             <div className="create_post_header">
                 <img src={user?.picture} alt="" />
-                <div className="open_post">
+                <div className="open_post" onClick={() => setShowCreatePostPopup(true)}>
                     What's on your mind, {user?.first_name}?
                 </div>
             </div>

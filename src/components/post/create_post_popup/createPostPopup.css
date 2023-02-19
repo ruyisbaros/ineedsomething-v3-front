@@ -442,6 +442,17 @@
     border-radius: 10px;
 }
 
+.bgHandler {
+    height: 360px;
+    width: 100%;
+    background-size: cover;
+}
+
+.bgHandler textarea {
+    text-align: center;
+    height: 340px;
+}
+
 @media (max-height:570px) {
     .postBox {
         position: relative;

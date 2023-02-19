@@ -14,13 +14,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup";
 
 
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
   const dispatch = useDispatch();
+  const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
 
   const refreshTokenFunc = useCallback(async () => {
     try {
@@ -44,11 +45,11 @@ function App() {
   return (
     <>
       <ToastContainer position="bottom-center" limit={1} />
-      <CreatePostPopup user={loggedUser?.user} />
+      {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup} user={loggedUser?.user} />}
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/activate/:token" element={<Activate />} />
           <Route path="/profile/:id" element={<Profile />} />
         </Route>

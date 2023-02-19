@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import EmojiPickerComp from './EmojiPickerComp';
 
-const ImagePreview = ({ user, text, setText, images, setImages }) => {
+const ImagePreview = ({ user, text, setText, images, setImages, setShowPrev }) => {
     const imageInput = useRef()
     const handleImages = (e) => {
         let files = Array.from(e.target.files)
@@ -25,12 +25,16 @@ const ImagePreview = ({ user, text, setText, images, setImages }) => {
                                 <i className="edit_icon"></i>
                                 Edit
                             </button>
-                            <button className='hover1'>
+                            <button className='hover1'
+                                onClick={() => {
+                                    imageInput.current.click()
+                                }}
+                            >
                                 <i className="addPhoto_icon"></i>
                                 Add Photos/Videos
                             </button>
                         </div>
-                        <div className="small_white_circle">
+                        <div className="small_white_circle" onClick={() => setImages([])}>
                             <i className="exit_icon"></i>
                         </div>
                         <div className={
@@ -51,7 +55,7 @@ const ImagePreview = ({ user, text, setText, images, setImages }) => {
                     </div>
                     :
                     <div className="add_pics_inside1">
-                        <div className="small_white_circle">
+                        <div className="small_white_circle" onClick={() => setShowPrev(false)}>
                             <i className="exit_icon"></i>
                         </div>
                         <div className="add_col" onClick={() => {

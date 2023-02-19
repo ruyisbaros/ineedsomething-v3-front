@@ -8,6 +8,17 @@ const EmojiPickerComp = ({ text, setText, user, type2 }) => {
     const textRef = useRef(null)
     const emojiBox = useRef(null)
     //console.log(type2)
+    const postBackgrounds = [
+        "../../../images/postBackgrounds/1.jpg",
+        "../../../images/postBackgrounds/2.jpg",
+        "../../../images/postBackgrounds/3.jpg",
+        "../../../images/postBackgrounds/4.jpg",
+        "../../../images/postBackgrounds/5.jpg",
+        "../../../images/postBackgrounds/6.jpg",
+        "../../../images/postBackgrounds/7.jpg",
+        "../../../images/postBackgrounds/8.jpg",
+        "../../../images/postBackgrounds/9.jpg",
+    ];
 
     useEffect(() => {
         textRef.current.selectionEnd = cursorPosition
@@ -40,7 +51,17 @@ const EmojiPickerComp = ({ text, setText, user, type2 }) => {
                 {showPicker && <div className={`comment_emoji_picker ${type2 ? "movePicker" : "rlmove"}`}>
                     <Picker onEmojiClick={handleEmoji} />
                 </div>}
-                {!type2 && <img src="../../../icons/colorful.png" alt="" />}
+                {!type2 &&
+                    <>
+                        <img className='colorful' src="../../../icons/colorful.png" alt="" />
+                        <div className="post_backGrounds">
+                            <div className="no_bg"></div>
+                            {postBackgrounds.map((bg, i) => (
+                                <img key={i} src={bg} alt="" />
+                            ))}
+                        </div>
+                    </>
+                }
                 <i onClick={() => setShowPicker(!showPicker)} className={`emoji_icon_large ${type2 ? "moveLeft" : ""} `}></i>
             </div>
         </div>

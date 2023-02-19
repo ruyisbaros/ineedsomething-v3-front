@@ -110,7 +110,7 @@
     padding: 10px 15px;
 }
 
-.post_emojis_wrap img {
+.post_emojis_wrap .colorful {
     width: 39px;
     cursor: pointer;
 }
@@ -417,6 +417,29 @@
     height: 230px;
     object-fit: cover;
 
+}
+
+/* post backgrounds */
+.post_backGrounds {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.no_bg {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    border-radius: 10px;
+    background: var(--bg-secondary);
+}
+
+.post_backGrounds img {
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 10px;
 }
 
 @media (max-height:570px) {

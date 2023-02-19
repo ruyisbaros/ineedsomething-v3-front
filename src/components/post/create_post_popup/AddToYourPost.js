@@ -3,11 +3,11 @@ import Photo from './../../../svg/photo';
 import Feeling from './../../../svg/feeling';
 import Dots from './../../../svg/dots';
 
-const AddToYourPost = () => {
+const AddToYourPost = ({ setShowPrev }) => {
     return (
         <div className='addToYourPost'>
             <div className="addTo_text">Add to your post</div>
-            <div className="post_header_right hover1">
+            <div className="post_header_right hover1" onClick={() => setShowPrev(true)}>
                 <Photo color="#45bd62" />
             </div>
             <div className="post_header_right hover1">

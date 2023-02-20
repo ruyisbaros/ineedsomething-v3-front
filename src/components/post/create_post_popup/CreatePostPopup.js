@@ -25,12 +25,11 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
     const [error, setError] = useState("")
     const [images, setImages] = useState([])
     const [background, setBackground] = useState("")
-    //const [imgUrls, setImgUrls] = useState([])
-
-
+    console.log(error)
     useOutsideClick(postBoxRef, () => {
         setShowCreatePostPopup(false)
     })
+    /* Handle images */
     let imgUrls = []
     const uploadImages = async (formData, path, token, setLoading) => {
         try {
@@ -65,6 +64,8 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
             await uploadImages(formData, path, token, setLoading)
         }
     }
+    /* Handle images */
+
 
     const handleCreatePost = async () => {
         if (background) {
@@ -146,7 +147,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                         />
                     </>)
                     : (
-                        <ImagePreview setShowPrev={setShowPrev} images={images} setImages={setImages} user={user} text={text} setText={setText} />
+                        <ImagePreview setError={setError} setShowPrev={setShowPrev} images={images} setImages={setImages} user={user} text={text} setText={setText} />
                     )
                 }
                 <AddToYourPost setShowPrev={setShowPrev} />

@@ -1,11 +1,23 @@
 import React, { useRef } from 'react'
 import EmojiPickerComp from './EmojiPickerComp';
+import { toast } from 'react-toastify';
 
-const ImagePreview = ({ user, text, setText, images, setImages, setShowPrev }) => {
+const ImagePreview = ({ user, text, setText, images, setImages, setShowPrev, setError }) => {
     const imageInput = useRef()
     const handleImages = (e) => {
         let files = Array.from(e.target.files)
         files.forEach(file => {
+            if (file.type !== "image/jpeg" &&
+                file.type !== "image/png" &&
+                file.type !== "image/gif" &&
+                file.type !== "image/webp") {
+                setError("Unexpected file format! Only jpeg, gif, png, webp files allowed")
+                files = files.filter((item) => item.name !== file.name)
+                return
+            } else if (file.size > 1024 * 1024) {
+                setError("Too large file! Max 1mb files allowed")
+                return
+            }
             const reader = new FileReader()
             reader.readAsDataURL(file)
             reader.onload = (readerEvent) => {
@@ -17,7 +29,13 @@ const ImagePreview = ({ user, text, setText, images, setImages, setShowPrev }) =
         <div className='overflow_a scrollbar'>
             <EmojiPickerComp user={user} text={text} setText={setText} type2 />
             <div className="add_pics_wrap">
-                <input type="file" multiple hidden ref={imageInput} onChange={handleImages} />
+                <input
+                    type="file"
+                    multiple
+                    hidden
+                    accept='image/jpeg,image/png,image/gif,image/webp'
+                    ref={imageInput}
+                    onChange={handleImages} />
                 {images.length > 0 ?
                     <div className="add_pics_inside1 p0">
                         <div className="preview_actions">

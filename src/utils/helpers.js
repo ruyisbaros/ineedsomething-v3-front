@@ -54,3 +54,38 @@ export function useEffectOnce(callBack) {
         }
     }, [callBack])
 }
+
+export function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(",")[0].indexOf("base64") >= 0)
+        byteString = atob(dataURI.split(",")[1]);
+    else byteString = unescape(dataURI.split(",")[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+}
+
+export async function readImageAsBase64(file) {
+    const reader = new FileReader();
+    const fileValue = new Promise((resolve, reject) => {
+        reader.addEventListener('load', () => {
+            resolve(reader.result);
+        });
+
+        reader.addEventListener('error', (event) => {
+            reject(event);
+        });
+
+        reader.readAsDataURL(file);
+    });
+    return fileValue;
+}

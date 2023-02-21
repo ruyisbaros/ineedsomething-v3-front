@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import EmojiPickerComp from './EmojiPickerComp';
-import { toast } from 'react-toastify';
 
 const ImagePreview = ({ user, text, setText, images, setImages, setShowPrev, setError }) => {
     const imageInput = useRef()

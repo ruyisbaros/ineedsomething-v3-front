@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
-import "./singlePost.css"
 import Public from './../../../svg/public';
 import Dots from './../../../svg/dots';
+import ReactsPopup from './ReactsPopup';
+import CreateComment from './CreateComment';
+import PostMenu from './PostMenu';
+import "./singlePost.css"
 
 const SinglePost = ({ user, post }) => {
+    const [showPopup, setShowPopup] = useState(false)
     return (
         <div className='post'>
             <div className="post_header">
@@ -82,7 +86,19 @@ const SinglePost = ({ user, post }) => {
                 </div>
             </div>
             <div className="post_actions">
-                <div className="post_action hover1">
+                <ReactsPopup showPopup={showPopup} setShowPopup={setShowPopup} />
+                <div className="post_action hover1"
+                    onMouseOver={() => {
+                        setTimeout(() => {
+                            setShowPopup(true)
+                        }, 500)
+                    }}
+                    onMouseLeave={() => {
+                        setTimeout(() => {
+                            setShowPopup(false)
+                        }, 500)
+                    }}
+                >
                     <i className="like_icon"></i>
                     <span>Like</span>
                 </div>
@@ -95,6 +111,11 @@ const SinglePost = ({ user, post }) => {
                     <span>Share</span>
                 </div>
             </div>
+            <div className="comments_wrap">
+                <div className="comments_order"></div>
+                <CreateComment user={user} />
+            </div>
+            <PostMenu />
         </div>
     )
 }

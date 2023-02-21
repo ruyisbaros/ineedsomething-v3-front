@@ -16,12 +16,13 @@ import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
 import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup";
-
+import { getAllPostsRedux } from "./redux/postsSlicer";
 
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const refreshTokenFunc = useCallback(async () => {
     try {
@@ -35,6 +36,30 @@ function App() {
       toast.error(error.response.data.message)
     }
   }, [dispatch]);
+
+  const fetchAllPosts = useCallback(async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.get("/posts/getAllPosts", {
+        headers: { "Authorization": `Bearer ${loggedUser?.token}` }
+      });
+      console.log(data);
+      dispatch(
+        getAllPostsRedux(data)
+      );
+      setLoading(false)
+
+    } catch (error) {
+      setLoading(false)
+      toast.error(error.response.data.message)
+    }
+  }, [dispatch, loggedUser]);
+
+  useEffectOnce(() => {
+    if (loggedUser) {
+      fetchAllPosts()
+    }
+  })
 
   useEffectOnce(() => {
     if (loggedUser) {
@@ -52,7 +77,7 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/activate/:token" element={<Activate />} />
-          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/profile/:email" element={<Profile />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

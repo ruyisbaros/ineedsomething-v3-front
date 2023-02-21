@@ -10,8 +10,7 @@ import { PulseLoader } from 'react-spinners';
 import CreatePostError from './CreatePostError';
 import "./createPostPopup.css"
 import { toast } from 'react-toastify';
-/* import { createPostWithText } from './../../../services/PostServices';
-import { uploadImages } from './../../../services/imageServices'; */
+import { createPostWithText } from './../../../services/PostServices';
 import axios from './../../../axios';
 
 
@@ -98,7 +97,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                 toast.error("Something went wrong during image(s) upload!")
             }
         } else if (text) {
-            /* const data = await createPostWithText(null, user, token, null, text, null, setLoading, setError)
+            const data = await createPostWithText(null, user, token, null, text, null, setLoading, setError)
             if (data) {
                 setBackground("")
                 setText("")
@@ -107,7 +106,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                 setTimeout(() => {
                     setShowCreatePostPopup(false)
                 }, 1000)
-            } */
+            }
         } else {
 
             toast.error("No content selected for creation!")

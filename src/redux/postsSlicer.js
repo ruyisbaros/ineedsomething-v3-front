@@ -12,12 +12,16 @@ const postSlicer = createSlice({
     reducers: {
         addPostRedux: (state, action) => {
             state.posts = [...state.posts, action.payload]
+        },
+        getAllPostsRedux: (state, action) => {
+            state.posts = [...action.payload]
         }
     },
 });
 
 export const {
-    addPostRedux
+    addPostRedux,
+    getAllPostsRedux
 } = postSlicer.actions;
 
 export default postSlicer.reducer;

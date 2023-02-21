@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 import Public from './../../../svg/public';
@@ -11,6 +11,7 @@ import "./singlePost.css"
 const SinglePost = ({ user, post }) => {
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
+    const dotRef = useRef(null)
 
 
     return (
@@ -38,7 +39,8 @@ const SinglePost = ({ user, post }) => {
                         </div>
                     </div>
                 </Link>
-                <div className="post_header_right hover1" onClick={() => {
+                <div ref={dotRef} className="post_header_right hover1" onClick={() => {
+
                     setShowMenu(prev => !prev)
                 }}>
                     <Dots color="#828287" />
@@ -120,7 +122,7 @@ const SinglePost = ({ user, post }) => {
                 <div className="comments_order"></div>
                 <CreateComment user={user} />
             </div>
-            {showMenu && <PostMenu setShowMenu={setShowMenu} userId={user?._id} postUserId={post?.user._id} imagesLength={post?.images?.length} />}
+            {showMenu && <PostMenu dotRef={dotRef} setShowMenu={setShowMenu} userId={user?._id} postUserId={post?.user._id} imagesLength={post?.images?.length} />}
         </div>
     )
 }

@@ -6,9 +6,6 @@ const PostMenu = ({ postUserId, userId, imagesLength, setShowMenu }) => {
     const [test, setTest] = useState(userId === postUserId ? true : false)
     const menuRef = useRef(null)
 
-    useOutsideClick(menuRef, () => {
-        setShowMenu(false)
-    })
 
     return (
         <ul className='post_menu' ref={menuRef}>

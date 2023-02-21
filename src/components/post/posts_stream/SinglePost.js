@@ -81,6 +81,20 @@ const SinglePost = ({ user, post }) => {
                     <div className="share_count">1 share</div>
                 </div>
             </div>
+            <div className="post_actions">
+                <div className="post_action hover1">
+                    <i className="like_icon"></i>
+                    <span>Like</span>
+                </div>
+                <div className="post_action hover1">
+                    <i className="comment_icon"></i>
+                    <span>Comment</span>
+                </div>
+                <div className="post_action hover1">
+                    <i className="share_icon"></i>
+                    <span>Share</span>
+                </div>
+            </div>
         </div>
     )
 }

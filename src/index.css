@@ -6,6 +6,7 @@
 
 body {
   font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+  transition: all 0.4s;
 }
 
 html {

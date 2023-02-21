@@ -339,6 +339,34 @@
     cursor: pointer;
 }
 
+.post_actions {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 5px 8px 10px 8px;
+    border-top: 1px solid var(--bg-third);
+    border-bottom: 1px solid var(--bg-third);
+    margin: 0 10px;
+}
+
+.post_action {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 7px 0;
+    border-radius: 5px;
+}
+
+.post_action span {
+    color: var(--color-secondary);
+    font-weight: 600;
+    font-size: 14px;
+    transform: translateY(-1px);
+}
+
 /* Responsive sets */
 @media (max-width:600px) {
 

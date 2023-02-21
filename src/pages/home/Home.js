@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Header from './../../components/header/Header';
 import { useSelector } from 'react-redux';
 import HomeLeft from '../../components/home/left/HomeLeft';
@@ -12,12 +12,18 @@ import SinglePost from '../../components/post/posts_stream/SinglePost';
 const Home = ({ setShowCreatePostPopup }) => {
     const { user } = useSelector(store => store.currentUser.loggedUser)
     const { posts } = useSelector(store => store.posts)
+    const homeMiddle = useRef(null)
+    const [height, setHeight] = useState()
+
+    useEffect(() => {
+        setHeight(homeMiddle.current.clientHeight)
+    }, [])
 
     return (
-        <div className='home'>
+        <div className='home' style={{ height: `${height + 100}px` }}>
             <Header />
             <HomeLeft user={user} />
-            <div className="home_middle">
+            <div className="home_middle" ref={homeMiddle}>
                 <Stories />
                 {!user.verified && <NotActivateUser />}
                 <CreatePost user={user} setShowCreatePostPopup={setShowCreatePostPopup} />

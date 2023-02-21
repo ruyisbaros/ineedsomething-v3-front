@@ -40,7 +40,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                 }
             })
             setLoading(false)
-            console.log(data)
+            //console.log(data)
             imgUrls.push(data)
         } catch (error) {
             setLoading(false)
@@ -88,7 +88,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                     setBackground("")
                     setText("")
                     dispatch(addPostRedux(data))
-                    console.log(data)
+                    ///console.log(data)
                     setTimeout(() => {
                         setShowCreatePostPopup(false)
                     }, 1000)
@@ -102,7 +102,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                 setBackground("")
                 setText("")
                 dispatch(addPostRedux(data))
-                console.log(data)
+                //console.log(data)
                 setTimeout(() => {
                     setShowCreatePostPopup(false)
                 }, 1000)

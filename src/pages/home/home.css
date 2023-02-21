@@ -1,5 +1,4 @@
 .home {
-    min-height: 100vh;
     background: var(--bg-secondary);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -16,6 +15,7 @@
 
     .stories,
     .create_post,
+    .post,
     .send_verification {
         width: 85% !important;
     }
@@ -79,6 +79,7 @@
 
     .stories,
     .create_post,
+    .post,
     .send_verification {
         width: 67% !important;
     }
@@ -113,6 +114,7 @@
 
     .stories,
     .create_post,
+    .post,
     .send_verification {
         width: 85% !important;
     }

@@ -1,11 +1,12 @@
 import React from 'react'
 
-const PostMenuItem = ({ icon, title, subtitle }) => {
+const PostMenuItem = ({ img, icon, title, subtitle }) => {
     return (
         <li className='hover1'>
-            <i className={icon}>{title}</i>
+            {img ? <img src={img} alt="" /> : <i className={icon}></i>}
             <div className="post_menu_text">
-                <span>{subtitle}</span>
+                <span>{title}</span>
+                {subtitle && <span className='menu_post_col'>{subtitle}</span>}
             </div>
         </li>
     )

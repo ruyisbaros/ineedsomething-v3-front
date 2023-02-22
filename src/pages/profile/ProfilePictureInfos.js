@@ -6,7 +6,7 @@ const ProfilePictureInfos = ({ profile }) => {
             <div className="profile_w_left">
                 <div className="profile_w_img">
                     <div className="profile_w_bg"
-                        style={{ backgroundImage: `url(${profile.picture})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
+                        style={{ backgroundImage: `url(${profile?.picture})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
                     ></div>
                     <div className="profile_circle hover1">
                         <i className="camera_filled_icon"></i>

@@ -1,14 +1,14 @@
-import React, { useCallback, useState, useRef } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from './../../axios';
 import { toast } from 'react-toastify';
-import { useEffectOnce, useOutsideClick } from './../../utils/helpers';
+import { useEffectOnce } from './../../utils/helpers';
 import Header from './../../components/header/Header';
-import "./profile.css"
 import ProfilePictureInfos from './ProfilePictureInfos';
-
-
+import ProfileCover from './ProfileCover';
+import ProfileMenu from './ProfileMenu';
+import "./profile.css"
 
 const Profile = () => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
@@ -16,10 +16,7 @@ const Profile = () => {
     const { username } = useParams()
     const pageUsername = username === undefined ? user?.username : username
     const [loading, setLoading] = useState(false)
-    const [showCoverMenu, setShowCoverMenu] = useState(false)
     const [profile, setProfile] = useState(null)
-
-    const coverRef = useRef(null)
 
     const getProfile = useCallback(async () => {
         try {
@@ -39,39 +36,15 @@ const Profile = () => {
     useEffectOnce(() => {
         getProfile()
     })
-    //console.log(profile)
-    useOutsideClick(coverRef, () => {
-        setShowCoverMenu(false)
-    })
+
     return (
         <div className='profile'>
             <Header page="profile" />
             <div className="profile_top">
                 <div className="profile_container">
-                    <div className="profile_cover">
-                        {profile?.cover &&
-                            <img className='cover' src={profile?.cover} alt="" />
-                        }
-                        <div className="update_cover_wrapper" ref={coverRef}>
-                            <div className="open_cover_update" onClick={() => setShowCoverMenu(prev => !prev)}>
-                                <i className="camera_filled_icon"></i>
-                                Add Cover Photo
-                            </div>
-                            {showCoverMenu &&
-                                <div className='open_cover_menu'>
-                                    <div className="open_cover_menu_item hover1">
-                                        <i className="photo_icon"></i>
-                                        Select Photo
-                                    </div>
-                                    <div className="open_cover_menu_item hover1">
-                                        <i className="upload_icon"></i>
-                                        Upload Photo
-                                    </div>
-                                </div>
-                            }
-                        </div>
-                    </div>
+                    <ProfileCover profile={profile} />
                     <ProfilePictureInfos profile={profile} />
+                    <ProfileMenu />
                 </div>
             </div>
         </div>

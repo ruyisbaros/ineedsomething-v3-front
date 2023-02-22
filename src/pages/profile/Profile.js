@@ -9,6 +9,7 @@ import ProfilePictureInfos from './ProfilePictureInfos';
 import ProfileCover from './ProfileCover';
 import ProfileMenu from './ProfileMenu';
 import "./profile.css"
+import PeopleYouMayKnow from './PeopleYouMayKnow';
 
 const Profile = () => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
@@ -45,6 +46,13 @@ const Profile = () => {
                     <ProfileCover profile={profile} />
                     <ProfilePictureInfos profile={profile} />
                     <ProfileMenu />
+                </div>
+            </div>
+            <div className="profile_bottom">
+                <div className="profile_container">
+                    <div className="bottom_container">
+                        <PeopleYouMayKnow />
+                    </div>
                 </div>
             </div>
         </div>

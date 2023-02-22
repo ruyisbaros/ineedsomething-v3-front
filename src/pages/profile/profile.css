@@ -195,10 +195,86 @@
     margin-left: 2px;
 }
 
+/* People you may know */
+.profile_bottom {
+    margin-top: 1px;
+    background: var(--bg-secondary);
+}
+
+.bottom_container {
+    padding: 10px 2.2rem;
+}
+
+.ppl_you_mayKnow {
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--blue-color);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+.ppl_you_mayKnow_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.ppl_you_mayKnow_list {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    height: 240px;
+}
+
+/* Add friend card */
+.addFriendCard {
+    position: relative;
+    height: 100%;
+    width: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.addFriend_imgSmall {
+    width: 100%;
+    height: 140px;
+    position: relative;
+}
+
+.addFriend_imgSmall>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.addFriend_infos {
+    padding: 10px;
+    height: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+}
+
+.addFriend_name {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.addFriend_infos .light_blue_btn {
+    color: var(--blue-color)
+}
+
+.light_blue_btn img {
+    width: 20px;
+}
+
 /* Responsive */
 @media (max-width:900px) {
-    .profile_image_wrap {}
-
     .profile_w_left {
         flex-direction: column;
     }
@@ -228,5 +304,36 @@
 
     .profile_name {
         padding-bottom: 20px;
+    }
+
+    .ppl_you_mayKnow_list {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .addFriendCard {
+        width: 100%;
+
+        grid-column: auto/span 2;
+        object-fit: cover;
+    }
+
+    .addFriendCard:nth-child(1) {
+        width: 100%;
+        grid-column: auto/span 3;
+        object-fit: cover;
+    }
+
+    .addFriendCard:nth-child(2) {
+        width: 100%;
+        grid-column: auto/span 3;
+        object-fit: cover;
+    }
+
+    .addFriend_infos {
+        position: absolute;
+        display: block;
+        z-index: 199;
     }
 }

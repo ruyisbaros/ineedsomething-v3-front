@@ -40,6 +40,23 @@ button {
 
 }
 
+.light_blue_btn {
+  background: var(--light-blue-color);
+  border: none;
+  outline: none;
+  padding: 8.5px 12px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+
+}
+
 .gray_btn {
   background: var(--bg-secondary);
   border: none;
@@ -141,6 +158,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.filter_blue {
+  filter: invert(39%) sepia(57%) saturate(200%) saturate(200%) saturate(200%) saturate(200%) saturate(200%) saturate(147.75%) hue-rotate(202deg) brightness(97%) contrast(96%);
 }
 
 @import url("./styles/icons/icons.css")

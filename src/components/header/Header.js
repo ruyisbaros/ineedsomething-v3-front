@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import logo from "../../assets/output-onlinejpgtools (1).png"
-import { Search, HomeActive, Menu, Notifications } from "../../svg"
+import { Search, HomeActive, Menu, Notifications, Home } from "../../svg"
 import Friends from './../../svg/friends';
 import Watch from './../../svg/watch';
 import Market from './../../svg/market';
@@ -15,7 +15,7 @@ import { useOutsideClick } from './../../utils/helpers';
 import UserMenu from './UserMenu'
 import "./header.css"
 
-const Header = () => {
+const Header = ({ page }) => {
     const color = "#65676b"
     const { user } = useSelector(store => store.currentUser.loggedUser)
     const [showSearchMenu, setShowSearchMenu] = useState(false)
@@ -52,8 +52,9 @@ const Header = () => {
             </div>
             {showSearchMenu && <SearchMenu setShowSearchMenu={setShowSearchMenu} showSearchMenu={setShowSearchMenu} />}
             <div className="header_middle">
-                <Link to="/" className='middle_icon active'>
-                    <HomeActive color={color} />
+                <Link to="/" className={`middle_icon ${page === "home" ? "active" : ""}`}>
+                    {page === "home" ? <HomeActive color={color} /> :
+                        <Home color={color} />}
                 </Link>
                 <Link to="/" className='middle_icon hover1'>
                     <Friends color={color} />
@@ -70,7 +71,7 @@ const Header = () => {
                 </Link>
             </div>
             <div className="header_right">
-                <Link to="/profile" className='profile_link hover1'>
+                <Link to="/profile" className={`profile_link hover1 ${page === "profile" ? "active_link" : ""}`}>
                     <img src={user?.picture} alt="" />
                     <span>{user?.first_name}</span>
                 </Link>

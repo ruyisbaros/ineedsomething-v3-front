@@ -21,7 +21,7 @@ const Home = ({ setShowCreatePostPopup }) => {
 
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>
-            <Header />
+            <Header page="home" />
             <HomeLeft user={user} />
             <div className="home_middle" ref={homeMiddle}>
                 <Stories />

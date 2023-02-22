@@ -12,7 +12,11 @@ header {
     color: var(--color-primary);
 }
 
-
+.active_link {
+    background: var(--light-blue-color);
+    color: var(--blue-color);
+    border: 1px solid var(--blue-color);
+}
 
 /* Header Left */
 .header_left {

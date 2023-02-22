@@ -57,6 +57,11 @@ button {
 
 }
 
+.blue_btn span,
+.gray_btn span {
+  transform: translateY(-1px);
+}
+
 :root {
   --bg-primary: #fff;
   --bg-secondary: #f0f2f5;

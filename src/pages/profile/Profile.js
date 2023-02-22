@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useEffectOnce, useOutsideClick } from './../../utils/helpers';
 import Header from './../../components/header/Header';
 import "./profile.css"
+import ProfilePictureInfos from './ProfilePictureInfos';
 
 
 
@@ -70,6 +71,7 @@ const Profile = () => {
                             }
                         </div>
                     </div>
+                    <ProfilePictureInfos profile={profile} />
                 </div>
             </div>
         </div>

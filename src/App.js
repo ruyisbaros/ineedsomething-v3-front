@@ -77,8 +77,8 @@ function App() {
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/activate/:token" element={<Activate />} />
-          <Route path="/profile/:username" element={<Profile />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/profile" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

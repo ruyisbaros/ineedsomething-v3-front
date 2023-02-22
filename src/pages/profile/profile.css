@@ -273,6 +273,46 @@
     width: 20px;
 }
 
+
+/* Create post comp in profile */
+.profile_grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 10px;
+}
+
+/* Grid right */
+.left_header_grid {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) !important;
+    font-size: 14px;
+}
+
+.grid2 .active {
+    color: var(--blue-color);
+}
+
+.view_type {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 600;
+    color: var(--color-secondary);
+}
+
 /* Responsive */
 @media (max-width:900px) {
     .profile_w_left {
@@ -290,6 +330,10 @@
     .profile_circle {
         right: 5.5rem;
     }
+
+    .profile_grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 @media (max-width:700px) {
@@ -304,6 +348,10 @@
 
     .profile_name {
         padding-bottom: 20px;
+    }
+
+    .bottom_container {
+        padding: 5px;
     }
 
     .ppl_you_mayKnow_list {
@@ -335,5 +383,15 @@
         position: absolute;
         display: block;
         z-index: 199;
+    }
+
+    .profile_grid {
+        grid-template-columns: 1fr;
+        width: 95% !important;
+    }
+
+    .profile_grid .create_post {
+        width: 98% !important;
+        margin-left: 4%;
     }
 }

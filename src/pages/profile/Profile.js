@@ -10,8 +10,10 @@ import ProfileCover from './ProfileCover';
 import ProfileMenu from './ProfileMenu';
 import "./profile.css"
 import PeopleYouMayKnow from './PeopleYouMayKnow';
+import CreatePost from '../../components/post/create_post/CreatePost';
+import GridRight from './GridRight';
 
-const Profile = () => {
+const Profile = ({ setShowCreatePostPopup }) => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
     const { user, token } = useSelector(store => store.currentUser.loggedUser)
     const { username } = useParams()
@@ -52,6 +54,15 @@ const Profile = () => {
                 <div className="profile_container">
                     <div className="bottom_container">
                         <PeopleYouMayKnow />
+                        <div className="profile_grid">
+                            <div className="profile_left">
+                                Left
+                            </div>
+                            <div className="profile_right">
+                                <CreatePost user={user} profile setShowCreatePostPopup={setShowCreatePostPopup} />
+                                <GridRight />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

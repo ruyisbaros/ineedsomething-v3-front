@@ -12,6 +12,7 @@ import PeopleYouMayKnow from './PeopleYouMayKnow';
 import CreatePost from '../../components/post/create_post/CreatePost';
 import GridRight from './GridRight';
 import SinglePost from './../../components/post/posts_stream/SinglePost';
+import Photos from './Photos';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
@@ -61,7 +62,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <PeopleYouMayKnow />
                         <div className="profile_grid">
                             <div className="profile_left">
-                                Left
+                                <Photos profile={profile} user={user} token={token} />
                             </div>
                             <div className="profile_right">
                                 {profile?._id === user?._id && <CreatePost user={user} profile setShowCreatePostPopup={setShowCreatePostPopup} />}

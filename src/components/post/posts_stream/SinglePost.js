@@ -8,14 +8,14 @@ import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
 import "./singlePost.css"
 
-const SinglePost = ({ user, post }) => {
+const SinglePost = ({ user, post, profile }) => {
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const dotRef = useRef(null)
 
 
     return (
-        <div className='post'>
+        <div className='post' style={{ width: `${profile && "100%"}` }}>
             <div className="post_header">
                 <Link to={`/profile/${post.user.username}`} className='post_header_left'>
                     <img src={post.user.picture} alt="" />

@@ -327,6 +327,60 @@
     color: var(--color-secondary);
 }
 
+/* Photos grid left Profile card */
+.profile_card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px var(--shadow-1);
+    margin-top: 16px;
+    padding: 10px 15px;
+}
+
+.profile_card_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.profile_header_link {
+    font-weight: normal;
+    font-size: 16px;
+    color: var(--blue-color);
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.profile_header_link:hover {
+    background: var(--bg-secondary);
+}
+
+.profile_card_count {
+    color: var(--color-secondary)
+}
+
+.profile_card_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.profile_photo_card {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.profile_photo_card img {
+    width: 100%;
+    height: 105px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
 /* Responsive */
 @media (max-width:900px) {
     .profile_w_left {

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { useOutsideClick } from './../../utils/helpers';
+import { useOutsideClick } from '../../utils/helpers';
 
 const ProfileCover = ({ profile, visitor }) => {
     const [showCoverMenu, setShowCoverMenu] = useState(false)
@@ -7,7 +7,7 @@ const ProfileCover = ({ profile, visitor }) => {
     useOutsideClick(coverRef, () => {
         setShowCoverMenu(false)
     })
-    console.log(visitor)
+    //console.log(visitor)
     return (
         <div className="profile_cover">
             {profile?.cover &&

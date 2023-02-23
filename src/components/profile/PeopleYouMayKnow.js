@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dots } from '../../svg'
-import { stories } from './../../utils/static';
+import { stories } from '../../utils/static';
 import AddFriendSmallCard from './AddFriendSmallCard';
 
 const PeopleYouMayKnow = () => {

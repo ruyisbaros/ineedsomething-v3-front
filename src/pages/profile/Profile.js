@@ -1,18 +1,19 @@
 import React, { useCallback, useState, useEffect } from 'react'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from './../../axios';
 import { toast } from 'react-toastify';
 import Header from './../../components/header/Header';
-import ProfilePictureInfos from './ProfilePictureInfos';
-import ProfileCover from './ProfileCover';
-import ProfileMenu from './ProfileMenu';
-import "./profile.css"
-import PeopleYouMayKnow from './PeopleYouMayKnow';
+import ProfilePictureInfos from '../../components/profile/ProfilePictureInfos';
+import ProfileCover from '../../components/profile/ProfileCover';
+import ProfileMenu from '../../components/profile/ProfileMenu';
+import PeopleYouMayKnow from '../../components/profile/PeopleYouMayKnow';
 import CreatePost from '../../components/post/create_post/CreatePost';
-import GridRight from './GridRight';
+import GridRight from '../../components/profile/GridRight';
 import SinglePost from './../../components/post/posts_stream/SinglePost';
-import Photos from './Photos';
+import Photos from '../../components/profile/Photos';
+import Friends from '../../components/profile/Friends';
+import "./profile.css"
 
 const Profile = ({ setShowCreatePostPopup }) => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
@@ -45,7 +46,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
         getProfile()
     }, [getProfile])
     const visitor = pageUsername === user.username ? false : true
-    //console.log(username, user.username, visitor)
+    console.log(profile)
     return (
         <div className='profile'>
             <Header page="profile" />
@@ -63,6 +64,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <div className="profile_grid">
                             <div className="profile_left">
                                 <Photos profile={profile} user={user} token={token} />
+                                <Friends friends={profile?.friends} />
                             </div>
                             <div className="profile_right">
                                 {profile?._id === user?._id && <CreatePost user={user} profile setShowCreatePostPopup={setShowCreatePostPopup} />}

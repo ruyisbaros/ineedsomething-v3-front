@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react'
-import axios from './../../axios';
+import axios from '../../axios';
 import { toast } from 'react-toastify';
 
 const Photos = ({ user, token, profile }) => {
@@ -34,7 +34,7 @@ const Photos = ({ user, token, profile }) => {
                 </div>
             </div>
             <div className="profile_card_count">
-                {photos.total_count === 0 ? "" :
+                {photos.total_count === 0 ? "No photo" :
                     photos.total_count === 1 ? "1 Photo" :
                         `${photos.total_count} Photos`}
             </div>

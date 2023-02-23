@@ -53,7 +53,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             <div className="profile_top">
                 <div className="profile_container">
                     <ProfileCover profile={profile} visitor={visitor} />
-                    <ProfilePictureInfos profile={profile} visitor={visitor} />
+                    <ProfilePictureInfos user={user} token={token} profile={profile} visitor={visitor} />
                     <ProfileMenu />
                 </div>
             </div>

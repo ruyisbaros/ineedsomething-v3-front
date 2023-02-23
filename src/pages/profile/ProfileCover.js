@@ -1,18 +1,19 @@
 import React, { useState, useRef } from 'react'
 import { useOutsideClick } from './../../utils/helpers';
 
-const ProfileCover = ({ profile }) => {
+const ProfileCover = ({ profile, visitor }) => {
     const [showCoverMenu, setShowCoverMenu] = useState(false)
     const coverRef = useRef(null)
     useOutsideClick(coverRef, () => {
         setShowCoverMenu(false)
     })
+    console.log(visitor)
     return (
         <div className="profile_cover">
             {profile?.cover &&
                 <img className='cover' src={profile?.cover} alt="" />
             }
-            <div className="update_cover_wrapper" ref={coverRef}>
+            {!visitor && <div className="update_cover_wrapper" ref={coverRef}>
                 <div className="open_cover_update" onClick={() => setShowCoverMenu(prev => !prev)}>
                     <i className="camera_filled_icon"></i>
                     Add Cover Photo
@@ -29,7 +30,7 @@ const ProfileCover = ({ profile }) => {
                         </div>
                     </div>
                 }
-            </div>
+            </div>}
         </div>
     )
 }

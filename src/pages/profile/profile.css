@@ -83,6 +83,11 @@
     padding: 0 1rem;
 }
 
+.other_name {
+    color: var(--color-secondary);
+    font-size: 20px;
+}
+
 .profile_w_left {
     display: flex;
     gap: 1rem;
@@ -293,6 +298,15 @@
     gap: 10px;
 }
 
+.no_post {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--color-secondary);
+}
+
 .grid2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr) !important;
@@ -328,11 +342,19 @@
     }
 
     .profile_circle {
-        right: 5.5rem;
+        right: 2.5rem;
     }
 
     .profile_grid {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .profile_name {
+        flex-direction: column;
+    }
+
+    .other_name {
+        font-size: 16px;
     }
 }
 
@@ -348,6 +370,10 @@
 
     .profile_name {
         padding-bottom: 20px;
+    }
+
+    .profile_circle {
+        right: 0.5rem;
     }
 
     .bottom_container {

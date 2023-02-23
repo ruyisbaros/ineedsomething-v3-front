@@ -1,5 +1,5 @@
 .pictureBox {
-    width: 700px;
+    width: 700px !important;
     height: 62vh;
 }
 
@@ -20,9 +20,9 @@
     color: var(--blue-color)
 }
 
-/* profile picture view popup */
+/* profile picture view popup crop */
 .update_img {
-    width: 700px;
+    width: 700px !important;
     height: 800px;
 }
 
@@ -47,4 +47,119 @@
 
 .textarea_blue:hover {
     border-color: var(--color-secondary);
+}
+
+.update_center {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cropper {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cropper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.update_img .reactEasyCrop_CropAreaGrid {
+    width: 300px !important;
+    height: 300px !important;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.slider {
+    width: 100%;
+    position: absolute;
+    bottom: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.slider input[type="range"] {
+    -webkit-appearance: none;
+    width: 50%;
+    height: 4px;
+    background: #ced0d4;
+}
+
+.slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #ced0d4;
+
+}
+
+.slider_circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+}
+
+.flex_up {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.flex_p_t {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    color: var(--color-secondary);
+    font-size: 17px;
+    border-bottom: 1px solid var(--bg-third);
+}
+
+.update_submit_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2rem;
+}
+
+.blue_link {
+    cursor: pointer;
+    color: var(--blue-color);
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.update_submit_wrap button {
+    width: 120px !important;
+    letter-spacing: .6px;
+}
+
+@media (max-height:568px) {
+    .pictureBox {
+        /* top: 10%;
+height: 100vh !important;
+overflow-y: scroll; */
+    }
+
+    .update_img {
+        height: 1000px !important;
+        overflow-y: scroll;
+    }
 }

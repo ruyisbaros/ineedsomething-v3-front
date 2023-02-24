@@ -180,6 +180,65 @@
     filter: brightness(110%);
 }
 
+/* Cover copper */
+.cover_cropper {
+    height: 100%;
+}
+
+.cover_cropper img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+.cover_cropper .cropper {
+    height: 350px;
+}
+
+.cover_cropper .reactEasyCrop_Container {
+    border-radius: 0 0 8px 8px !important;
+}
+
+.save_changes_cover {
+    width: 100%;
+    padding: 10px 20px;
+    z-index: 9999999;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+
+.save_changes_right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.save_changes_left {
+    display: flex;
+    align-items: center;
+}
+
+.save_changes_left i {
+    transform: translateY(5px);
+}
+
+.opacity_btn {
+    opacity: 0.5;
+}
+
+.cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* Responsive styles */
 @media (max-height:568px) {
     .pictureBox {

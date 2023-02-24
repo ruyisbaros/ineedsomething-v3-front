@@ -13,9 +13,9 @@ const Photos = ({ photos }) => {
                 </div>
             </div>
             <div className="profile_card_count">
-                {photos.length === 0 ? "No photo" :
-                    photos.length === 1 ? "1 Photo" :
-                        `${photos.length} Photos`}
+                {photos?.length === 0 ? "No photo" :
+                    photos?.length === 1 ? "1 Photo" :
+                        `${photos?.length} Photos`}
             </div>
             <div className="profile_card_grid">
                 {photos && photos.length > 0 &&

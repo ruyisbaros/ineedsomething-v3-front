@@ -71,7 +71,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             <Header page="profile" />
             <div className="profile_top">
                 <div className="profile_container">
-                    <ProfileCover profile={profile} visitor={visitor} />
+                    <ProfileCover user={loggedUser} token={loggedUser.token} profile={profile} visitor={visitor} />
                     <ProfilePictureInfos photos={photos.resources} user={loggedUser} token={loggedUser.token}
                         profile={profile} visitor={visitor} />
                     <ProfileMenu />

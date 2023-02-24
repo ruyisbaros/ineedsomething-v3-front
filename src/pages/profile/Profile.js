@@ -17,10 +17,10 @@ import "./profile.css"
 
 const Profile = ({ setShowCreatePostPopup }) => {
     /* const path = `iNeedSomething/${user.username}/postImages` */
-    const { user, token } = useSelector(store => store.currentUser.loggedUser)
+    const { loggedUser } = useSelector(store => store.currentUser)
     const { username } = useParams()
     //const navigate = useNavigate()
-    const pageUsername = username === undefined ? user?.username : username
+    const pageUsername = username === undefined ? loggedUser?.username : username
     const [loading, setLoading] = useState(false)
     const [profile, setProfile] = useState(null)
     const [userPosts, setUserPosts] = useState([])
@@ -29,7 +29,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
         try {
             setLoading(true)
             const { data } = await axios.get(`/users/get_profile/${pageUsername}`, {
-                headers: { "Authorization": `Bearer ${token}` }
+                headers: { "Authorization": `Bearer ${loggedUser.token}` }
             });
             console.log(data);
             setLoading(false)
@@ -40,20 +40,43 @@ const Profile = ({ setShowCreatePostPopup }) => {
             setLoading(false)
             toast.error(error.response.data.message)
         }
-    }, [pageUsername, token])
+    }, [pageUsername, loggedUser])
 
     useEffect(() => {
         getProfile()
     }, [getProfile])
-    const visitor = pageUsername === user.username ? false : true
-    console.log(profile)
+    const visitor = pageUsername === loggedUser?.username ? false : true
+    //console.log(profile)
+
+    const [photos, setPhotos] = useState([])
+    const path = `iNeedSomething/${profile?.username}/postImages`
+
+    const getImages = useCallback(async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 5 }, {
+                headers: { "Authorization": `Bearer ${loggedUser.token}` }
+            });
+            console.log(data);
+            setPhotos(data)
+            setLoading(false)
+
+        } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
+        }
+    }, [loggedUser, path])
+
+    useEffect(() => {
+        getImages()
+    }, [getImages])
     return (
         <div className='profile'>
             <Header page="profile" />
             <div className="profile_top">
                 <div className="profile_container">
                     <ProfileCover profile={profile} visitor={visitor} />
-                    <ProfilePictureInfos user={user} token={token} profile={profile} visitor={visitor} />
+                    <ProfilePictureInfos user={loggedUser} token={loggedUser.token} profile={profile} visitor={visitor} />
                     <ProfileMenu />
                 </div>
             </div>
@@ -63,17 +86,17 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <PeopleYouMayKnow />
                         <div className="profile_grid">
                             <div className="profile_left">
-                                <Photos profile={profile} user={user} token={token} />
+                                <Photos photos={photos} profile={profile} user={loggedUser} token={loggedUser.token} />
                                 <Friends friends={profile?.friends} />
                             </div>
                             <div className="profile_right">
-                                {profile?._id === user?._id && <CreatePost user={user} profile setShowCreatePostPopup={setShowCreatePostPopup} />}
+                                {profile?._id === loggedUser?._id && <CreatePost user={loggedUser} profile setShowCreatePostPopup={setShowCreatePostPopup} />}
                                 <GridRight />
                                 <div className="posts">
                                     {
                                         (userPosts && userPosts.length > 0) ?
                                             userPosts.map(post => (
-                                                <SinglePost key={post._id} profile post={post} user={user} />
+                                                <SinglePost key={post._id} profile post={post} user={loggedUser} />
                                             ))
                                             :
                                             <div className="no_post">No Post available</div>

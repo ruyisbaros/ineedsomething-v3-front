@@ -71,7 +71,7 @@ function App() {
     <>
       <ToastContainer position="bottom-center" limit={1} />
       {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup}
-        user={loggedUser?.user} token={loggedUser?.token} />}
+        user={loggedUser} token={loggedUser?.token} />}
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>

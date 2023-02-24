@@ -1,13 +1,25 @@
 import React, { useState, useCallback, useRef } from 'react'
 import Cropper from 'react-easy-crop'
+import { toast } from 'react-toastify';
+import { getCroppedImg } from '../../utils/helpers';
+import { PulseLoader } from 'react-spinners';
+import axios from './../../axios';
+import { useDispatch } from 'react-redux';
+import { updateCurrentUserProfilePic } from '../../redux/currentUserSlice';
+import Cookies from 'js-cookie';
 
-const ProfilePictureViewPopup = ({ image, setImage, setDescription, description }) => {
+const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, user, token, setError }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
+    const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const [description, setDescription] = useState("")
     const sliderRef = useRef(null)
+    const dispatch = useDispatch()
 
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-        console.log(croppedArea, croppedAreaPixels)
+        //console.log(croppedArea, croppedAreaPixels)
+        setCroppedAreaPixels(croppedAreaPixels)
     }, [])
 
     const zoomOut = (e) => {
@@ -18,6 +30,68 @@ const ProfilePictureViewPopup = ({ image, setImage, setDescription, description 
         sliderRef.current.stepUp()
         setZoom(sliderRef.current.value)
     }
+    const getCroppedImage = useCallback(async (show) => {
+        try {
+            const img = await getCroppedImg(image, croppedAreaPixels)
+            //console.log(img)
+            if (show) {
+                setImage(img)
+                setZoom(1)
+                setCrop({ x: 0, y: 0 })
+                console.log("show")
+            } else {
+                console.log("not show")
+                return img;
+            }
+        } catch (error) {
+            toast.error("No content selected for creation!")
+        }
+    }, [croppedAreaPixels])
+    //console.log(image)
+    const uploadImage = async () => {
+        try {
+            const img = await getCroppedImage()
+            const blob = await fetch(img).then(b => b.blob())
+            console.log(blob)
+            const path = `iNeedSomething/${user.username}/profileImages`
+            //2. upload images to cloudinary
+            let formData = new FormData()
+            formData.append("path", path)
+            formData.append("file", blob)
+            const { data } = await axios.post("/images/upload", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "content-type": "multipart/form-data",
+                }
+            })
+            console.log(data)
+
+            return data
+        } catch (error) {
+            setError(error.response.data.message)
+        }
+    }
+    const updateProfilePicture = async () => {
+        try {
+            setLoading(true)
+            const { url } = await uploadImage()
+
+            const { data } = await axios.patch("/users/update_profile_pic", { url }, {
+                headers: { Authorization: `Bearer ${token}`, }
+            })
+            setLoading(false)
+            toast.success(data.message)
+            pref.current.style.backgroundImage = `url(${data.url})`
+            Cookies.set("user", JSON.stringify({ ...user, picture: data.url }))
+            dispatch(updateCurrentUserProfilePic(data.url))
+            setImage(null)
+            setShowProfileImage(false)
+        } catch (error) {
+            setLoading(false)
+            setError(error.response.data.message)
+        }
+    }
+
     return (
         <div className="postBox update_img">
             <div className="box_header">
@@ -33,6 +107,7 @@ const ProfilePictureViewPopup = ({ image, setImage, setDescription, description 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 ></textarea>
+                <img src="" alt="" />
             </div>
             <div className="update_center">
                 <div className="cropper">
@@ -66,7 +141,7 @@ const ProfilePictureViewPopup = ({ image, setImage, setDescription, description 
                 </div>
             </div>
             <div className="flex_up">
-                <div className="gray_btn">
+                <div className="gray_btn" onClick={() => getCroppedImage("show")}>
                     <i className="crop_icon"></i>
                     Crop photo
                 </div>
@@ -80,8 +155,9 @@ const ProfilePictureViewPopup = ({ image, setImage, setDescription, description 
                 Your profile picture is public
             </div>
             <div className="update_submit_wrap">
-                <div className="blue_link">Cancel</div>
-                <button className='blue_btn' type="submit">Save</button>
+                <div className="blue_link" onClick={() => setImage(null)}>Cancel</div>
+                <button disabled={loading} style={{ padding: `${loading}?"17px":""` }} onClick={updateProfilePicture} className='blue_btn' type="submit">
+                    {loading ? <PulseLoader color='#fff' size={5} /> : "Save"}</button>
             </div>
         </div>
     )

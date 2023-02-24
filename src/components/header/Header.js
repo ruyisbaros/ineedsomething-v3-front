@@ -17,7 +17,7 @@ import "./header.css"
 
 const Header = ({ page }) => {
     const color = "#65676b"
-    const { user } = useSelector(store => store.currentUser.loggedUser)
+    const { loggedUser } = useSelector(store => store.currentUser)
     const [showSearchMenu, setShowSearchMenu] = useState(false)
     const [showAllMenu, setShowAllMenu] = useState(false)
     const [showUserMenu, setShowUserMenu] = useState(false)
@@ -72,8 +72,8 @@ const Header = ({ page }) => {
             </div>
             <div className="header_right">
                 <Link to="/profile" className={`profile_link hover1 ${page === "profile" ? "active_link" : ""}`}>
-                    <img src={user?.picture} alt="" />
-                    <span>{user?.first_name}</span>
+                    <img src={loggedUser?.picture} alt="" />
+                    <span>{loggedUser?.first_name}</span>
                 </Link>
                 <div ref={allMenuRef} className={showAllMenu ? "circle_icon active_header hover1" : "circle_icon hover1"} >
                     <div onClick={() => setShowAllMenu(!showAllMenu)}>
@@ -96,7 +96,7 @@ const Header = ({ page }) => {
                     }}>
                     <ArrowDown />
                     </div>
-                    {showUserMenu && <UserMenu user={user} />}
+                    {showUserMenu && <UserMenu user={loggedUser} />}
                 </div>
             </div>
         </header>

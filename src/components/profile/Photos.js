@@ -2,29 +2,8 @@ import React, { useState, useCallback, useEffect } from 'react'
 import axios from '../../axios';
 import { toast } from 'react-toastify';
 
-const Photos = ({ user, token, profile }) => {
-    const [loading, setLoading] = useState(false)
-    const [photos, setPhotos] = useState([])
-    const path = `iNeedSomething/${profile?.username}/postImages`
-    const getImages = useCallback(async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 5 }, {
-                headers: { "Authorization": `Bearer ${token}` }
-            });
-            console.log(data);
-            setPhotos(data)
-            setLoading(false)
+const Photos = ({ user, token, profile, photos }) => {
 
-        } catch (error) {
-            setLoading(false)
-            toast.error(error.response.data.message)
-        }
-    }, [token, path])
-
-    useEffect(() => {
-        getImages()
-    }, [getImages])
     return (
         <div className='profile_card'>
             <div className="profile_card_header">

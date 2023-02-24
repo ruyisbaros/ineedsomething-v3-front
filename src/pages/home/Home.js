@@ -10,7 +10,7 @@ import NotActivateUser from './../../components/home/activation/NotActivateUser'
 import SinglePost from '../../components/post/posts_stream/SinglePost';
 
 const Home = ({ setShowCreatePostPopup }) => {
-    const { user } = useSelector(store => store.currentUser.loggedUser)
+    const { loggedUser } = useSelector(store => store.currentUser)
     const { posts } = useSelector(store => store.posts)
     const homeMiddle = useRef(null)
     const [height, setHeight] = useState()
@@ -22,20 +22,20 @@ const Home = ({ setShowCreatePostPopup }) => {
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>
             <Header page="home" />
-            <HomeLeft user={user} />
+            <HomeLeft user={loggedUser} />
             <div className="home_middle" ref={homeMiddle}>
                 <Stories />
-                {!user.verified && <NotActivateUser />}
-                <CreatePost user={user} setShowCreatePostPopup={setShowCreatePostPopup} />
+                {!loggedUser.verified && <NotActivateUser />}
+                <CreatePost user={loggedUser} setShowCreatePostPopup={setShowCreatePostPopup} />
                 <div className="posts">
                     {
                         posts?.map(post => (
-                            <SinglePost key={post._id} user={user} post={post} />
+                            <SinglePost key={post._id} user={loggedUser} post={post} />
                         ))
                     }
                 </div>
             </div>
-            <HomeRight user={user} />
+            <HomeRight user={loggedUser} />
         </div>
     )
 }

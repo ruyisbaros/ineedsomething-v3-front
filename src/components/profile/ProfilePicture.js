@@ -1,15 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { dataURItoBlob } from '../../utils/helpers'
-import axios from './../../axios';
 import ProfilePictureViewPopup from './ProfilePictureViewPopup';
 import "./profilePictures.css"
 
-const ProfilePicture = ({ user, token, setShowProfileImage }) => {
+const ProfilePicture = ({ pref, user, token, setShowProfileImage }) => {
     const inputRef = useRef(null)
     const [image, setImage] = useState(null)
     const [error, setError] = useState("")
-    const [description, setDescription] = useState("")
-    const [profileUrl, setProfileUrl] = useState("")
 
     const handleImage = async (e) => {
         let file = e.target.files[0]
@@ -30,23 +26,6 @@ const ProfilePicture = ({ user, token, setShowProfileImage }) => {
             setImage(readerEvent.target.result)
         }
     }
-    const uploadImage = async () => {
-        const profileImage = dataURItoBlob(image)
-
-        const path = `iNeedSomething/${user.username}/profileImages`
-        //2. upload images to cloudinary
-        let formData = new FormData()
-        formData.append("path", path)
-        formData.append("file", profileImage)
-        const { data } = await axios.post("/images/upload", formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "content-type": "multipart/form-data",
-            }
-        })
-        setProfileUrl(data)
-    }
-
     return (
         <div className='blur'>
             <input
@@ -82,7 +61,14 @@ const ProfilePicture = ({ user, token, setShowProfileImage }) => {
                     </div>
                 </div>
             </div>
-            {image && <ProfilePictureViewPopup description={description} setDescription={setDescription} image={image} setImage={setImage} />}
+            {image && <ProfilePictureViewPopup
+                setError={setError}
+                token={token} user={user}
+                image={image}
+                setImage={setImage}
+                setShowProfileImage={setShowProfileImage}
+                pref={pref}
+            />}
         </div>
     )
 }

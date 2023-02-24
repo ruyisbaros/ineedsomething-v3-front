@@ -187,7 +187,7 @@
 
 .cover_cropper img {
     width: 100% !important;
-    height: 100% !important;
+
     object-fit: cover;
 }
 
@@ -203,7 +203,8 @@
     width: 100%;
     padding: 10px 20px;
     z-index: 9999999;
-    position: absolute;
+    position: fixed;
+    left: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -213,23 +214,27 @@
     font-family: inherit;
 }
 
-
 .save_changes_right {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
+.save_changes_right button {}
+
 .save_changes_left {
     display: flex;
     align-items: center;
+    color: #fff
 }
 
 .save_changes_left i {
     transform: translateY(5px);
+    filter: invert(100%);
 }
 
 .opacity_btn {
+    background: crimson;
     opacity: 0.5;
 }
 
@@ -237,7 +242,36 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 0 0 8px 8px;
 }
+
+/* Select cover photos from old ones */
+.select_cover_box {
+    width: 570px !important;
+    max-width: 80vw;
+}
+
+.selectCoverBox_links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 5px 15px;
+}
+
+.selectCoverBox_link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0 10px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.selectCoverBox_link:first-of-type {
+    color: var(--blue-color);
+    border-bottom: 3px solid var(--blue-color);
+}
+
 
 /* Responsive styles */
 @media (max-height:568px) {

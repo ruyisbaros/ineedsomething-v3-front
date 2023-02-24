@@ -7,8 +7,9 @@ import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { updateCurrentUserCoverPic } from '../../redux/currentUserSlice';
+import OldCoversSelectPopup from './OldCoversSelectPopup';
 
-const ProfileCover = ({ profile, visitor, user, token }) => {
+const ProfileCover = ({ photos, visitor, user, token }) => {
     const [showCoverMenu, setShowCoverMenu] = useState(false)
     const [error, setError] = useState("")
     const [coverImage, setCoverImage] = useState("")
@@ -21,8 +22,9 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [oldCoverShow, setOldCoverShow] = useState(false)
+
     const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-        //console.log(croppedArea, croppedAreaPixels)
         setCroppedAreaPixels(croppedAreaPixels)
     }, [])
     useOutsideClick(coverRef, () => {
@@ -104,6 +106,7 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
             Cookies.set("user", JSON.stringify({ ...user, cover: data.url }))
             dispatch(updateCurrentUserCoverPic(data.url))
             setCoverImage("")
+            setOldCoverShow(false)
 
         } catch (error) {
             setLoading(false)
@@ -142,7 +145,7 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
                         image={coverImage}
                         crop={crop}
                         zoom={zoom}
-                        aspect={cropWidth / 350}
+                        aspect={cropWidth / 320}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
@@ -151,8 +154,8 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
                     />
                 </div>
             </div>}
-            {profile?.cover &&
-                <img className='cover' src={profile?.cover} alt="" />
+            {user?.cover && !coverImage &&
+                <img className='cover' src={user?.cover} alt="" />
             }
             {!visitor && <div className="update_cover_wrapper" ref={coverRef}>
                 <div className="open_cover_update" onClick={() => setShowCoverMenu(prev => !prev)}>
@@ -161,7 +164,10 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
                 </div>
                 {showCoverMenu &&
                     <div className='open_cover_menu'>
-                        <div className="open_cover_menu_item hover1">
+                        <div className="open_cover_menu_item hover1" onClick={() => {
+                            setOldCoverShow(true)
+                            setShowCoverMenu(false)
+                        }}>
                             <i className="photo_icon"></i>
                             Select Photo
                         </div>
@@ -180,6 +186,13 @@ const ProfileCover = ({ profile, visitor, user, token }) => {
                 <div>{error}</div>
                 <button onClick={() => setError("")} className="blue_btn">Try Again</button>
             </div>}
+            {oldCoverShow && !coverImage &&
+                <OldCoversSelectPopup
+                    setOldCoverShow={setOldCoverShow}
+                    photos={photos}
+                    setCoverImage={setCoverImage}
+                    user={user}
+                />}
         </div>
     )
 }

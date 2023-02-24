@@ -30,7 +30,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
     })
     /* Handle images */
     let imgUrls = []
-    const uploadImages = async (formData, path, token, setLoading) => {
+    const uploadImages = async (formData, setLoading) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/images/upload", formData, {
@@ -60,7 +60,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
             let formData = new FormData()
             formData.append("path", path)
             formData.append("file", img)
-            await uploadImages(formData, path, token, setLoading)
+            await uploadImages(formData, setLoading)
         }
     }
     /* Handle images */

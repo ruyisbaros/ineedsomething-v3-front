@@ -50,7 +50,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const getImages = useCallback(async () => {
         try {
             setLoading(true)
-            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 6 }, {
+            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 20 }, {
                 headers: { "Authorization": `Bearer ${loggedUser.token}` }
             });
             console.log(data);
@@ -71,7 +71,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             <Header page="profile" />
             <div className="profile_top">
                 <div className="profile_container">
-                    <ProfileCover user={loggedUser} token={loggedUser.token} profile={profile} visitor={visitor} />
+                    <ProfileCover photos={photos.resources} user={loggedUser} token={loggedUser.token} visitor={visitor} />
                     <ProfilePictureInfos photos={photos.resources} user={loggedUser} token={loggedUser.token}
                         profile={profile} visitor={visitor} />
                     <ProfileMenu />

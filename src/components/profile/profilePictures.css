@@ -151,6 +151,36 @@
     letter-spacing: .6px;
 }
 
+/* Old pictures to select as profile */
+.old_pictures_wrap {
+    padding: 15px;
+    overflow-y: auto !important;
+    height: 450px !important;
+}
+
+.old_pictures_wrap h4 {
+    padding: 10px 0;
+}
+
+.old_pictures {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    gap: 15px;
+}
+
+.old_pictures img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.old_pictures img:hover {
+    filter: brightness(110%);
+}
+
+/* Responsive styles */
 @media (max-height:568px) {
     .pictureBox {
         /* top: 10%;
@@ -158,7 +188,7 @@ height: 100vh !important;
 overflow-y: scroll; */
     }
 
-   /*  .update_img {
+    /*  .update_img {
      position: absolute;
      width: 700px !important;
      top: 10%;

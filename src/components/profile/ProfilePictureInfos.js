@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react'
 import ProfilePicture from './ProfilePicture';
 
-const ProfilePictureInfos = ({ user, token, profile, visitor }) => {
+const ProfilePictureInfos = ({ photos, user, token, profile, visitor }) => {
     const [showProfileImage, setShowProfileImage] = useState(false)
     const profilePhotoRef = useRef(null)
 
     return (
         <div className='profile_image_wrap'>
-            {showProfileImage && <ProfilePicture pref={profilePhotoRef} setShowProfileImage={setShowProfileImage} user={user} token={token} />}
+            {showProfileImage && <ProfilePicture photos={photos} pref={profilePhotoRef} setShowProfileImage={setShowProfileImage} user={user} token={token} />}
             <div className="profile_w_left">
                 <div className="profile_w_img">
                     <div className="profile_w_bg"

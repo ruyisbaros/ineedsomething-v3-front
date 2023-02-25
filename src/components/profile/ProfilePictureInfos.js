@@ -20,7 +20,7 @@ const ProfilePictureInfos = ({ photos, user, token, profile, visitor }) => {
                 </div>
                 <div className="profile_w_col">
                     <div className="profile_name">{profile?.first_name}{" "}{profile?.last_name}
-                        <div className="other_name">(Full Stack Web Developer)</div>
+                        <div className="other_name">({profile?.details?.otherName})</div>
                     </div>
                     <div className="profile_friend_count"></div>
                     <div className="profile_friend_images"></div>

@@ -1,6 +1,7 @@
 .pictureBox {
     width: 700px !important;
-    height: 62vh;
+    min-height: 62vh !important;
+    overflow-y: auto;
 }
 
 .update_picture_wrap {
@@ -275,20 +276,9 @@
 
 
 /* Responsive styles */
-@media (max-height:568px) {
-    .pictureBox {
-        /* top: 10%;
-height: 100vh !important;
-overflow-y: scroll; */
-    }
-
-    /*  .update_img {
-     position: absolute;
-     width: 700px !important;
-     top: 10%;
-     left: 50%;
-     height: 1000px !important;
-     overflow-y: scroll;
-     z-index: 9999;
- } */
+@media (max-height:563px) {
+    /* .pictureBox {
+        min-height: 62vh;
+        overflow-y: auto;
+    } */
 }

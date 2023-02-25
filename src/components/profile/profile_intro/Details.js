@@ -1,24 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Bio from './Bio'
 
-const Details = ({ header, value, img }) => {
+const Details = ({ text, img, value, handleDetail, updateUserDetails, name, seen, placeholder, relation }) => {
+    const [show, setShow] = useState(false)
     return (
         <div>
-            <div className="details_header">{header}</div>
-            <div className="add_details_flex no_underline">
+            <div className="add_details_flex " onClick={() => setShow(true)}>
                 {
-                    value ?
+                    seen ?
                         <div className="info_profile">
-                            <img src={`../../../../icons/${img}.png`} alt="" />
-                            {value}
-                            <i className="edit_icon"></i>
+                            {!show && <div className='editBox_contents'>
+                                <div className='editBox'>
+                                    <img src={`../../../../icons/${img}.png`} alt="" />
+                                    {seen}
+                                </div>
+                                <i className="edit_icon"></i>
+                            </div>}
                         </div>
                         :
                         <>
                             <i className="rounded_plus_icon"></i>
-                            Add {header}
+                            <span className="underline"> Add {text}</span>
                         </>
                 }
             </div>
+            {show && <Bio
+                setShowBio={setShow}
+                value={value}
+                onChange={handleDetail}
+                updateUserDetails={updateUserDetails}
+                placeholder={placeholder}
+                name={name}
+                detail
+                relation={relation}
+            />}
         </div>
     )
 }

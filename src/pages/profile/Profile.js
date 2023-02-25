@@ -62,7 +62,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             setLoading(false)
             toast.error(error.response.data.message)
         }
-    }, [loggedUser, path])
+    }, [loggedUser.token, path])
 
     useEffect(() => {
         getImages()
@@ -85,7 +85,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <div className="profile_grid">
                             <div className="profile_left">
                                 <ProfileIntro visitor={visitor} user={loggedUser}
-                                    details={profile?.details} token={loggedUser.token} />
+                                    detailsS={profile?.details} token={loggedUser.token} />
                                 <Photos photos={photos.resources} />
                                 <Friends friends={profile?.friends} />
                             </div>

@@ -7,7 +7,9 @@ import axios from './../../../axios';
 import { toast } from 'react-toastify';
 import EditUserDetails from './EditUserDetails';
 
-const ProfileIntro = ({ user, token, details, visitor }) => {
+const ProfileIntro = ({ user, token, detailsS, visitor }) => {
+    const [details, setDetails] = useState(detailsS)
+
     const [infos, setInfos] = useState({
         bio: details?.bio ? details?.bio : "",
         otherName: details?.otherName ? details?.otherName : "",
@@ -24,10 +26,11 @@ const ProfileIntro = ({ user, token, details, visitor }) => {
     const [showBio, setShowBio] = useState(false)
     const [showEditUserDetails, setShowEditUserDetails] = useState(false)
     const dispatch = useDispatch()
-    const handleBio = (e) => {
-        setInfos({ ...infos, bio: e.target.value })
+    const handleDetail = (e) => {
+        const { name, value } = e.target
+        setInfos({ ...infos, [name]: value })
     }
-
+    console.log(infos)
     const updateUserDetails = async () => {
         try {
             const { data } = await axios.patch("/users/update_user_details", { infos }, {
@@ -40,6 +43,10 @@ const ProfileIntro = ({ user, token, details, visitor }) => {
             toast.error(error.response.data.message)
         }
     }
+    useEffect(() => {
+        setDetails(detailsS)
+        setInfos(details)
+    }, [detailsS, details])
     return (
         <div className='profile_card'>
             <div className="profile_card_header">Intro</div>
@@ -54,8 +61,14 @@ const ProfileIntro = ({ user, token, details, visitor }) => {
             {!details?.bio && !showBio && !visitor &&
                 <button onClick={() => setShowBio(true)} className='gray_btn hover1 w100'>Add Bio</button>
             }
-            {showBio && <Bio setShowBio={setShowBio}
-                bio={infos.bio} handleBio={handleBio} updateUserDetails={updateUserDetails} />}
+            {showBio && <Bio
+                setShowBio={setShowBio}
+                value={infos.bio}
+                onChange={handleDetail}
+                updateUserDetails={updateUserDetails}
+                placeholder="Add bio"
+                name="bio"
+            />}
             {
                 details?.otherName &&
                 <div className='info_profile'>
@@ -76,7 +89,7 @@ const ProfileIntro = ({ user, token, details, visitor }) => {
                     : !details?.job && details?.workplace ? (
                         <div className='info_profile'>
                             <img src="../../../../icons/job.png" alt="" />
-                            Works at {details?.workplace}
+                            Works at <b>{details?.workplace}</b>
                         </div>
                     )
                         : <div className='info_profile'>
@@ -129,7 +142,13 @@ const ProfileIntro = ({ user, token, details, visitor }) => {
             {!visitor &&
                 <button className='gray_btn hover1 w100' onClick={() => setShowEditUserDetails(true)}>Edit Details</button>}
             {!visitor && showEditUserDetails &&
-                <EditUserDetails details={details} infos={infos} setInfos={setInfos} setShowEditUserDetails={setShowEditUserDetails} />
+                <EditUserDetails
+                    details={details}
+                    infos={infos}
+                    setShowEditUserDetails={setShowEditUserDetails}
+                    handleDetail={handleDetail}
+                    updateUserDetails={updateUserDetails}
+                />
             }
             {!visitor &&
                 <button className='gray_btn hover1 w100'>Add Hobbies</button>}

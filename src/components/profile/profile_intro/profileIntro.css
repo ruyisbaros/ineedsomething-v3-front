@@ -4,7 +4,8 @@
     align-items: center;
     gap: 10px;
     font-size: 15px;
-    color: var(--color-primary)
+    color: var(--color-primary);
+    width: 100%;
 }
 
 .info_profile img {
@@ -77,12 +78,15 @@
 
 /* Edit user details */
 .infosBox {
-    height: 82vh !important;
+    min-height: 85vh !important;
     width: 800px !important;
+    padding-bottom: 2rem !important;
 }
 
 .details_wrapper {
+    max-height: 80vh;
     padding: 1rem;
+    overflow-y: auto !important;
 }
 
 .details_col {
@@ -116,8 +120,33 @@
     cursor: pointer;
 }
 
-.add_details_flex:hover {
+.add_details_flex .edit_icon {
+    transform: scale(1.1);
+}
+
+.editBox_contents {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.editBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.underline:hover {
     text-decoration: underline;
 }
 
-.no_underline {}
+.add_bio_wrap select {
+    outline: none;
+    height: 30px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: var(--bg-secondary);
+    padding: 0 10px;
+}

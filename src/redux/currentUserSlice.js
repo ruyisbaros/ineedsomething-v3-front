@@ -26,6 +26,9 @@ const currentUserSlicer = createSlice({
         updateCurrentUserCoverPic: (state, action) => {
             state.loggedUser = { ...state.loggedUser, cover: action.payload }
         },
+        updateCurrentDetails: (state, action) => {
+            state.loggedUser = { ...state.loggedUser, details: action.payload }
+        },
         refreshToken: (state, action) => {
 
             state.loggedUser = action.payload
@@ -43,7 +46,8 @@ export const {
     authLogout,
     updateCurrentUser,
     updateCurrentUserProfilePic,
-    updateCurrentUserCoverPic
+    updateCurrentUserCoverPic,
+    updateCurrentDetails
 
 } = currentUserSlicer.actions;
 

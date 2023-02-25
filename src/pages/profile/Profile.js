@@ -14,6 +14,7 @@ import SinglePost from './../../components/post/posts_stream/SinglePost';
 import Photos from '../../components/profile/Photos';
 import Friends from '../../components/profile/Friends';
 import "./profile.css"
+import ProfileIntro from '../../components/profile/profile_intro/ProfileIntro';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -32,7 +33,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             const { data } = await axios.get(`/users/get_profile/${pageUsername}`, {
                 headers: { "Authorization": `Bearer ${loggedUser.token}` }
             });
-            console.log(data);
+            console.log(data.user);
             setLoading(false)
             setProfile(data.user)
             setUserPosts(data.posts)
@@ -53,7 +54,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 20 }, {
                 headers: { "Authorization": `Bearer ${loggedUser.token}` }
             });
-            console.log(data);
+            //console.log(data);
             setPhotos(data)
             setLoading(false)
 
@@ -83,6 +84,8 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <PeopleYouMayKnow />
                         <div className="profile_grid">
                             <div className="profile_left">
+                                <ProfileIntro visitor={visitor} user={loggedUser}
+                                    details={profile?.details} token={loggedUser.token} />
                                 <Photos photos={photos.resources} />
                                 <Friends friends={profile?.friends} />
                             </div>

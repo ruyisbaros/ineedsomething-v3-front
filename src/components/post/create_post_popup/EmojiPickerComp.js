@@ -55,7 +55,7 @@ const EmojiPickerComp = ({ text, setText, user, type2, background, setBackground
                     ref={textRef}
                     className={`post_input ${type2 ? "input2" : ""}`}
                     placeholder={`What is on your mind ${user?.first_name.slice(0, 1).toUpperCase() + user?.first_name.slice(1)} ?`}
-                    style={{ paddingTop: `${background ? Math.abs(textRef.current.value.length * 0.1 - 30) : "0"}%` }}
+                    style={{ paddingTop: `${background ? Math.abs(textRef?.current?.value?.length * 0.1 - 30) : "0"}%` }}
                     maxLength="250"
                     value={text}
                     onChange={(e) => setText(e.target.value)}

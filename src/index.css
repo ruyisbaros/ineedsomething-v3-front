@@ -71,7 +71,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-cursor: pointer;
+  cursor: pointer;
 }
 
 .blue_btn span,
@@ -162,6 +162,19 @@ cursor: pointer;
 
 .filter_blue {
   filter: invert(39%) sepia(57%) saturate(200%) saturate(200%) saturate(200%) saturate(200%) saturate(200%) saturate(147.75%) hue-rotate(202deg) brightness(97%) contrast(96%);
+}
+
+@media (max-width:700px) {
+  .small_circle {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .small_circle i {
+    width: 17px !important;
+    height: 17px !important;
+    transform: translateX(-1.4px) !important;
+  }
 }
 
 @import url("./styles/icons/icons.css")

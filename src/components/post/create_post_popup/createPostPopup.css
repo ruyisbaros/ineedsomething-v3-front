@@ -485,10 +485,43 @@
 }
 
 /* Responsives */
-@media (max-height:570px) {
+
+@media (max-width:735px) {
+    .rlmove {right: 10px;
+    }
+
+    .post_input {
+        font-size: 17px;
+    }
+}
+
+@media (max-width:550px) {
     .postBox {
-        position: relative;
-        overflow-y: auto;
-        max-height: 100vh;
+        width: 96% !important;
+    }
+
+    .box_header span {
+        font-size: 18px;
+    }
+
+    .box_header span {
+        font-size: 18px;
+    }
+
+    .post_backGrounds {
+        width: 80% !important;
+        overflow-x: auto;
+    }
+
+    .post_backGrounds img {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width:500px) {
+    .post_input {
+        padding-left: 0.5rem;
+        width: 420px !important;
     }
 }

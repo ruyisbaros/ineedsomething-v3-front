@@ -567,3 +567,41 @@
         width: 400px !important;
     }
 }
+
+@media (max-width:400px) {
+    .post {
+        width: 97%;
+        margin: 0 auto;
+    }
+
+    .post input {
+        width: 36%;
+    }
+
+    .post_profile_name {
+        font-size: 12px !important;
+    }
+
+    .profile_name,
+    .left_header_grid {
+        font-size: 25px !important;
+    }
+
+    .reacts_popup {
+        left: 0 !important;
+    }
+
+    .react img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .comment_input_wrap {
+        font-size: 12px !important;
+    }
+
+    .send_verification {
+        width: 98%;
+        margin: 0 auto;
+    }
+}

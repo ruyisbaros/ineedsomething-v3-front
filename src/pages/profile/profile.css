@@ -384,7 +384,9 @@
     object-fit: cover;
 }
 
+
 /* Responsive */
+
 @media (max-width:900px) {
     .profile_w_left {
         flex-direction: column;
@@ -403,7 +405,7 @@
     }
 
     .profile_grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
     .profile_name {
@@ -413,15 +415,33 @@
     .other_name {
         font-size: 16px;
     }
+
+    .profile_grid .create_post,
+    .profile_grid .posts .post {
+        width: 100% !important;
+    }
+
+    .bottom_container {
+        padding: 10px;
+    }
 }
 
 @media (max-width:700px) {
+    .profile_grid {
+        margin: auto;
+    }
+
+    .profile_menu_wrap {
+        padding: 0 10px;
+    }
+
     .profile_image_wrap {
         flex-direction: column;
         align-items: center;
     }
 
     .profile_w_left {
+
         align-items: center;
     }
 
@@ -472,9 +492,16 @@
         grid-template-columns: 1fr;
         width: 95% !important;
     }
+}
 
-    .profile_grid .create_post {
-        width: 98% !important;
-        margin-left: 4%;
+@media (max-width:600px) {
+    .profile_menu_wrap {
+        display: none;
+    }
+}
+
+@media (max-width:520px) {
+    .update_cover_wrapper {
+        bottom: 3rem;
     }
 }

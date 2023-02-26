@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from './../../axios';
@@ -15,6 +15,7 @@ import Photos from '../../components/profile/Photos';
 import Friends from '../../components/profile/Friends';
 import "./profile.css"
 import ProfileIntro from '../../components/profile/profile_intro/ProfileIntro';
+import { useMediaQuery } from 'react-responsive';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -67,10 +68,32 @@ const Profile = ({ setShowCreatePostPopup }) => {
     useEffect(() => {
         getImages()
     }, [getImages])
+    /* Scroll animation */
+    const [profileTopHeight, setProfileTopHeight] = useState()
+    const profileTopRef = useRef(null)
+    const [profileLeftHeight, setProfileLeftHeight] = useState()
+    const [scrollHeight, setScrollHeight] = useState()
+    const profileLeftRef = useRef(null)
+    useEffect(() => {
+        setProfileTopHeight(profileTopRef.current.clientHeight + 300)
+        setProfileLeftHeight(profileLeftRef.current.clientHeight)
+        window.addEventListener("scroll", getScrollHeight, { passive: true })
+
+        return () => {
+            window.removeEventListener("scroll", getScrollHeight)
+        }
+    }, [loading, scrollHeight])
+    const above900 = useMediaQuery({
+        query: "(min-width:901px)"
+    })
+    const getScrollHeight = () => {
+        setScrollHeight(window.pageYOffset)
+    }
+    console.log(profileTopHeight, scrollHeight)
     return (
         <div className='profile'>
             <Header page="profile" />
-            <div className="profile_top">
+            <div className="profile_top" ref={profileTopRef}>
                 <div className="profile_container">
                     <ProfileCover photos={photos.resources} user={loggedUser} token={loggedUser.token} visitor={visitor} />
                     <ProfilePictureInfos photos={photos.resources} user={loggedUser} token={loggedUser.token}
@@ -82,8 +105,14 @@ const Profile = ({ setShowCreatePostPopup }) => {
                 <div className="profile_container">
                     <div className="bottom_container">
                         <PeopleYouMayKnow />
-                        <div className="profile_grid">
-                            <div className="profile_left">
+                        <div
+                            className={`profile_grid 
+                            ${above900 && scrollHeight >= profileTopHeight && profileLeftHeight > 1000 ?
+                                    "scrollFixed showLess" :
+                                    above900 && scrollHeight >= profileTopHeight && profileLeftHeight < 1000 ?
+                                        "scrollFixed showMore" :
+                                        ""}`}>
+                            <div className="profile_left" ref={profileLeftRef}>
                                 <ProfileIntro visitor={visitor} user={loggedUser}
                                     detailsS={profile?.details} token={loggedUser.token} />
                                 <Photos photos={photos.resources} />

@@ -19,6 +19,7 @@ import { useMediaQuery } from 'react-responsive';
 import "./profile.css"
 import ProfileSkeleton from './ProfileSkeleton';
 import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
+import HeaderSkeleton from './../../components/header/HeaderSkeleton';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -95,7 +96,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     //console.log(profileTopHeight, scrollHeight)
     return (
         <div className='profile'>
-            <Header page="profile" />
+            {loading ? <HeaderSkeleton /> : <Header page="profile" />}
             <div className="profile_top" ref={profileTopRef}>
                 <div className="profile_container">
                     {loading ?

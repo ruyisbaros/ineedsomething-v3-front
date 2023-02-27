@@ -8,6 +8,12 @@ import "./home.css"
 import CreatePost from '../../components/post/create_post/CreatePost';
 import NotActivateUser from './../../components/home/activation/NotActivateUser';
 import SinglePost from '../../components/post/posts_stream/SinglePost';
+import HeaderSkeleton from '../../components/header/HeaderSkeleton';
+import StoriesSkeleton from '../../components/home/stories/StoriesSkeleton';
+import CreatePostSkeleton from '../../components/post/create_post/CreatePostSkeleton';
+import SinglePostSkeleton from '../../components/post/posts_stream/SinglePostSkeleton';
+import HomeLeftSkeleton from '../../components/home/left/HomeLeftSkeleton';
+import HomeRightSkeleton from '../../components/home/right/HomeRightSkeleton';
 
 const Home = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -21,21 +27,25 @@ const Home = ({ setShowCreatePostPopup }) => {
 
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>
-            <Header page="home" />
-            <HomeLeft user={loggedUser} />
+            {!loggedUser ? <HeaderSkeleton /> : <Header page="home" />}
+            {!loggedUser ? <HomeLeftSkeleton /> : <HomeLeft user={loggedUser} />}
             <div className="home_middle" ref={homeMiddle}>
-                <Stories />
+                {!loggedUser ? <StoriesSkeleton /> : <Stories />}
                 {!loggedUser.verified && <NotActivateUser />}
-                <CreatePost user={loggedUser} setShowCreatePostPopup={setShowCreatePostPopup} />
+                {!loggedUser ? <CreatePostSkeleton /> : <CreatePost user={loggedUser} setShowCreatePostPopup={setShowCreatePostPopup} />}
                 <div className="posts">
-                    {
-                        posts?.map(post => (
+                    {!loggedUser ? <SinglePostSkeleton /> :
+                        posts?.map(post =>
+
+                        (
                             <SinglePost key={post._id} user={loggedUser} post={post} />
-                        ))
+                        )
+
+                        )
                     }
                 </div>
             </div>
-            <HomeRight user={loggedUser} />
+            {!loggedUser ? <HomeRightSkeleton /> : <HomeRight user={loggedUser} />}
         </div>
     )
 }

@@ -18,6 +18,7 @@ import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup";
 import { getAllPostsRedux } from "./redux/postsSlicer";
 
+
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
   const dispatch = useDispatch();

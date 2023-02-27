@@ -13,9 +13,12 @@ import GridRight from '../../components/profile/GridRight';
 import SinglePost from './../../components/post/posts_stream/SinglePost';
 import Photos from '../../components/profile/Photos';
 import Friends from '../../components/profile/Friends';
-import "./profile.css"
 import ProfileIntro from '../../components/profile/profile_intro/ProfileIntro';
 import { useMediaQuery } from 'react-responsive';
+
+import "./profile.css"
+import ProfileSkeleton from './ProfileSkeleton';
+import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -89,22 +92,26 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const getScrollHeight = () => {
         setScrollHeight(window.pageYOffset)
     }
-    console.log(profileTopHeight, scrollHeight)
+    //console.log(profileTopHeight, scrollHeight)
     return (
         <div className='profile'>
             <Header page="profile" />
             <div className="profile_top" ref={profileTopRef}>
                 <div className="profile_container">
-                    <ProfileCover photos={photos.resources} user={loggedUser} token={loggedUser.token} visitor={visitor} />
-                    <ProfilePictureInfos photos={photos.resources} user={loggedUser} token={loggedUser.token}
-                        profile={profile} visitor={visitor} />
-                    <ProfileMenu />
+                    {loading ?
+                        <ProfileSkeleton /> :
+                        <>
+                            <ProfileCover photos={photos.resources} user={loggedUser} token={loggedUser.token} visitor={visitor} />
+                            <ProfilePictureInfos photos={photos.resources} user={loggedUser} token={loggedUser.token}
+                                profile={profile} visitor={visitor} />
+                            <ProfileMenu />
+                        </>}
                 </div>
             </div>
             <div className="profile_bottom">
                 <div className="profile_container">
                     <div className="bottom_container">
-                        <PeopleYouMayKnow />
+                        {loading ? <PeopleYouMayKnowSkeleton /> : <PeopleYouMayKnow />}
                         <div
                             className={`profile_grid 
                             ${above900 && scrollHeight >= profileTopHeight && profileLeftHeight > 1000 ?

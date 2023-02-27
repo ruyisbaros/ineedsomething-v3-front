@@ -30,7 +30,7 @@ const ProfileIntro = ({ user, token, detailsS, visitor }) => {
         const { name, value } = e.target
         setInfos({ ...infos, [name]: value })
     }
-    console.log(infos)
+    //console.log(infos)
     const updateUserDetails = async () => {
         try {
             const { data } = await axios.patch("/users/update_user_details", { infos }, {

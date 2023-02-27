@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { updateCurrentUserProfilePic } from '../../redux/currentUserSlice';
 import Cookies from 'js-cookie';
 
-const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, user, token, setError }) => {
+const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, user, setError }) => {
     const [crop, setCrop] = useState({ x: 0, y: 0 })
     const [zoom, setZoom] = useState(1)
     const [croppedAreaPixels, setCroppedAreaPixels] = useState(null)
@@ -59,10 +59,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             formData.append("path", path)
             formData.append("file", blob)
             const { data } = await axios.post("/images/upload", formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "content-type": "multipart/form-data",
-                }
+                headers: { "content-type": "multipart/form-data" }
             })
             console.log(data)
 
@@ -77,8 +74,9 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             const { url } = await uploadImage()
 
             const { data } = await axios.patch("/users/update_profile_pic", { url }, {
-                headers: { Authorization: `Bearer ${token}`, }
-            })
+                headers: { "content-type": "multipart/form-data" }
+            }
+            )
             setLoading(false)
             toast.success(data.message)
             pref.current.style.backgroundImage = `url(${data.url})`

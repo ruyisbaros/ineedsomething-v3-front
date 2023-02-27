@@ -327,6 +327,33 @@ export const stories = [
         image: "../../stories/5.jfif",
     },
 ];
+export const stories2 = [
+    {
+        profile_picture: "../../stories/1a.jpg",
+        profile_name: "Life Story",
+        image: "../../stories/4b.jpg",
+    },
+    {
+        profile_picture: "../../stories/2a.jpg",
+        profile_name: "Elena Hay",
+        image: "../../stories/2b.jpg",
+    },
+    {
+        profile_picture: "../../stories/3a.jpg",
+        profile_name: "Maradona",
+        image: "../../stories/4a.jpg",
+    },
+    {
+        profile_picture: "../../stories/profile4.jfif",
+        profile_name: "Football World",
+        image: "../../stories/4.jpg",
+    },
+    {
+        profile_picture: "../../stories/1b.jpg",
+        profile_name: "Dessi More",
+        image: "../../stories/3b.jpg",
+    },
+];
 
 export const reactsArray = [
     {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ArrowRight, Plus } from '../../../svg'
-import { stories } from "../../../utils/static"
+import { stories2 } from "../../../utils/static"
 import StoryComp from './StoryComp'
 import { useMediaQuery } from 'react-responsive';
 import "./stories.css"
@@ -26,7 +26,7 @@ const Stories = () => {
                 </div>
                 <div className="story_create_text">Create story</div>
             </div>
-            {stories.slice(0, max).map((story, i) => (
+            {stories2.slice(0, max).map((story, i) => (
                 <StoryComp key={i} story={story} />
             ))}
             <div className="white_circle">

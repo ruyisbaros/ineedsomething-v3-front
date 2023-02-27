@@ -41,9 +41,7 @@ function App() {
   const fetchAllPosts = useCallback(async () => {
     try {
       setLoading(true)
-      const { data } = await axios.get("/posts/getAllPosts", {
-        headers: { "Authorization": `Bearer ${loggedUser?.token}` }
-      });
+      const { data } = await axios.get("/posts/getAllPosts");
       console.log(data);
       dispatch(
         getAllPostsRedux(data)
@@ -54,7 +52,7 @@ function App() {
       setLoading(false)
       toast.error(error.response.data.message)
     }
-  }, [dispatch, loggedUser]);
+  }, [dispatch]);
 
   useEffectOnce(() => {
     if (loggedUser) {
@@ -72,7 +70,7 @@ function App() {
     <>
       <ToastContainer position="bottom-center" limit={1} />
       {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup}
-        user={loggedUser} token={loggedUser?.token} />}
+        user={loggedUser} />}
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>

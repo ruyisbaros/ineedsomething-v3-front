@@ -7,7 +7,7 @@ import axios from './../../../axios';
 import { toast } from 'react-toastify';
 import EditUserDetails from './EditUserDetails';
 
-const ProfileIntro = ({ user, token, detailsS, visitor }) => {
+const ProfileIntro = ({ detailsS, visitor }) => {
     const [details, setDetails] = useState(detailsS)
 
     const [infos, setInfos] = useState({
@@ -33,9 +33,7 @@ const ProfileIntro = ({ user, token, detailsS, visitor }) => {
     //console.log(infos)
     const updateUserDetails = async () => {
         try {
-            const { data } = await axios.patch("/users/update_user_details", { infos }, {
-                headers: { "Authorization": `Bearer ${token}` }
-            })
+            const { data } = await axios.patch("/users/update_user_details", { infos })
             console.log(data)
             dispatch(updateCurrentDetails(data.details))
             setShowBio(false)

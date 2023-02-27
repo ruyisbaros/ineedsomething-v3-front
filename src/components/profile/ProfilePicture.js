@@ -3,7 +3,7 @@ import ProfilePictureViewPopup from './ProfilePictureViewPopup';
 import "./profilePictures.css"
 import { useOutsideClick } from './../../utils/helpers';
 
-const ProfilePicture = ({ photos, pref, user, token, setShowProfileImage }) => {
+const ProfilePicture = ({ photos, pref, user, setShowProfileImage }) => {
     const inputRef = useRef(null)
     const profilePictureRef = useRef(null)
     const [image, setImage] = useState(null)
@@ -89,7 +89,7 @@ const ProfilePicture = ({ photos, pref, user, token, setShowProfileImage }) => {
             </div>
             {image && <ProfilePictureViewPopup
                 setError={setError}
-                token={token} user={user}
+                user={user}
                 image={image}
                 setImage={setImage}
                 setShowProfileImage={setShowProfileImage}

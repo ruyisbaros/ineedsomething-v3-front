@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import axios from './../../../axios';
-import { useSelector } from 'react-redux';
 import PropagateLoader from "react-spinners/PropagateLoader"
 import "./notActivateUser.css"
 
 const NotActivateUser = () => {
-    const { token: token1 } = useSelector(store => store.currentUser.loggedUser)
     const [emailStatus, setEmailStatus] = useState("")
     const [loading, setLoading] = useState(false)
 
     const reSendActivateMail = async () => {
         try {
             setLoading(true)
-            const { data } = await axios.post("/auth/resend_activate_email", {}, {
-                headers: { "Authorization": `Bearer ${token1}` }
-            })
+            const { data } = await axios.post("/auth/resend_activate_email", {})
             setLoading(false)
             setEmailStatus(data.message)
         } catch (error) {

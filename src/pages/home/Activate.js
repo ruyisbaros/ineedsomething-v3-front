@@ -15,7 +15,7 @@ import { activateUserAccount } from '../../redux/currentUserSlice';
 import { useEffectOnce } from './../../utils/helpers';
 
 const Activate = () => {
-    const { user, token: token1 } = useSelector(store => store.currentUser.loggedUser)
+    const { loggedUser } = useSelector(store => store.currentUser)
     const { token } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -27,9 +27,7 @@ const Activate = () => {
     const activateAccount = useCallback(async () => {
         try {
             setLoading(true)
-            const { data } = await axios.post("/auth/activate_account", { token }, {
-                headers: { "Authorization": `Bearer ${token1}` }
-            })
+            const { data } = await axios.post("/auth/activate_account", { token })
             setLoading(false)
             setSuccess("Account has been activated successfully")
             Cookies.set("user", JSON.stringify(data))
@@ -45,7 +43,7 @@ const Activate = () => {
                 navigate("/")
             }, 3000)
         }
-    }, [token1, token, dispatch, navigate])
+    }, [token, dispatch, navigate])
 
     useEffectOnce(() => {
         activateAccount()
@@ -66,12 +64,12 @@ const Activate = () => {
                 loading={loading}
             />}
             <Header />
-            <HomeLeft user={user} />
+            <HomeLeft user={loggedUser} />
             <div className="home_middle">
                 <Stories />
-                <CreatePost user={user} />
+                <CreatePost user={loggedUser} />
             </div>
-            <HomeRight user={user} />
+            <HomeRight user={loggedUser} />
         </div>
     )
 }

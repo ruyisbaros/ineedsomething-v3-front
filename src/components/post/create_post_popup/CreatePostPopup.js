@@ -14,7 +14,8 @@ import { createPostWithText } from './../../../services/PostServices';
 import axios from './../../../axios';
 
 
-const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
+const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
+    //console.log(user)
     const postBoxRef = useRef(null)
     const dispatch = useDispatch();
 
@@ -34,13 +35,10 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/images/upload", formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "content-type": "multipart/form-data",
-                }
+                headers: { "content-type": "multipart/form-data" }
             })
             setLoading(false)
-            //console.log(data)
+            console.log(data)
             imgUrls.push(data)
         } catch (error) {
             setLoading(false)
@@ -68,7 +66,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
 
     const handleCreatePost = async () => {
         if (background) {
-            const data = await createPostWithBackground(null, user?._id, token, background, text, null, setLoading, setError)
+            const data = await createPostWithBackground(null, user?._id, background, text, null, setLoading, setError)
             if (data) {
                 setBackground("")
                 setText("")
@@ -83,7 +81,8 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
             await handleImages()
             //console.log(response)
             if (imgUrls.length) {
-                const data = await createPostWithImage(null, user, token, null, text, imgUrls, setLoading, setError)
+                const data = await createPostWithImage(null, user?._id, null, text, imgUrls, setLoading, setError)
+                /* type, user, background, text, images, setLoading, setError */
                 if (data) {
                     setBackground("")
                     setText("")
@@ -97,7 +96,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup, token }) => {
                 toast.error("Something went wrong during image(s) upload!")
             }
         } else if (text) {
-            const data = await createPostWithText(null, user, token, null, text, null, setLoading, setError)
+            const data = await createPostWithText(null, user, null, text, null, setLoading, setError)
             if (data) {
                 setBackground("")
                 setText("")

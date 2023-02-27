@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dots } from '../../svg'
-import { stories } from '../../utils/static';
+import { stories2 } from '../../utils/static';
 import AddFriendSmallCard from './AddFriendSmallCard';
 
 const PeopleYouMayKnow = () => {
@@ -14,7 +14,7 @@ const PeopleYouMayKnow = () => {
             </div>
             <div className="ppl_you_mayKnow_list">
                 {
-                    stories.map((item, i) => (
+                    stories2.map((item, i) => (
                         <AddFriendSmallCard key={i} item={item} />
                     ))
                 }

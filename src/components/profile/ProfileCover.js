@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { updateCurrentUserCoverPic } from '../../redux/currentUserSlice';
 import OldCoversSelectPopup from './OldCoversSelectPopup';
 
-const ProfileCover = ({ photos, visitor, user, token }) => {
+const ProfileCover = ({ photos, visitor, user }) => {
     const [showCoverMenu, setShowCoverMenu] = useState(false)
     const [error, setError] = useState("")
     const [coverImage, setCoverImage] = useState("")
@@ -80,10 +80,7 @@ const ProfileCover = ({ photos, visitor, user, token }) => {
             formData.append("path", path)
             formData.append("file", blob)
             const { data } = await axios.post("/images/upload", formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "content-type": "multipart/form-data",
-                }
+                headers: { "content-type": "multipart/form-data" }
             })
             console.log(data)
 
@@ -98,7 +95,7 @@ const ProfileCover = ({ photos, visitor, user, token }) => {
             const { url } = await uploadCoverImage()
 
             const { data } = await axios.patch("/users/update_cover_pic", { url }, {
-                headers: { Authorization: `Bearer ${token}`, }
+                headers: { "content-type": "multipart/form-data" }
             })
             setLoading(false)
             toast.success(data.message)

@@ -1,12 +1,10 @@
 import axios from './../axios';
 
 
-export const createPostWithBackground = async (type, user, token, background, text, images, setLoading, setError) => {
+export const createPostWithBackground = async (type, user, background, text, images, setLoading, setError) => {
     try {
         setLoading(true)
-        const { data } = await axios.post("/posts/create", { type, background, text, images, user }, {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
+        const { data } = await axios.post("/posts/create", { type, background, text, images, user })
         setLoading(false)
         return data
 
@@ -15,11 +13,11 @@ export const createPostWithBackground = async (type, user, token, background, te
         setLoading(false)
     }
 }
-export const createPostWithImage = async (type, user, token, background, text, images, setLoading, setError) => {
+export const createPostWithImage = async (type, user, background, text, images, setLoading, setError) => {
     try {
         setLoading(true)
         const { data } = await axios.post("/posts/create", { type, background, text, images, user }, {
-            headers: { "Authorization": `Bearer ${token}` }
+            headers: { "content-type": "multipart/form-data" }
         })
         setLoading(false)
         return data
@@ -30,12 +28,10 @@ export const createPostWithImage = async (type, user, token, background, text, i
     }
 
 }
-export const createPostWithText = async (type, user, token, background, text, images, setLoading, setError) => {
+export const createPostWithText = async (type, user, background, text, images, setLoading, setError) => {
     try {
         setLoading(true)
-        const { data } = await axios.post("/posts/create", { type, background, text, images, user }, {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
+        const { data } = await axios.post("/posts/create", { type, background, text, images, user })
         setLoading(false)
         return data
 

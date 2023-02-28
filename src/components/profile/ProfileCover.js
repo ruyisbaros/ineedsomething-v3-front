@@ -74,7 +74,7 @@ const ProfileCover = ({ photos, visitor, user }) => {
             const img = await getCroppedImage()
             const blob = await fetch(img).then(b => b.blob())
             console.log(blob)
-            const path = `iNeedSomething/${user.username}/coverImages`
+            const path = `iNeedSomething/${user.email}/coverImages`
             //2. upload images to cloudinary
             let formData = new FormData()
             formData.append("path", path)

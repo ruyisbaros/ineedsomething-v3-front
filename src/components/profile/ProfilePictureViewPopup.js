@@ -53,7 +53,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             const img = await getCroppedImage()
             const blob = await fetch(img).then(b => b.blob())
             console.log(blob)
-            const path = `iNeedSomething/${user.username}/profileImages`
+            const path = `iNeedSomething/${user.email}/profileImages`
             //2. upload images to cloudinary
             let formData = new FormData()
             formData.append("path", path)

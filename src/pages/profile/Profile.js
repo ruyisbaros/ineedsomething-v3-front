@@ -15,11 +15,10 @@ import Photos from '../../components/profile/Photos';
 import Friends from '../../components/profile/Friends';
 import ProfileIntro from '../../components/profile/profile_intro/ProfileIntro';
 import { useMediaQuery } from 'react-responsive';
-
-import "./profile.css"
 import ProfileSkeleton from './ProfileSkeleton';
 import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
 import HeaderSkeleton from './../../components/header/HeaderSkeleton';
+import "./profile.css"
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -29,7 +28,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const [profile, setProfile] = useState(null)
     const [userPosts, setUserPosts] = useState([])
     const [photos, setPhotos] = useState([])
-    const path = `iNeedSomething/${profile?.username}/*`
+    const path = `iNeedSomething/${profile?.email}/*` 
     const visitor = pageUsername === loggedUser?.username ? false : true
 
     const getProfile = useCallback(async () => {
@@ -54,7 +53,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const getImages = useCallback(async () => {
         try {
             setLoading(true)
-            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 20 });
+            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 10 });
             //console.log(data);
             setPhotos(data)
             setLoading(false)
@@ -92,7 +91,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     //console.log(profileTopHeight, scrollHeight)
     return (
         <div className='profile'>
-            {loading ? <HeaderSkeleton /> : <Header page="profile" />}
+            {!loggedUser ? <HeaderSkeleton /> : <Header page="profile" />}
             <div className="profile_top" ref={profileTopRef}>
                 <div className="profile_container">
                     {loading ?

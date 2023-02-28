@@ -152,6 +152,7 @@ header {
     border-radius: 50%;
     border: 1px solid #b0b3b8;
     transform: translateX(-1px);
+    object-fit: cover;
 }
 
 .profile_link span {

@@ -52,7 +52,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             return dataURItoBlob(img)
         })
 
-        const path = `iNeedSomething/${user.username}/postImages`
+        const path = `iNeedSomething/${user.email}/postImages`
         //2. upload images to cloudinary
         for (const img of postImages) {
             let formData = new FormData()

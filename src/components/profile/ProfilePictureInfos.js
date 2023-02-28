@@ -12,7 +12,7 @@ const ProfilePictureInfos = ({ photos, user, profile, visitor }) => {
                 <div className="profile_w_img">
                     <div className="profile_w_bg"
                         ref={profilePhotoRef}
-                        style={{ backgroundImage: `url(${profile?.picture})`, backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
+                        style={{ backgroundImage: `url(${profile?.picture})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center" }}
                     ></div>
                     {!visitor && <div className="profile_circle hover1" onClick={() => setShowProfileImage(true)}>
                         <i className="camera_filled_icon"></i>

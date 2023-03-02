@@ -1,5 +1,12 @@
-import axios from './../axios';
+import axios, { APP_ENVIRONMENT } from './../axios';
 
+let ORIGIN = '';
+
+if (APP_ENVIRONMENT === 'local') {
+    ORIGIN = 'http://localhost:3000';
+} else if (APP_ENVIRONMENT === 'development') {
+    ORIGIN = 'https://ineedsomething.org';
+} 
 
 export const createPostWithBackground = async (type, user, background, text, images, setLoading, setError) => {
     try {
@@ -17,7 +24,10 @@ export const createPostWithImage = async (type, user, background, text, images, 
     try {
         setLoading(true)
         const { data } = await axios.post("/posts/create", { type, background, text, images, user }, {
-            headers: { "content-type": "multipart/form-data" }
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Access-Control-Allow-Origin": `${ORIGIN}`
+            }
         })
         setLoading(false)
         return data

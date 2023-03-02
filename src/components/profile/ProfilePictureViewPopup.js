@@ -3,7 +3,7 @@ import Cropper from 'react-easy-crop'
 import { toast } from 'react-toastify';
 import { getCroppedImg } from '../../utils/helpers';
 import { PulseLoader } from 'react-spinners';
-import axios from './../../axios';
+import axios, { APP_ENVIRONMENT } from './../../axios';
 import { useDispatch } from 'react-redux';
 import { updateCurrentUserProfilePic } from '../../redux/currentUserSlice';
 import Cookies from 'js-cookie';
@@ -48,6 +48,13 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
         }
     }, [croppedAreaPixels])
     //console.log(image)
+    let ORIGIN = '';
+
+    if (APP_ENVIRONMENT === 'local') {
+        ORIGIN = 'http://localhost:3000';
+    } else if (APP_ENVIRONMENT === 'development') {
+        ORIGIN = 'https://ineedsomething.org';
+    } 
     const uploadImage = async () => {
         try {
             const img = await getCroppedImage()
@@ -59,7 +66,10 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             formData.append("path", path)
             formData.append("file", blob)
             const { data } = await axios.post("/images/upload", formData, {
-                headers: { "content-type": "multipart/form-data" }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Access-Control-Allow-Origin": `${ORIGIN}`
+                }
             })
             console.log(data)
 
@@ -74,7 +84,10 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             const { url } = await uploadImage()
 
             const { data } = await axios.patch("/users/update_profile_pic", { url }, {
-                headers: { "content-type": "multipart/form-data" }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Access-Control-Allow-Origin": `${ORIGIN}`
+                }
             }
             )
             setLoading(false)

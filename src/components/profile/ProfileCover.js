@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { getCroppedImg, useOutsideClick } from '../../utils/helpers';
 import Cropper from 'react-easy-crop'
 import { PulseLoader } from 'react-spinners';
-import axios from './../../axios';
+import axios, { APP_ENVIRONMENT } from './../../axios';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
@@ -69,6 +69,13 @@ const ProfileCover = ({ photos, visitor, user }) => {
         }
     }, [croppedAreaPixels])
     //console.log(image)
+    let ORIGIN = '';
+
+    if (APP_ENVIRONMENT === 'local') {
+        ORIGIN = 'http://localhost:3000';
+    } else if (APP_ENVIRONMENT === 'development') {
+        ORIGIN = 'https://ineedsomething.org';
+    } 
     const uploadCoverImage = async () => {
         try {
             const img = await getCroppedImage()
@@ -80,7 +87,10 @@ const ProfileCover = ({ photos, visitor, user }) => {
             formData.append("path", path)
             formData.append("file", blob)
             const { data } = await axios.post("/images/upload", formData, {
-                headers: { "content-type": "multipart/form-data" }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Access-Control-Allow-Origin": `${ORIGIN}`
+                }
             })
             console.log(data)
 
@@ -95,7 +105,10 @@ const ProfileCover = ({ photos, visitor, user }) => {
             const { url } = await uploadCoverImage()
 
             const { data } = await axios.patch("/users/update_cover_pic", { url }, {
-                headers: { "content-type": "multipart/form-data" }
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Access-Control-Allow-Origin": `${ORIGIN}`
+                }
             })
             setLoading(false)
             toast.success(data.message)

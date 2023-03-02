@@ -4,7 +4,7 @@ import RegisterInput from '../inputs/registerInput/RegisterInput'
 import * as Yup from "yup"
 import { toast } from 'react-toastify'
 import CircleLoader from "react-spinners/CircleLoader"
-import axios from '../../axios'
+import axios, { APP_ENVIRONMENT } from '../../axios'
 import { useDispatch } from 'react-redux'
 import { userLoggedSuccess } from '../../redux/currentUserSlice'
 import Cookies from "js-cookie"
@@ -54,11 +54,22 @@ const RegisterForm = ({ visible, setVisible }) => {
   useOutsideClick(el, () => {
     setVisible(!visible)
   })
+  let ORIGIN = '';
+
+
+  if (APP_ENVIRONMENT === 'local') {
+    ORIGIN = 'http://localhost:3000';
+  } else if (APP_ENVIRONMENT === 'development') {
+    ORIGIN = 'https://ineedsomething.org';
+  } 
   const uploadImage = async (formData, setLoading) => {
     try {
       setLoading(true)
       const { data } = await axios.post("/images/uploadForRegister", formData, {
-        headers: { "content-type": "multipart/form-data" }
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": `${ORIGIN}`
+        }
       })
       setLoading(false)
       //console.log(data.url)

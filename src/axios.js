@@ -16,7 +16,7 @@ if (APP_ENVIRONMENT === 'local') {
 }
 
 const BASE_URL = `${BASE_ENDPOINT}/api/v3`;
-console.log(BASE_ENDPOINT)
+//console.log(BASE_ENDPOINT)
 
 export default axios.create({
     baseURL: BASE_URL,

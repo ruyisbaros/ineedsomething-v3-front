@@ -104,12 +104,7 @@ const ProfileCover = ({ photos, visitor, user }) => {
             setLoading(true)
             const { url } = await uploadCoverImage()
 
-            const { data } = await axios.patch("/users/update_cover_pic", { url }, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    "Access-Control-Allow-Origin": `${ORIGIN}`
-                }
-            })
+            const { data } = await axios.patch("/users/update_cover_pic", { url })
             setLoading(false)
             toast.success(data.message)
             //pref.current.style.backgroundImage = `url(${data.url})`

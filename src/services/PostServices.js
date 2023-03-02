@@ -23,12 +23,7 @@ export const createPostWithBackground = async (type, user, background, text, ima
 export const createPostWithImage = async (type, user, background, text, images, setLoading, setError) => {
     try {
         setLoading(true)
-        const { data } = await axios.post("/posts/create", { type, background, text, images, user }, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Access-Control-Allow-Origin": `${ORIGIN}`
-            }
-        })
+        const { data } = await axios.post("/posts/create", { type, background, text, images, user })
         setLoading(false)
         return data
 

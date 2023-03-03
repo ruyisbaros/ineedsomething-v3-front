@@ -31,20 +31,12 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
     })
     /* Handle images */
     let imgUrls = []
-    let ORIGIN = '';
-
-    if (APP_ENVIRONMENT === 'local') {
-        ORIGIN = 'http://localhost:3000';
-    } else if (APP_ENVIRONMENT === 'development') {
-        ORIGIN = 'https://ineedsomething.org';
-    } 
     const uploadImages = async (formData, setLoading) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/images/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Access-Control-Allow-Origin": `${ORIGIN}`
                 }
             })
             setLoading(false)

@@ -21,13 +21,11 @@ const RegisterForm = ({ visible, setVisible }) => {
     email: "",
     password: "",
     gender: "",
-    picture: "",
-    avatarColor: "",
     bYear: new Date().getFullYear(),
     bMonth: new Date().getMonth() + 1,
     bDay: new Date().getDate()
   })
-  const { first_name, last_name, email, password, gender, bYear, bMonth, bDay, picture, avatarColor } = registerUser
+  const { first_name, last_name, email, password, gender, bYear, bMonth, bDay } = registerUser
   const [dateError, setDateError] = useState("")
   const [genderError, setGenderError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -54,21 +52,13 @@ const RegisterForm = ({ visible, setVisible }) => {
   useOutsideClick(el, () => {
     setVisible(!visible)
   })
-  let ORIGIN = '';
 
-
-  if (APP_ENVIRONMENT === 'local') {
-    ORIGIN = 'http://localhost:3000';
-  } else if (APP_ENVIRONMENT === 'development') {
-    ORIGIN = 'https://ineedsomething.org';
-  } 
   const uploadImage = async (formData, setLoading) => {
     try {
       setLoading(true)
       const { data } = await axios.post("/images/uploadForRegister", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "Access-Control-Allow-Origin": `${ORIGIN}`
         }
       })
       setLoading(false)
@@ -84,15 +74,16 @@ const RegisterForm = ({ visible, setVisible }) => {
     try {
       setLoading(true)
       const avatarColor = createAvatarColor()
-      const pictureB64 = generateAvatar(first_name.charAt(0).toUpperCase(), avatarColor)
-      const pic = dataURItoBlob(pictureB64)
+      const picture = generateAvatar(first_name.charAt(0).toUpperCase(), avatarColor)
+      /* const pic = dataURItoBlob(pictureB64)
       //console.log(pic)
       const path = `iNeedSomething/${email}/profileImages`
       let formData = new FormData()
       formData.append("path", path)
       formData.append("file", pic)
-      const picture = await uploadImage(formData, setLoading)
-      const { data } = await axios.post("/auth/register", { ...registerUser, picture, avatarColor })
+      const picture = await uploadImage(formData, setLoading) */
+      const path = `iNeedSomething/${email}/profileImages`
+      const { data } = await axios.post("/auth/register", { ...registerUser, picture, path, avatarColor })
       console.log(data)
       dispatch(userLoggedSuccess(data))
       Cookies.set("user", JSON.stringify(data))
@@ -116,7 +107,7 @@ const RegisterForm = ({ visible, setVisible }) => {
         <Formik
           enableReinitialize
           initialValues={
-            { first_name, last_name, email, password, gender, bYear, bMonth, bDay, picture, avatarColor }
+            { first_name, last_name, email, password, gender, bYear, bMonth, bDay }
           }
           validationSchema={registerValidation}
           onSubmit={() => {

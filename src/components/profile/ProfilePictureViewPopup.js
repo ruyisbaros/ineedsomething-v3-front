@@ -33,7 +33,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
     const getCroppedImage = useCallback(async (show) => {
         try {
             const img = await getCroppedImg(image, croppedAreaPixels)
-            //console.log(img)
+            console.log(img)
             if (show) {
                 setImage(img)
                 setZoom(1)
@@ -48,14 +48,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
         }
     }, [croppedAreaPixels])
     //console.log(image)
-    let ORIGIN = '';
-    const APP_ENVIRONMENT = 'development';
 
-    if (APP_ENVIRONMENT === 'local') {
-        ORIGIN = 'http://localhost:3000';
-    } else if (APP_ENVIRONMENT === 'development') {
-        ORIGIN = 'https://ineedsomething.org';
-    } 
     const uploadImage = async () => {
         try {
             const img = await getCroppedImage()
@@ -69,7 +62,6 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
             const { data } = await axios.post("/images/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Access-Control-Allow-Origin": `${ORIGIN}`
                 }
             })
             console.log(data)
@@ -82,9 +74,10 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
     const updateProfilePicture = async () => {
         try {
             setLoading(true)
-            const { url } = await uploadImage()
-
-            const { data } = await axios.patch("/users/update_profile_pic", { url })
+            //const { url } = await uploadImage()
+            const pic = await getCroppedImage()
+            const path = `iNeedSomething/${user.email}/profileImages`
+            const { data } = await axios.patch("/users/update_profile_pic", { pic, path })
             setLoading(false)
             toast.success(data.message)
             pref.current.style.backgroundImage = `url(${data.url})`

@@ -28,6 +28,7 @@ const ProfilePicture = ({ photos, pref, user, setShowProfileImage }) => {
             setImage(readerEvent.target.result)
         }
     }
+    console.log(typeof image)
     //useOutsideClick(profilePictureRef, () => { setShowProfileImage(false) })
     return (
         <div className='blur'>

@@ -6,10 +6,11 @@ import { avatarColors } from './static';
 export function createAvatarColor() {
     return avatarColors[floor(random(0.9) * avatarColors.length)]
 }
-
+/* <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg" id="external-flamingo" crossorigin="anonymous"> */
 export function generateAvatar(text, bcgColor, fgColor = "white") {
 
     const canvas = document.createElement("canvas")
+    canvas.setAttribute("crossOrigin", "anonymous")
     const context = canvas.getContext("2d")
 
     context.fillStyle = bcgColor
@@ -19,6 +20,7 @@ export function generateAvatar(text, bcgColor, fgColor = "white") {
     context.textAlign = "center"
     context.textBaseline = "middle"
     context.fillText(text, 155, 85)
+    //context.setAttribute("crossOrigin", "anonymous")
 
     return canvas.toDataURL("image/png")
 }
@@ -128,7 +130,9 @@ export async function getCroppedImg(
 ) {
     const image = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
+    canvas.setAttribute("crossOrigin", "anonymous")
     const ctx = canvas.getContext("2d");
+
 
     if (!ctx) {
         return null;
@@ -173,12 +177,12 @@ export async function getCroppedImg(
     ctx.putImageData(data, 0, 0);
 
     // As Base64 string
-    // return canvas.toDataURL('image/jpeg');
+    return canvas.toDataURL('image/jpeg');
 
     // As a blob
-    return new Promise((resolve, reject) => {
+    /* return new Promise((resolve, reject) => {
         canvas.toBlob((file) => {
             resolve(URL.createObjectURL(file));
         }, "image/jpeg");
-    });
+    }); */
 }

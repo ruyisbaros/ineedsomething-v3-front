@@ -33,7 +33,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
     const getCroppedImage = useCallback(async (show) => {
         try {
             const img = await getCroppedImg(image, croppedAreaPixels)
-            console.log(img)
+            //console.log(img)
             if (show) {
                 setImage(img)
                 setZoom(1)
@@ -49,7 +49,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
     }, [croppedAreaPixels])
     //console.log(image)
 
-    const uploadImage = async () => {
+    /* const uploadImage = async () => {
         try {
             const img = await getCroppedImage()
             const blob = await fetch(img).then(b => b.blob())
@@ -70,7 +70,7 @@ const ProfilePictureViewPopup = ({ pref, setShowProfileImage, image, setImage, u
         } catch (error) {
             setError(error.response.data.message)
         }
-    }
+    } */
     const updateProfilePicture = async () => {
         try {
             setLoading(true)

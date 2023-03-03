@@ -12,7 +12,7 @@ const SinglePost = ({ user, post, profile }) => {
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const dotRef = useRef(null)
-
+    console.log(post.images)
 
     return (
         <div className='post' style={{ width: `${profile && "100%"}` }}>
@@ -71,7 +71,7 @@ const SinglePost = ({ user, post, profile }) => {
                             }
                         >
                             {post.images.slice(0, 5).map((image, i) => (
-                                <img src={image.url} key={i} alt="" className={`img-${i}`} />
+                                <img src={image} key={i} alt="" className={`img-${i}`} />
                             ))}
                             {post.images.length > 5 && (
                                 <div className="more-pics-shadow">

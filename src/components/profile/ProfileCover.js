@@ -69,13 +69,7 @@ const ProfileCover = ({ photos, visitor, user }) => {
         }
     }, [croppedAreaPixels])
     //console.log(image)
-    let ORIGIN = '';
 
-    if (APP_ENVIRONMENT === 'local') {
-        ORIGIN = 'http://localhost:3000';
-    } else if (APP_ENVIRONMENT === 'development') {
-        ORIGIN = 'https://ineedsomething.org';
-    } 
     const uploadCoverImage = async () => {
         try {
             const img = await getCroppedImage()
@@ -89,7 +83,6 @@ const ProfileCover = ({ photos, visitor, user }) => {
             const { data } = await axios.post("/images/upload", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Access-Control-Allow-Origin": `${ORIGIN}`
                 }
             })
             console.log(data)
@@ -102,9 +95,10 @@ const ProfileCover = ({ photos, visitor, user }) => {
     const updateCoverPicture = async () => {
         try {
             setLoading(true)
-            const { url } = await uploadCoverImage()
-
-            const { data } = await axios.patch("/users/update_cover_pic", { url })
+            //const { url } = await uploadCoverImage()
+            const pic = await getCroppedImage()
+            const path = `iNeedSomething/${user.email}/profileImages`
+            const { data } = await axios.patch("/users/update_cover_pic", { pic, path })
             setLoading(false)
             toast.success(data.message)
             //pref.current.style.backgroundImage = `url(${data.url})`

@@ -25,13 +25,13 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
     const [error, setError] = useState("")
     const [images, setImages] = useState([])
     const [background, setBackground] = useState("")
-    console.log(error)
+    //console.log(error)
     useOutsideClick(postBoxRef, () => {
         setShowCreatePostPopup(false)
     })
     /* Handle images */
-    let imgUrls = []
-    const uploadImages = async (formData, setLoading) => {
+    //let imgUrls = []
+    /* const uploadImages = async (formData, setLoading) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/images/upload", formData, {
@@ -46,9 +46,9 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             setLoading(false)
             //toast.error(error.response.data.message)
         }
-    }
+    } */
 
-    const handleImages = async () => {
+    /* const handleImages = async () => {
         //1. Convert base64 to string
         const postImages = images.map((img, i) => {
             return dataURItoBlob(img)
@@ -62,9 +62,8 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             formData.append("file", img)
             await uploadImages(formData, setLoading)
         }
-    }
+    } */
     /* Handle images */
-
 
     const handleCreatePost = async () => {
         if (background) {
@@ -79,11 +78,10 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
                 }, 1000)
             }
         } else if (images.length) {
-
-            await handleImages()
+            //await handleImages()
             //console.log(response)
-            if (imgUrls.length) {
-                const data = await createPostWithImage(null, user?._id, null, text, imgUrls, setLoading, setError)
+            const path = `iNeedSomething/${user.email}/postImages`
+            const data = await createPostWithImage(path, user?._id, null, text, images, setLoading, setError)
                 /* type, user, background, text, images, setLoading, setError */
                 if (data) {
                     setBackground("")
@@ -94,9 +92,7 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
                         setShowCreatePostPopup(false)
                     }, 1000)
                 }
-            } else {
-                toast.error("Something went wrong during image(s) upload!")
-            }
+
         } else if (text) {
             const data = await createPostWithText(null, user, null, text, null, setLoading, setError)
             if (data) {

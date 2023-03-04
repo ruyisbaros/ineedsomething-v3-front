@@ -25,10 +25,10 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const { username } = useParams()
     const pageUsername = username === undefined ? loggedUser?.username : username
     const [loading, setLoading] = useState(false)
+    const [loading1, setLoading1] = useState(false)
     const [profile, setProfile] = useState(null)
     const [userPosts, setUserPosts] = useState([])
     const [photos, setPhotos] = useState([])
-    const path = `iNeedSomething/${profile?.email}/*` 
     const visitor = pageUsername === loggedUser?.username ? false : true
 
     const getProfile = useCallback(async () => {
@@ -50,19 +50,32 @@ const Profile = ({ setShowCreatePostPopup }) => {
         getProfile()
     }, [getProfile])
 
-    const getImages = useCallback(async () => {
+   /*  const getImages = useCallback(async () => {
         try {
-            setLoading(true)
+            setLoading1(true)
             const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 10 });
             //console.log(data);
             setPhotos(data)
-            setLoading(false)
+            setLoading1(false)
 
         } catch (error) {
-            setLoading(false)
+            setLoading1(false)
             toast.error(error.response.data.message)
         }
-    }, [path])
+    }, [path]) */
+    const getImages = useCallback(async () => {
+        try {
+            setLoading1(true)
+            const { data } = await axios.get(`/images/listImages2/20`);
+            console.log(data);
+            setPhotos(data)
+            setLoading1(false)
+
+        } catch (error) {
+            setLoading1(false)
+            toast.error(error.response.data.message)
+        }
+    }, [])
 
     useEffect(() => {
         getImages()
@@ -97,8 +110,8 @@ const Profile = ({ setShowCreatePostPopup }) => {
                     {loading ?
                         <ProfileSkeleton /> :
                         <>
-                            <ProfileCover photos={photos.resources} user={loggedUser} visitor={visitor} />
-                            <ProfilePictureInfos photos={photos.resources} user={loggedUser} 
+                            <ProfileCover photos={photos} user={loggedUser} visitor={visitor} />
+                            <ProfilePictureInfos photos={photos} user={loggedUser} 
                                 profile={profile} visitor={visitor} />
                             <ProfileMenu />
                         </>}
@@ -118,7 +131,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
                             <div className="profile_left" ref={profileLeftRef}>
                                 <ProfileIntro visitor={visitor} user={loggedUser}
                                     detailsS={profile?.details} />
-                                <Photos photos={photos.resources} />
+                                <Photos photos={photos} />
                                 <Friends friends={profile?.friends} />
                             </div>
                             <div className="profile_right">

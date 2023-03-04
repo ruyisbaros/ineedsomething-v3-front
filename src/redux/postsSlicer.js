@@ -11,10 +11,10 @@ const postSlicer = createSlice({
     initialState,
     reducers: {
         addPostRedux: (state, action) => {
-            state.posts = [...state.posts, action.payload]
+            state.posts = [...state.posts, action.payload].sort((a, b) => b.createdAt - a.createdAt)
         },
         getAllPostsRedux: (state, action) => {
-            state.posts = [...action.payload]
+            state.posts = [...action.payload].sort((a, b) => b.createdAt - a.createdAt)
         }
     },
 });

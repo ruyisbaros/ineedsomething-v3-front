@@ -65,7 +65,7 @@ const ProfilePicture = ({ photos, pref, user, setShowProfileImage }) => {
                         <div className="old_pictures">
                             {photos && photos.length > 0 &&
                                 photos
-                                .filter(photo => photo.folder === `iNeedSomething/${user?.email}/profileImages`)
+                                .filter(photo => photo.type === "profile")
                                     .map(photo => (
                                         <img key={photo.public_id} src={photo.url} alt=""
                                             onClick={() => setImage(photo.url)}
@@ -77,7 +77,7 @@ const ProfilePicture = ({ photos, pref, user, setShowProfileImage }) => {
                         <div className="old_pictures">
                             {photos && photos.length > 0 &&
                                 photos
-                                .filter(photo => photo.folder === `iNeedSomething/${user?.email}/postImages`)
+                                .filter(photo => photo.type === "post")
                                     .map(photo => (
                                         <img key={photo.public_id} src={photo.url} alt=""
                                             onClick={() => setImage(photo.url)}

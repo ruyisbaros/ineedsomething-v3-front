@@ -12,7 +12,7 @@ const SinglePost = ({ user, post, profile }) => {
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
     const dotRef = useRef(null)
-    console.log(post.images)
+    //console.log(post.images)
 
     return (
         <div className='post' style={{ width: `${profile && "100%"}` }}>

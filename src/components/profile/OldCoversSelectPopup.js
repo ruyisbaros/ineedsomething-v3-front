@@ -19,7 +19,7 @@ const OldCoversSelectPopup = ({ setOldCoverShow, setCoverImage, photos, user }) 
                     <div className="old_pictures">
                         {photos && photos?.length > 0 &&
                             photos
-                                ?.filter(photo => photo.folder === `iNeedSomething/${user?.username}/profileImages`)
+                            ?.filter(photo => photo.type === "profile")
                                 .map(photo => (
                                     <img key={photo.public_id} src={photo.url} alt=""
                                         onClick={() => setCoverImage(photo.url)}
@@ -31,7 +31,7 @@ const OldCoversSelectPopup = ({ setOldCoverShow, setCoverImage, photos, user }) 
                     <div className="old_pictures">
                         {photos && photos.length > 0 &&
                             photos
-                                .filter(photo => photo.folder === `iNeedSomething/${user?.username}/coverImages`)
+                            .filter(photo => photo.type === "cover")
                                 .map(photo => (
                                     <img className='cover' key={photo.public_id} src={photo.url} alt=""
                                         onClick={() => setCoverImage(photo.url)}

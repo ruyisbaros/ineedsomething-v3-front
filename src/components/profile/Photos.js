@@ -20,7 +20,7 @@ const Photos = ({ photos }) => {
             <div className="profile_card_grid">
                 {photos && photos.length > 0 &&
                     photos.map((img) => (
-                        <div key={img.asset_id} className="profile_photo_card">
+                        <div key={img._id} className="profile_photo_card">
                             <img src={img?.url} alt="" />
                         </div>
                     ))}

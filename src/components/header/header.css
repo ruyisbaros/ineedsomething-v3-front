@@ -405,6 +405,7 @@ header {
     box-shadow: 2px 2px 2px var(--shadow-1);
     user-select: none;
     padding: 10px;
+    z-index: 99999;
 }
 
 .menu_splitter {

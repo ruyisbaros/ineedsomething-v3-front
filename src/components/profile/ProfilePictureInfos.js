@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import ProfilePicture from './ProfilePicture';
 import FriendShip from './FriendShip';
 
-const ProfilePictureInfos = ({ photos, user, profile, visitor, friendShip }) => {
+const ProfilePictureInfos = ({ photos, user, profile, visitor }) => {
     const [showProfileImage, setShowProfileImage] = useState(false)
     const profilePhotoRef = useRef(null)
 
@@ -28,7 +28,7 @@ const ProfilePictureInfos = ({ photos, user, profile, visitor, friendShip }) => 
                 </div>
             </div>
             {visitor ?
-                <FriendShip friendShip={friendShip} />
+                <FriendShip />
                 : <div className="profile_w_right">
                 <div className="blue_btn">
                     <img src="../../../icons/plus.png" className='invert' alt="" />

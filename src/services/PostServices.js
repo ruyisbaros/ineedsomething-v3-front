@@ -1,12 +1,4 @@
-import axios, { APP_ENVIRONMENT } from './../axios';
-
-let ORIGIN = '';
-
-if (APP_ENVIRONMENT === 'local') {
-    ORIGIN = 'http://localhost:3000';
-} else if (APP_ENVIRONMENT === 'development') {
-    ORIGIN = 'https://ineedsomething.org';
-} 
+import axios from './../axios';
 
 export const createPostWithBackground = async (type, user, background, text, images, setLoading, setError) => {
     try {

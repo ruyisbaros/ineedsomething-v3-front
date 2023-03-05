@@ -1,6 +1,6 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from './../../axios';
 import { toast } from 'react-toastify';
 import Header from './../../components/header/Header';
@@ -19,20 +19,37 @@ import ProfileSkeleton from './ProfileSkeleton';
 import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
 import HeaderSkeleton from './../../components/header/HeaderSkeleton';
 import "./profile.css"
+import { fetchProfile } from '../../redux/profileSlicer';
+import { fetchProfileThunk } from './../../services/profileServices';
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
+    const { profilePosts, loading, profile } = useSelector(store => store.profile)
     const { username } = useParams()
+    const dispatch = useDispatch()
     const pageUsername = username === undefined ? loggedUser?.username : username
-    const [loading, setLoading] = useState(false)
+    //const [loading, setLoading] = useState(false)
     const [loading1, setLoading1] = useState(false)
-    const [profile, setProfile] = useState(null)
-    const [userPosts, setUserPosts] = useState([])
+    //const [profile, setProfile] = useState(null)
+   // const [visitor, setVisitor] = useState(null)
+    //const [pageUsername, setPageUsername] = useState(null)
+    //const [userPosts, setUserPosts] = useState([])
     const [photos, setPhotos] = useState([])
-    const [friendShip, setFriendShip] = useState(null)
     const visitor = pageUsername === loggedUser?.username ? false : true
 
-    const getProfile = useCallback(async () => {
+    /* useEffect(() => {
+        if (username) {
+            setPageUsername(username)
+            setVisitor(true)
+        } else {
+            setPageUsername(loggedUser?.username)
+            setVisitor(false)
+        }
+    }, [username, loggedUser]) */
+    useEffect(() => {
+        dispatch(fetchProfileThunk(pageUsername))
+    }, [dispatch, pageUsername])
+    /* const getProfile = useCallback(async () => {
         try {
             setLoading(true)
             const { data } = await axios.get(`/users/get_profile/${pageUsername}`);
@@ -40,18 +57,18 @@ const Profile = ({ setShowCreatePostPopup }) => {
             setLoading(false)
             setProfile(data.user)
             setUserPosts(data.posts)
-            setFriendShip(data.friendship)
+            dispatch(fetchProfile(data.user))
 
         } catch (error) {
             setLoading(false)
             toast.error(error.response.data.message)
         }
-    }, [pageUsername])
+    }, [pageUsername, dispatch])
 
     useEffect(() => {
         getProfile()
-    }, [getProfile])
-
+    }, [getProfile]) */
+    //console.log(friendShip)
 
     const getImages = useCallback(async () => {
         try {
@@ -103,7 +120,6 @@ const Profile = ({ setShowCreatePostPopup }) => {
                             <ProfileCover photos={photos} user={loggedUser} visitor={visitor} />
                             <ProfilePictureInfos photos={photos} user={loggedUser} 
                                 profile={profile} visitor={visitor}
-                                friendShip={friendShip}
                             />
                             <ProfileMenu />
                         </>}
@@ -132,8 +148,8 @@ const Profile = ({ setShowCreatePostPopup }) => {
                                 <GridRight />
                                 <div className="posts">
                                     {
-                                        (userPosts && userPosts.length > 0) ?
-                                            userPosts.map(post => (
+                                        (profilePosts && profilePosts.length > 0) ?
+                                            profilePosts.map(post => (
                                                 <SinglePost key={post._id} profile post={post} user={loggedUser} />
                                             ))
                                             :

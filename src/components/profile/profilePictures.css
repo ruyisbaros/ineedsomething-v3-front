@@ -279,6 +279,8 @@
     gap: 15px;
 }
 
+/* Profile friends */
+
 /* Responsive styles */
 @media (max-width:720px) {
     .postBox.pictureBox {

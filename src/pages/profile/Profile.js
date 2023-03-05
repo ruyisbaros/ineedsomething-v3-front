@@ -70,7 +70,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const above900 = useMediaQuery({
         query: "(min-width:901px)"
     })
-    const getScrollHeight = () => {
+    function getScrollHeight() {
         setScrollHeight(window.pageYOffset)
     }
     //console.log(profileTopHeight, scrollHeight)
@@ -97,14 +97,14 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         {loading ? <PeopleYouMayKnowSkeleton /> : <PeopleYouMayKnow />}
                         <div
                             className={`profile_grid 
-                            ${above900 && scrollHeight >= profileTopHeight && profileLeftHeight > 1000 ?
+                            ${profilePosts.length > 0 && above900 && scrollHeight >= profileTopHeight && profileLeftHeight > 1000 ?
                                     "scrollFixed showLess" :
-                                    above900 && scrollHeight >= profileTopHeight && profileLeftHeight < 1000 ?
+                                profilePosts.length > 0 && above900 && scrollHeight >= profileTopHeight && profileLeftHeight < 1000 ?
                                         "scrollFixed showMore" :
                                         ""}`}>
-                            <div className="profile_left" ref={profileLeftRef}>
+                            <div className="profile_left scrollbar" ref={profileLeftRef}>
                                 <ProfileIntro visitor={visitor} user={loggedUser}
-                                   /*  detailsS={profile?.details} */ />
+                                    detailsS={profile?.details} />
                                 <Photos photos={photos} />
                                 <Friends friends={profile?.friends} />
                             </div>

@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react'
 import Bio from './Bio'
 import "./profileIntro.css"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { updateCurrentDetails } from '../../../redux/currentUserSlice';
 import axios from './../../../axios';
 import { toast } from 'react-toastify';
 import EditUserDetails from './EditUserDetails';
 
-const ProfileIntro = ({ visitor }) => {
-    //const [details, setDetails] = useState(detailsS)
-    const { loggedUser } = useSelector(store => store.currentUser)
+const ProfileIntro = ({ detailsS, visitor }) => {
+    const [details, setDetails] = useState(detailsS)
 
     const [infos, setInfos] = useState({
-        bio: loggedUser?.details?.bio ? loggedUser?.details?.bio : "",
-        otherName: loggedUser?.details?.otherName ? loggedUser?.details?.otherName : "",
-        job: loggedUser?.details?.job ? loggedUser?.details?.job : "",
-        workplace: loggedUser?.details?.workplace ? loggedUser?.details?.workplace : "",
-        highSchool: loggedUser?.details?.highSchool ? loggedUser?.details?.highSchool : "",
-        college: loggedUser?.details?.college ? loggedUser?.details?.college : "",
-        currentCity: loggedUser?.details?.currentCity ? loggedUser?.details?.currentCity : "",
-        hometown: loggedUser?.details?.hometown ? loggedUser?.details?.hometown : "",
-        relationship: loggedUser?.details?.relationship ? loggedUser?.details?.relationship : "",
-        instagram: loggedUser?.details?.instagram ? loggedUser?.details?.instagram : "",
+        bio: details?.bio ? details?.bio : "",
+        otherName: details?.otherName ? details?.otherName : "",
+        job: details?.job ? details?.job : "",
+        workplace: details?.workplace ? details?.workplace : "",
+        highSchool: details?.highSchool ? details?.highSchool : "",
+        college: details?.college ? details?.college : "",
+        currentCity: details?.currentCity ? details?.currentCity : "",
+        hometown: details?.hometown ? details?.hometown : "",
+        relationship: details?.relationship ? details?.relationship : "",
+        instagram: details?.instagram ? details?.instagram : "",
     })
 
     const [showBio, setShowBio] = useState(false)
@@ -31,7 +30,7 @@ const ProfileIntro = ({ visitor }) => {
         const { name, value } = e.target
         setInfos({ ...infos, [name]: value })
     }
-    console.log(infos)
+    //console.log(infos)
     const updateUserDetails = async () => {
         try {
             const { data } = await axios.patch("/users/update_user_details", { infos })
@@ -42,108 +41,107 @@ const ProfileIntro = ({ visitor }) => {
             toast.error(error.response.data.message)
         }
     }
-    /* useEffect(() => {
+    useEffect(() => {
         setDetails(detailsS)
         setInfos(details)
-    }, [detailsS, details]) */
+    }, [detailsS, details])
     return (
         <div className='profile_card'>
             <div className="profile_card_header">Intro</div>
             {
-                loggedUser?.details?.bio && !showBio &&
+                details?.bio && !showBio &&
                 <div className='info_col'>
-                        <span className="info_text">{loggedUser?.details?.bio}</span>
+                        <span className="info_text">{details?.bio}</span>
                     {!visitor &&
                         <button onClick={() => setShowBio(true)} className='gray_btn hover1'>Edit Bio</button>}
                 </div>
             }
-            {!loggedUser?.details?.bio && !showBio && !visitor &&
+            {!details?.bio && !showBio && !visitor &&
                 <button onClick={() => setShowBio(true)} className='gray_btn hover1 w100'>Add Bio</button>
             }
             {showBio && <Bio
                 setShowBio={setShowBio}
                 value={infos.bio}
-                detail={infos.bio}
                 onChange={handleDetail}
                 updateUserDetails={updateUserDetails}
                 placeholder="Add bio"
                 name="bio"
             />}
             {
-                loggedUser?.details?.otherName &&
+                details?.otherName &&
                 <div className='info_profile'>
                     <img src="../../../../icons/job.png" alt="" />
-                        {loggedUser?.details?.otherName}
+                        {details?.otherName}
                 </div>
             }
-            {loggedUser?.details?.job && loggedUser?.details?.workplace ?
+            {details?.job && details?.workplace ?
                 (<div className='info_profile'>
                     <img src="../../../../icons/job.png" alt="" />
-                    Works as {loggedUser?.details?.job} at <b>{loggedUser?.details?.workplace}</b>
+                    Works as {details?.job} at <b>{details?.workplace}</b>
                 </div>)
-                : loggedUser?.details?.job && !loggedUser?.details?.workplace ?
+                : details?.job && !details?.workplace ?
                     (<div className='info_profile'>
                         <img src="../../../../icons/job.png" alt="" />
-                        Works as {loggedUser?.details?.job}
+                        Works as {details?.job}
                     </div>)
-                    : !loggedUser?.details?.job && loggedUser?.details?.workplace ? (
+                    : !details?.job && details?.workplace ? (
                         <div className='info_profile'>
                             <img src="../../../../icons/job.png" alt="" />
-                            Works at <b>{loggedUser?.details?.workplace}</b>
+                            Works at <b>{details?.workplace}</b>
                         </div>
                     )
-                        : (!loggedUser?.details?.job && !loggedUser?.details?.workplace) ? <div className='info_profile'>
+                        : <div className='info_profile'>
                             <img src="../../../../icons/job.png" alt="" />
                             Open for new opportunities
                         </div>
-                            : ""
             }
             {
-                loggedUser?.details?.relationship &&
+                details?.relationship &&
                 <div className='info_profile'>
                     <img src="../../../../icons/relationship.png" alt="" />
-                        {loggedUser?.details?.relationship}
+                        {details?.relationship}
                 </div>
             }
             {
-                loggedUser?.details?.college &&
+                details?.college &&
                 <div className='info_profile'>
                     <img src="../../../../icons/studies.png" alt="" />
-                        Studies at {loggedUser?.details?.college}
+                        Studies at {details?.college}
                 </div>
             }
             {
-                loggedUser?.details?.highSchool &&
+                details?.highSchool &&
                 <div className='info_profile'>
                     <img src="../../../../icons/studies.png" alt="" />
-                        Studies at {loggedUser?.details?.highSchool}
+                        Studies at {details?.highSchool}
                 </div>
             }
             {
-                loggedUser?.details?.currentCity &&
+                details?.currentCity &&
                 <div className='info_profile'>
                     <img src="../../../../icons/home.png" alt="" />
-                        Lives in {loggedUser?.details?.currentCity}
+                        Lives in {details?.currentCity}
                 </div>
             }
             {
-                loggedUser?.details?.hometown &&
+                details?.hometown &&
                 <div className='info_profile'>
                     <img src="../../../../icons/home.png" alt="" />
-                        From {loggedUser?.details?.hometown}
+                        From {details?.hometown}
                 </div>
             }
             {
-                loggedUser?.details?.instagram &&
+                details?.instagram &&
                 <div className='info_profile'>
                     <img src="../../../../icons/instagram.png" alt="" />
-                        <a href={`https://www.instagram.com/${loggedUser?.details?.instagram}`} target="_blank" rel="noreferrer">{loggedUser?.details?.instagram}</a>
+                        <a href={`https://www.instagram.com/${details?.instagram}`} target="_blank" rel="noreferrer">{details?.instagram}</a>
                 </div>
             }
             {!visitor &&
                 <button className='gray_btn hover1 w100' onClick={() => setShowEditUserDetails(true)}>Edit Details</button>}
             {!visitor && showEditUserDetails &&
                 <EditUserDetails
+                details={details}
                     infos={infos}
                     setShowEditUserDetails={setShowEditUserDetails}
                     handleDetail={handleDetail}

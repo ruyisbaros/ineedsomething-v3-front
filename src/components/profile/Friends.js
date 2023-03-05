@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Friends = ({ friends }) => {
     //console.log(friends)
@@ -18,9 +19,10 @@ const Friends = ({ friends }) => {
             <div className="profile_card_grid">
                 {friends && friends.length > 0 &&
                     friends.map((frnd) => (
-                        <div key={frnd._id} className="profile_photo_card">
+                        <Link to={`/profile/${frnd.username}`} key={frnd._id} className="profile_photo_card">
                             <img src={frnd?.picture} alt="" />
-                        </div>
+                            <span >{frnd.first_name}{" "}{frnd.last_name}</span>
+                        </Link>
                     ))}
             </div>
         </div>

@@ -384,6 +384,13 @@
     object-fit: cover;
 }
 
+.profile_photo_card span {
+    text-transform: capitalize;
+    font-size: 14px;
+    color: var(--color-primary);
+    padding-left: 2px;
+}
+
 /* animated scroll */
 .scrollFixed .profile_left {
     position: fixed;
@@ -405,6 +412,13 @@
 }
 
 /* Responsive */
+@media (max-height:560px) {
+    .profile_left {
+        height: 100vh;
+        padding-bottom: 8rem;
+        overflow-y: auto;
+    }
+}
 
 @media (max-width:900px) {
     .profile_w_left {

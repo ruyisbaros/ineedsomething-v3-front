@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Bio = ({ setShowBio, value, onChange, updateUserDetails, placeholder, name, detail, relation }) => {
+const Bio = ({ setShowBio, value, onChange, updateUserDetails, detail, placeholder, name, relation }) => {
     return (
         <div className='add_bio_wrap'>
             {

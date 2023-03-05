@@ -39,7 +39,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
         try {
             setLoading1(true)
             const { data } = await axios.get(`/images/listImages2/20/${profile?._id}`);
-            console.log(data);
+            //console.log(data);
             setPhotos(data)
             setLoading1(false)
 
@@ -74,6 +74,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
         setScrollHeight(window.pageYOffset)
     }
     //console.log(profileTopHeight, scrollHeight)
+
     return (
         <div className='profile'>
             {!loggedUser ? <HeaderSkeleton /> : <Header page="profile" />}
@@ -103,7 +104,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
                                         ""}`}>
                             <div className="profile_left" ref={profileLeftRef}>
                                 <ProfileIntro visitor={visitor} user={loggedUser}
-                                    detailsS={profile?.details} />
+                                   /*  detailsS={profile?.details} */ />
                                 <Photos photos={photos} />
                                 <Friends friends={profile?.friends} />
                             </div>

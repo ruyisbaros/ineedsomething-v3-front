@@ -12,7 +12,7 @@ export const addFriendRequest = async (id) => {
 export const cancelFriendRequest = async (id) => {
     try {
         const { data } = await axios.patch(`/users/cancel_friend_request/${id}`)
-        console.log(data)
+        //console.log(data)
         return data
     } catch (error) {
         toast.error(error.response.data.message)

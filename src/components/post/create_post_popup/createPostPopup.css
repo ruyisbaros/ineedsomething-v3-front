@@ -9,6 +9,7 @@
     min-height: 228px;
     width: 500px;
     border-radius: 5px;
+    z-index: 9999;
 }
 
 /* Header */
@@ -487,7 +488,8 @@
 /* Responsives */
 
 @media (max-width:735px) {
-    .rlmove {right: 10px;
+    .rlmove {
+        right: 10px;
     }
 
     .post_input {

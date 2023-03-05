@@ -78,9 +78,11 @@
 
 /* Edit user details */
 .infosBox {
+    position: relative;
     min-height: 85vh !important;
     width: 800px !important;
     padding-bottom: 2rem !important;
+    z-index: 999 !important;
 }
 
 .details_wrapper {
@@ -149,6 +151,11 @@
     border-radius: 5px;
     background: var(--bg-secondary);
     padding: 0 10px;
+}
+
+.save_all_btn {
+    display: block;
+    margin: 10px auto;
 }
 
 /* responsive sets */

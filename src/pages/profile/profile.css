@@ -140,7 +140,7 @@
 .profile_w_right {
     display: flex;
     gap: 10px;
-    padding: 0 18px;
+    padding: 0 0 0 18px;
     margin-bottom: 7px;
 }
 
@@ -393,6 +393,7 @@
 .scrollFixed .profile_right {
     margin-left: 370px;
     width: 504px;
+    z-index: 1;
 }
 
 .showLess .profile_left {
@@ -515,7 +516,7 @@
 
     .friendship {
         transform: translateY(-3.5rem);
-        
+
     }
 }
 

@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import Details from './Details'
 import { useOutsideClick } from './../../../utils/helpers';
 
-const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail, updateUserDetails }) => {
+const EditUserDetails = ({ setShowEditUserDetails, infos, handleDetail, updateUserDetails }) => {
     const userDetailRef = useRef(null)
     useOutsideClick(userDetailRef, () => setShowEditUserDetails(false))
     return (
@@ -26,7 +26,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="other name"
                         placeholder="Add other name"
                         value={infos?.otherName}
-                        seen={details?.otherName}
+                        seen={infos?.otherName}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -37,7 +37,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="a job title"
                         placeholder="Add job title"
                         value={infos?.job}
-                        seen={details?.job}
+                        seen={infos?.job}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -47,7 +47,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="a workplace"
                         placeholder="Add a workplace"
                         value={infos?.workplace}
-                        seen={details?.workplace}
+                        seen={infos?.workplace}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -58,7 +58,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="a high school"
                         placeholder="Add high school"
                         value={infos?.highSchool}
-                        seen={details?.highSchool}
+                        seen={infos?.highSchool}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -68,7 +68,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="a college"
                         placeholder="Add a college"
                         value={infos?.college}
-                        seen={details?.college}
+                        seen={infos?.college}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -79,7 +79,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="a current city"
                         placeholder="Add a current city"
                         value={infos?.currentCity}
-                        seen={details?.currentCity}
+                        seen={infos?.currentCity}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -90,7 +90,7 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         text="hometown"
                         placeholder="Where are you from?"
                         value={infos?.hometown}
-                        seen={details?.hometown}
+                        seen={infos?.hometown}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
@@ -99,9 +99,9 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         img="relationship"
                         name="relationship"
                         text="relationship"
-                        placeholder="Where are you from?"
+                        placeholder="Add relationship"
                         value={infos?.relationship}
-                        seen={details?.relationship}
+                        seen={infos?.relationship}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                         relation
@@ -111,14 +111,20 @@ const EditUserDetails = ({ setShowEditUserDetails, infos, details, handleDetail,
                         img="instagram"
                         name="instagram"
                         text="instagram"
-                        placeholder="Where are you from?"
+                        placeholder="Add Instagram"
                         value={infos?.instagram}
-                        seen={details?.instagram}
+                        seen={infos?.instagram}
                         handleDetail={handleDetail}
                         updateUserDetails={updateUserDetails}
                     />
 
                 </div>
+                <button onClick={() => {
+                    updateUserDetails()
+                    setTimeout(() => {
+                        setShowEditUserDetails(false)
+                    }, 300)
+                }} className="blue_btn save_all_btn">Save All</button>
             </div>
         </div>
     )

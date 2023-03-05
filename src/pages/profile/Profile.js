@@ -29,16 +29,18 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const [profile, setProfile] = useState(null)
     const [userPosts, setUserPosts] = useState([])
     const [photos, setPhotos] = useState([])
+    const [friendShip, setFriendShip] = useState(null)
     const visitor = pageUsername === loggedUser?.username ? false : true
 
     const getProfile = useCallback(async () => {
         try {
             setLoading(true)
             const { data } = await axios.get(`/users/get_profile/${pageUsername}`);
-            console.log(data.user);
+            console.log(data);
             setLoading(false)
             setProfile(data.user)
             setUserPosts(data.posts)
+            setFriendShip(data.friendship)
 
         } catch (error) {
             setLoading(false)
@@ -50,23 +52,11 @@ const Profile = ({ setShowCreatePostPopup }) => {
         getProfile()
     }, [getProfile])
 
-   /*  const getImages = useCallback(async () => {
-        try {
-            setLoading1(true)
-            const { data } = await axios.post(`/images/listImages`, { path, sort: "desc", max: 10 });
-            //console.log(data);
-            setPhotos(data)
-            setLoading1(false)
 
-        } catch (error) {
-            setLoading1(false)
-            toast.error(error.response.data.message)
-        }
-    }, [path]) */
     const getImages = useCallback(async () => {
         try {
             setLoading1(true)
-            const { data } = await axios.get(`/images/listImages2/20`);
+            const { data } = await axios.get(`/images/listImages2/20/${profile?._id}`);
             console.log(data);
             setPhotos(data)
             setLoading1(false)
@@ -75,7 +65,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             setLoading1(false)
             toast.error(error.response.data.message)
         }
-    }, [])
+    }, [profile])
 
     useEffect(() => {
         getImages()
@@ -112,7 +102,9 @@ const Profile = ({ setShowCreatePostPopup }) => {
                         <>
                             <ProfileCover photos={photos} user={loggedUser} visitor={visitor} />
                             <ProfilePictureInfos photos={photos} user={loggedUser} 
-                                profile={profile} visitor={visitor} />
+                                profile={profile} visitor={visitor}
+                                friendShip={friendShip}
+                            />
                             <ProfileMenu />
                         </>}
                 </div>

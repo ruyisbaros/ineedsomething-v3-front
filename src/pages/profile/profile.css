@@ -442,6 +442,8 @@
     .bottom_container {
         padding: 10px;
     }
+
+
 }
 
 @media (max-width:700px) {
@@ -509,6 +511,10 @@
     .profile_grid {
         grid-template-columns: 1fr;
         width: 95% !important;
+    }
+
+    .friendship {
+        transform: translateY(-3.5rem);
     }
 }
 

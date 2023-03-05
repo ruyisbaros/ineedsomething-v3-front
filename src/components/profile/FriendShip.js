@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { addFriendRequest, cancelFriendRequest } from '../../services/FriendShipServices';
+import { addFriendRequest, cancelFriendRequest, followUnFollow, ignoreFriendRequest, unFriend } from '../../services/FriendShipServices';
 import { useOutsideClick } from './../../utils/helpers';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../../redux/profileSlicer';
 import { updateCurrentUserFriendShip } from '../../redux/currentUserSlice';
+import { acceptFriendRequest } from './../../services/FriendShipServices';
 
 const FriendShip = () => {
     const { profile } = useSelector(store => store.profile)
@@ -11,25 +12,46 @@ const FriendShip = () => {
    // console.log(profile)
     const [showFriendsMenu, setShowFriendsMenu] = useState(false)
     const [respondMenu, setRespondMenu] = useState(false)
-    const [pendingMenu, setPendingMenu] = useState(false)
     const friendMenuRef = useRef(null)
     const respondMenuRef = useRef(null)
-    const pendingMenuRef = useRef(null)
     const dispatch = useDispatch()
 
     useOutsideClick(friendMenuRef, () => setShowFriendsMenu(false))
     useOutsideClick(respondMenuRef, () => setRespondMenu(false))
-    useOutsideClick(pendingMenuRef, () => setRespondMenu(false))
 
     const addFriend = async () => {
         const res = await addFriendRequest(profile._id)
-        console.log(res)
+        /*  console.log(res) */
         dispatch(updateProfile(res?.updatedReceiver))
         dispatch(updateCurrentUserFriendShip(res?.updatedSender))
     }
     const cancelRequest = async () => {
         const res = await cancelFriendRequest(profile._id)
-        console.log(res)
+        /*  console.log(res) */
+        dispatch(updateProfile(res?.updatedReceiver))
+        dispatch(updateCurrentUserFriendShip(res?.updatedSender))
+    }
+    const unFollowFollow = async () => {
+        const res = await followUnFollow(profile._id)
+        /*  console.log(res) */
+        dispatch(updateProfile(res?.updatedReceiver))
+        dispatch(updateCurrentUserFriendShip(res?.updatedSender))
+    }
+    const friendRequestAccept = async () => {
+        const res = await acceptFriendRequest(profile._id)
+        /*  console.log(res) */
+        dispatch(updateProfile(res?.updatedSender))
+        dispatch(updateCurrentUserFriendShip(res?.updatedReceiver))
+    }
+    const friendRequestDeny = async () => {
+        const res = await ignoreFriendRequest(profile._id)
+        /*  console.log(res) */
+        dispatch(updateProfile(res?.updatedSender))
+        dispatch(updateCurrentUserFriendShip(res?.updatedReceiver))
+    }
+    const removeFriend = async () => {
+        const res = await unFriend(profile._id)
+        /*  console.log(res) */
         dispatch(updateProfile(res?.updatedReceiver))
         dispatch(updateCurrentUserFriendShip(res?.updatedSender))
     }
@@ -53,15 +75,15 @@ const FriendShip = () => {
                                 Edit Friend List
                             </div>
                             {loggedUser?.following?.includes(profile?._id) ?
-                                <div className="open_cover_menu_item hover1">
+                                <div className="open_cover_menu_item hover1" onClick={unFollowFollow}>
                                     <img src="../../../icons/unfollowOutlined.png" alt="" />
-                                    Unfollow
+                                    UnFollow
                                 </div> :
-                                <div className="open_cover_menu_item hover1">
+                                <div className="open_cover_menu_item hover1" onClick={unFollowFollow}>
                                     <img src="../../../icons/follow.png" alt="" />
                                     Follow
                                 </div>}
-                            <div className="open_cover_menu_item hover1">
+                            <div className="open_cover_menu_item hover1" onClick={removeFriend}>
                                 <i className="unfriend_outlined_icon"></i>
                                 Unfriend
                             </div>
@@ -77,17 +99,10 @@ const FriendShip = () => {
             {
                 profile?.requests?.includes(loggedUser?._id) ?
                     <div className='friends_menu_wrap' ref={respondMenuRef}>
-                        <button className="blue_btn" onClick={() => setPendingMenu(prev => !prev)}>
+                        <button className="blue_btn" onClick={cancelRequest}>
                             <img src="../../../icons/cancelRequest.png" alt="" className='invert' />
-                            <span>Pending</span>
+                            <span>CancelRequest</span>
                         </button>
-                        {pendingMenu &&
-                            <div style={{ fontWeight: "bold", color: "teal", right: "10rem", width: "200px" }} className='open_cover_menu'>
-                                <div style={{ fontWeight: "bold", color: "crimson" }} className="open_cover_menu_item hover1" onClick={cancelRequest}>
-                                    Cancel Request !
-                                </div>
-
-                            </div>}
                     </div>
                     : loggedUser?.requests?.includes(profile?._id) &&
                     <div className='friends_menu_wrap' ref={respondMenuRef}>
@@ -97,10 +112,12 @@ const FriendShip = () => {
                         </button>
                         {respondMenu &&
                                 <div style={{ fontWeight: "bold", color: "teal", width: "250px", right: "5.5rem" }} className='open_cover_menu' >
-                                <div className="open_cover_menu_item hover1">
+                                    <div className="open_cover_menu_item hover1"
+                                        onClick={friendRequestAccept}>
                                     Confirm Friend Request
                                 </div>
-                                <div style={{ fontWeight: "bold", color: "crimson" }} className="open_cover_menu_item hover1">
+                                    <div style={{ fontWeight: "bold", color: "crimson" }} className="open_cover_menu_item hover1"
+                                        onClick={friendRequestDeny}>
                                     Ignore It !
                                 </div>
 
@@ -109,17 +126,17 @@ const FriendShip = () => {
             }
             {
                 loggedUser?.following?.includes(profile?._id) ?
-                    <button className='gray_btn' onClick={() => setRespondMenu(prev => !prev)}>
+                    <button className='gray_btn' onClick={unFollowFollow}>
                         <img src="../../../icons/follow.png" alt="" />
                         <span>Following</span>
                     </button>
                     :
-                    <button className='blue_btn' onClick={() => setRespondMenu(prev => !prev)}>
+                    <button className='blue_btn' onClick={unFollowFollow}>
                         <img src="../../../icons/follow.png" alt="" className='invert' />
                         <span>Follow</span>
                     </button>
             }
-            <button className={loggedUser?.friends?.includes(profile?._id) ? "blue_btn" : "gray_btn"} onClick={() => setRespondMenu(prev => !prev)}>
+            <button className={loggedUser?.friends?.includes(profile?._id) ? "blue_btn" : "gray_btn"} >
                 <img src="../../../icons/message.png" alt="" className={loggedUser?.friends?.includes(profile?._id) ? "invert" : ""} />
                 <span>Message</span>
             </button>

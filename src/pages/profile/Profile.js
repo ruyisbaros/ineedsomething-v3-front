@@ -18,9 +18,8 @@ import { useMediaQuery } from 'react-responsive';
 import ProfileSkeleton from './ProfileSkeleton';
 import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
 import HeaderSkeleton from './../../components/header/HeaderSkeleton';
-import "./profile.css"
-import { fetchProfile } from '../../redux/profileSlicer';
 import { fetchProfileThunk } from './../../services/profileServices';
+import "./profile.css"
 
 const Profile = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -28,47 +27,13 @@ const Profile = ({ setShowCreatePostPopup }) => {
     const { username } = useParams()
     const dispatch = useDispatch()
     const pageUsername = username === undefined ? loggedUser?.username : username
-    //const [loading, setLoading] = useState(false)
     const [loading1, setLoading1] = useState(false)
-    //const [profile, setProfile] = useState(null)
-   // const [visitor, setVisitor] = useState(null)
-    //const [pageUsername, setPageUsername] = useState(null)
-    //const [userPosts, setUserPosts] = useState([])
     const [photos, setPhotos] = useState([])
     const visitor = pageUsername === loggedUser?.username ? false : true
 
-    /* useEffect(() => {
-        if (username) {
-            setPageUsername(username)
-            setVisitor(true)
-        } else {
-            setPageUsername(loggedUser?.username)
-            setVisitor(false)
-        }
-    }, [username, loggedUser]) */
     useEffect(() => {
         dispatch(fetchProfileThunk(pageUsername))
     }, [dispatch, pageUsername])
-    /* const getProfile = useCallback(async () => {
-        try {
-            setLoading(true)
-            const { data } = await axios.get(`/users/get_profile/${pageUsername}`);
-            console.log(data);
-            setLoading(false)
-            setProfile(data.user)
-            setUserPosts(data.posts)
-            dispatch(fetchProfile(data.user))
-
-        } catch (error) {
-            setLoading(false)
-            toast.error(error.response.data.message)
-        }
-    }, [pageUsername, dispatch])
-
-    useEffect(() => {
-        getProfile()
-    }, [getProfile]) */
-    //console.log(friendShip)
 
     const getImages = useCallback(async () => {
         try {
@@ -82,7 +47,7 @@ const Profile = ({ setShowCreatePostPopup }) => {
             setLoading1(false)
             toast.error(error.response.data.message)
         }
-    }, [profile])
+    }, [profile?._id])
 
     useEffect(() => {
         getImages()

@@ -26,7 +26,7 @@ export const acceptFriendRequest = async (id) => {
         toast.error(error.response.data.message)
     }
 }
-export const deleteFriendRequest = async (id) => {
+export const ignoreFriendRequest = async (id) => {
     try {
         const { data } = await axios.patch(`/users/delete_friend_request/${id}`)
         return data

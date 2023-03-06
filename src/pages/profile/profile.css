@@ -377,6 +377,10 @@
     cursor: pointer;
 }
 
+.profile_photo_card:hover {
+    filter: brightness(110%);
+}
+
 .profile_photo_card img {
     width: 100%;
     height: 105px;

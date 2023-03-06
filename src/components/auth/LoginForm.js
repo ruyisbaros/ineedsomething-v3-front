@@ -30,7 +30,7 @@ const LoginForm = ({ setVisible, visible }) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/auth/login", login)
-            console.log(data)
+            //console.log(data)
             dispatch(userLoggedSuccess(data))
             Cookies.set("user", JSON.stringify(data))
             navigate("/")

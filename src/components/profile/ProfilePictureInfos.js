@@ -23,8 +23,20 @@ const ProfilePictureInfos = ({ photos, user, profile, visitor }) => {
                     <div className="profile_name">{profile?.first_name}{" "}{profile?.last_name}
                         <div className="other_name">{profile?.details?.otherName ? `(${profile?.details?.otherName})` : ""}</div>
                     </div>
-                    <div className="profile_friend_count"></div>
-                    <div className="profile_friend_images"></div>
+                    <div className="profile_friend_count">
+                        {profile?.friends?.length === 0 ? "" :
+                            profile?.friends?.length === 1 ? "1 Friend" :
+                                `${profile?.friends?.length} Friends`}
+                    </div>
+                    <div className="profile_friend_images">
+                        {
+                            profile.friends &&
+                            profile.friends.slice(0, 6).map((friend, i) => (
+                                <img key={i} src={friend.picture} alt=""
+                                    style={{ transform: `translateX(-${i * 13}px)`, zIndex: `${i}` }} />
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
             {visitor ?

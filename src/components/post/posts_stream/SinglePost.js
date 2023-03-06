@@ -93,7 +93,7 @@ const SinglePost = ({ user, post, profile }) => {
                 </div>
             </div>
             <div className="post_actions">
-                <ReactsPopup showPopup={showPopup} setShowPopup={setShowPopup} />
+                <ReactsPopup postId={post._id} showPopup={showPopup} setShowPopup={setShowPopup} />
                 <div className="post_action hover1"
                     onMouseOver={() => {
                         setTimeout(() => {

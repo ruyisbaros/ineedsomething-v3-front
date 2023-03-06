@@ -1,9 +1,15 @@
 import React from 'react'
 
 import { reactsArray } from '../../../utils/static'
+import { useSelector } from 'react-redux';
+import { addPostReact } from './../../../services/PostReactService';
 
-const ReactsPopup = ({ showPopup, setShowPopup }) => {
+const ReactsPopup = ({ showPopup, setShowPopup, postId }) => {
+  //const {loggedUser}=useSelector(store=>store.currentUser)
 
+  const handleReact = async (react) => {
+    const res = await addPostReact(react, postId)
+  }
 
   return (
     <>
@@ -21,7 +27,7 @@ const ReactsPopup = ({ showPopup, setShowPopup }) => {
       >
         {
           reactsArray.map((react, i) => (
-            <div key={i} className="react">
+            <div key={i} className="react" onClick={() => handleReact(react.name)}>
               <img src={react.image} alt="" />
             </div>
           ))

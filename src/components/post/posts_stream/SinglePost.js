@@ -19,6 +19,7 @@ const SinglePost = ({ user, post, profile }) => {
     const { comments } = useSelector(store => store.comments)
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
+    const [showComment, setShowComment] = useState(false)
     //const [loading, setLoading] = useState(false)
     const [postReacts, setPostReacts] = useState([])
     const [postComments, setPostComments] = useState([])
@@ -167,7 +168,7 @@ const SinglePost = ({ user, post, profile }) => {
                     <div className="react_count_num">{count}</div>
                 </div>
                 <div className="to_right">
-                    <div className="comments_count">{postComments.length} comments</div>
+                    <div className="comments_count" onClick={() => setShowComment(prev => !prev)}>{postComments.length} comments</div>
                     <div className="share_count">1 share</div>
                 </div>
             </div>
@@ -201,7 +202,7 @@ const SinglePost = ({ user, post, profile }) => {
                         }}
                     >{check ? check : "Like"}</span>
                 </div>
-                <div className="post_action hover1">
+                <div className="post_action hover1" onClick={() => setShowComment(prev => !prev)}>
                     <i className="comment_icon"></i>
                     <span>Comment</span>
                 </div>
@@ -213,14 +214,18 @@ const SinglePost = ({ user, post, profile }) => {
             <div className="comments_wrap">
                 <div className="comments_order"></div>
                 <div>
-                    <CreateComment user={user} commentPost={post?._id} />
-                    {postComments && postComments.length > 0 &&
-                        postComments.slice(0, commentSize).map(com => (
-                            <SingleComment key={com._id} com={com} />
-                        ))
-                    }
-                    {commentSize < postComments.length &&
-                        <div onClick={() => setCommentSize(prev => prev + 3)} className='view_comments'>view more</div>
+                    <CreateComment setShowComment={setShowComment} user={user} commentPost={post?._id} />
+                    {showComment &&
+                        <>
+                            {postComments && postComments.length > 0 &&
+                                postComments.slice(0, commentSize).map(com => (
+                                    <SingleComment key={com._id} com={com} />
+                                ))
+                            }
+                            {commentSize < postComments.length &&
+                                <div onClick={() => setCommentSize(prev => prev + 3)} className='view_comments'>view more</div>
+                        }
+                    </>
                     }
                 </div>
             </div>

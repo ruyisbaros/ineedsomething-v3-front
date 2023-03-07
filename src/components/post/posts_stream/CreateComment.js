@@ -6,7 +6,7 @@ import { RingLoader } from "react-spinners"
 import { useDispatch } from 'react-redux';
 import { addCommentRedux } from '../../../redux/commentsSlice';
 
-const CreateComment = ({ user, commentPost }) => {
+const CreateComment = ({ user, commentPost, setShowComment }) => {
     const [picker, setPicker] = useState(false)
     const [loading, setLoading] = useState(false)
     const [cursorPosition, setCursorPosition] = useState()
@@ -57,12 +57,14 @@ const CreateComment = ({ user, commentPost }) => {
                 const res = await addComment(comment, commentImage, path, commentPost, null, setLoading)
                 console.log(res)
                 dispatch(addCommentRedux(res?.comment))
+                setShowComment(true)
                 setComment("")
                 setCommentImage(null)
             } else {
                 const res = await addComment(comment, null, null, commentPost, null, setLoading)
                 console.log(res)
                 dispatch(addCommentRedux(res?.comment))
+                setShowComment(true)
                 setComment("")
             }
 

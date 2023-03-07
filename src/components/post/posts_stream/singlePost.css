@@ -485,6 +485,7 @@
 
 .comment_name {
     color: var(--blue-color);
+    text-transform: capitalize;
 }
 
 .comment_img {
@@ -526,6 +527,10 @@
     color: var(--color-secondary);
     text-align: center;
     text-transform: capitalize;
+}
+
+.view_comments:hover {
+    text-decoration: underline;
 }
 
 /* Post menu */

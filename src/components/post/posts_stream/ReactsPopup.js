@@ -1,15 +1,8 @@
 import React from 'react'
-
 import { reactsArray } from '../../../utils/static'
-import { useSelector } from 'react-redux';
 import { addPostReact } from './../../../services/PostReactService';
 
-const ReactsPopup = ({ showPopup, setShowPopup, postId }) => {
-  //const {loggedUser}=useSelector(store=>store.currentUser)
-
-  const handleReact = async (react) => {
-    const res = await addPostReact(react, postId)
-  }
+const ReactsPopup = ({ showPopup, setShowPopup, handleReact }) => {
 
   return (
     <>

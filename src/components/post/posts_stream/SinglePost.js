@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 import Moment from 'react-moment'
 import Public from './../../../svg/public';
 import Dots from './../../../svg/dots';
@@ -7,12 +8,61 @@ import ReactsPopup from './ReactsPopup';
 import CreateComment from './CreateComment';
 import PostMenu from './PostMenu';
 import "./singlePost.css"
+import { getPostReacts } from '../../../services/PostReactService';
+import { addPostReact } from './../../../services/PostReactService';
 
 const SinglePost = ({ user, post, profile }) => {
+    const { loggedUser } = useSelector(store => store.currentUser)
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
+    const [postReacts, setPostReacts] = useState([])
+    const [check, setCheck] = useState("")
+    const [count, setCount] = useState(0)
     const dotRef = useRef(null)
     //console.log(post.images)
+
+    const fetchPostReacts = useCallback(async () => {
+        const res = await getPostReacts(post._id)
+        setPostReacts(res.reacts)
+        setCheck(res.check?.react)
+        setCount(res.total)
+        //console.log(res)
+    }, [post._id])
+
+    useEffect(() => {
+        fetchPostReacts()
+    }, [fetchPostReacts])
+    //console.log(check)
+    const handleReact = async (react) => {
+        await addPostReact(react, post._id)
+        if (check === react) {
+            setCheck()
+            //my previous react and new react same
+            let index = postReacts.findIndex(item => item.react === check)
+            if (index !== -1) {
+                setPostReacts([...postReacts, postReacts[index].count -= 1])
+                setCount(prev => --prev)
+            }
+            console.log(postReacts)
+        } else {
+            setCheck(react)
+            //First time I react
+            let index = postReacts.findIndex(item => item.react === react)
+            //I make different react than previous
+            let index2 = postReacts.findIndex(item => item.react === check)
+            if (index !== -1) {
+                setPostReacts([...postReacts, (postReacts[index].count = ++postReacts[index].count)])
+                setCount(prev => ++prev)
+                console.log(postReacts)
+            }
+            if (index2 !== -1) {
+                setPostReacts([...postReacts, (postReacts[index2].count = --postReacts[index2].count)])
+                setCount(prev => --prev)
+                console.log(postReacts)
+            }
+        }
+    }
+    //console.log(postReacts)
 
     return (
         <div className='post' style={{ width: `${profile && "100%"}` }}>
@@ -70,7 +120,8 @@ const SinglePost = ({ user, post, profile }) => {
                                                 : post.images.length >= 5 && "grid_5"
                             }
                         >
-                            {post.images.slice(0, 5).map((image, i) => (
+                                {post.images
+                                    .slice(0, 5).map((image, i) => (
                                 <img src={image} key={i} alt="" className={`img-${i}`} />
                             ))}
                             {post.images.length > 5 && (
@@ -84,8 +135,18 @@ const SinglePost = ({ user, post, profile }) => {
             }
             <div className="post_infos">
                 <div className="reacts_count">
-                    <div className="react_count_images">:)</div>
-                    <div className="react_count_num">2</div>
+                    <div className="react_count_images">
+                        {postReacts.length > 0 &&
+                            postReacts
+                                .sort((a, b) => b.count - a.count)
+                                .slice(0, 3)
+                                .map((item, i) => (
+                                    item.count > 0 &&
+                                    <img key={i} src={`../../../../reacts/${item.react}.svg`} alt="" />
+                                ))
+                        }
+                    </div>
+                    <div className="react_count_num">{count}</div>
                 </div>
                 <div className="to_right">
                     <div className="comments_count">13 comments</div>
@@ -93,7 +154,7 @@ const SinglePost = ({ user, post, profile }) => {
                 </div>
             </div>
             <div className="post_actions">
-                <ReactsPopup postId={post._id} showPopup={showPopup} setShowPopup={setShowPopup} />
+                <ReactsPopup handleReact={handleReact} showPopup={showPopup} setShowPopup={setShowPopup} />
                 <div className="post_action hover1"
                     onMouseOver={() => {
                         setTimeout(() => {
@@ -105,9 +166,22 @@ const SinglePost = ({ user, post, profile }) => {
                             setShowPopup(false)
                         }, 500)
                     }}
+                    onClick={() => handleReact(check ? check : "like")}
                 >
-                    <i className="like_icon"></i>
-                    <span>Like</span>
+                    {check ? <img className='react_img' src={`../../../../reacts/${check}.svg`} alt="" /> : <i className="like_icon"></i>}
+                    <span
+                        style={{
+                            color: `
+                    ${check === "like" ? "#4267b2"
+                                    : check === "haha" ? "#f7b125"
+                                        : check === "wow" ? "#f7b125"
+                                            : check === "sad" ? "#f7b125"
+                                                : check === "love" ? "#f63459"
+                                                    : check === "angry" ? "#e4605a"
+                                                        : ""}
+                    `, textTransform: "capitalize"
+                        }}
+                    >{check ? check : "Like"}</span>
                 </div>
                 <div className="post_action hover1">
                     <i className="comment_icon"></i>

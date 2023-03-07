@@ -4,7 +4,7 @@ import RegisterInput from '../inputs/registerInput/RegisterInput'
 import * as Yup from "yup"
 import { toast } from 'react-toastify'
 import CircleLoader from "react-spinners/CircleLoader"
-import axios, { APP_ENVIRONMENT } from '../../axios'
+import axios from '../../axios'
 import { useDispatch } from 'react-redux'
 import { userLoggedSuccess } from '../../redux/currentUserSlice'
 import Cookies from "js-cookie"
@@ -75,13 +75,6 @@ const RegisterForm = ({ visible, setVisible }) => {
       setLoading(true)
       const avatarColor = createAvatarColor()
       const picture = generateAvatar(first_name.charAt(0).toUpperCase(), avatarColor)
-      /* const pic = dataURItoBlob(pictureB64)
-      //console.log(pic)
-      const path = `iNeedSomething/${email}/profileImages`
-      let formData = new FormData()
-      formData.append("path", path)
-      formData.append("file", pic)
-      const picture = await uploadImage(formData, setLoading) */
       const path = `iNeedSomething/${email}/profileImages`
       const { data } = await axios.post("/auth/register", { ...registerUser, picture, path, avatarColor })
       console.log(data)

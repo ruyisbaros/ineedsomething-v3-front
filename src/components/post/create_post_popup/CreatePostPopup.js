@@ -11,7 +11,6 @@ import CreatePostError from './CreatePostError';
 import "./createPostPopup.css"
 import { toast } from 'react-toastify';
 import { createPostWithText } from './../../../services/PostServices';
-import axios, { APP_ENVIRONMENT } from './../../../axios';
 
 
 const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
@@ -29,41 +28,6 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
     useOutsideClick(postBoxRef, () => {
         setShowCreatePostPopup(false)
     })
-    /* Handle images */
-    //let imgUrls = []
-    /* const uploadImages = async (formData, setLoading) => {
-        try {
-            setLoading(true)
-            const { data } = await axios.post("/images/upload", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                }
-            })
-            setLoading(false)
-            console.log(data)
-            imgUrls.push(data)
-        } catch (error) {
-            setLoading(false)
-            //toast.error(error.response.data.message)
-        }
-    } */
-
-    /* const handleImages = async () => {
-        //1. Convert base64 to string
-        const postImages = images.map((img, i) => {
-            return dataURItoBlob(img)
-        })
-
-        const path = `iNeedSomething/${user.email}/postImages`
-        //2. upload images to cloudinary
-        for (const img of postImages) {
-            let formData = new FormData()
-            formData.append("path", path)
-            formData.append("file", img)
-            await uploadImages(formData, setLoading)
-        }
-    } */
-    /* Handle images */
 
     const handleCreatePost = async () => {
         if (background) {

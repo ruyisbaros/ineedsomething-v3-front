@@ -42,7 +42,7 @@ function App() {
     try {
       setLoading(true)
       const { data } = await axios.get("/posts/getAllPosts");
-      console.log(data);
+      //console.log(data);
       dispatch(
         getAllPostsRedux(data)
       );

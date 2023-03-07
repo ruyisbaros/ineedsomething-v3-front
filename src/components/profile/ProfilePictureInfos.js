@@ -30,8 +30,8 @@ const ProfilePictureInfos = ({ photos, user, profile, visitor }) => {
                     </div>
                     <div className="profile_friend_images">
                         {
-                            profile.friends &&
-                            profile.friends.slice(0, 6).map((friend, i) => (
+                            profile?.friends &&
+                            profile?.friends.slice(0, 6).map((friend, i) => (
                                 <img key={i} src={friend.picture} alt=""
                                     style={{ transform: `translateX(-${i * 13}px)`, zIndex: `${i}` }} />
                             ))

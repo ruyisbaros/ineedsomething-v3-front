@@ -80,6 +80,12 @@ button {
   transform: translateY(-1px);
 }
 
+/* User post react icons */
+.react_img {
+  width: 20px;
+}
+
+/* Root elements */
 :root {
   --bg-primary: #fff;
   --bg-secondary: #f0f2f5;

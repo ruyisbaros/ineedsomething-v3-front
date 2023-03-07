@@ -55,14 +55,14 @@ const CreateComment = ({ user, commentPost, setShowComment }) => {
             if (commentImage) {
                 const path = `iNeedSomething/${user.email}/commentImages`
                 const res = await addComment(comment, commentImage, path, commentPost, null, setLoading)
-                console.log(res)
+                //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
                 setComment("")
                 setCommentImage(null)
             } else {
                 const res = await addComment(comment, null, null, commentPost, null, setLoading)
-                console.log(res)
+                //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
                 setComment("")

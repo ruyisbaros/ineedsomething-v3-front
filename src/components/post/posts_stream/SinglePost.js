@@ -49,7 +49,7 @@ const SinglePost = ({ user, post, profile }) => {
         setPostComments(comments.filter(com => com.commentPost === post?._id))
     }, [comments, post, dispatch])
 
-    console.log(postComments)
+    //console.log(postComments)
     //console.log(comments)
     //console.log(check)
     const handleReact = async (react) => {

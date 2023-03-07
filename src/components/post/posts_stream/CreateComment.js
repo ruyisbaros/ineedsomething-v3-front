@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useOutsideClick } from './../../../utils/helpers';
 import Picker from "emoji-picker-react"
+import { addComment } from './../../../services/CommentServices';
+import { RingLoader } from "react-spinners"
+import { useDispatch } from 'react-redux';
+import { addCommentRedux } from '../../../redux/commentsSlice';
 
-
-const CreateComment = ({ user }) => {
+const CreateComment = ({ user, commentPost }) => {
     const [picker, setPicker] = useState(false)
+    const [loading, setLoading] = useState(false)
     const [cursorPosition, setCursorPosition] = useState()
     const [comment, setComment] = useState("")
     const [error, setError] = useState(false)
@@ -12,6 +16,7 @@ const CreateComment = ({ user }) => {
     const commentRef = useRef(null)
     const emojiBox = useRef(null)
     const cameraBox = useRef(null)
+    const dispatch = useDispatch()
     useEffect(() => {
         commentRef.current.selectionEnd = cursorPosition
     }, [cursorPosition, commentRef])
@@ -45,6 +50,25 @@ const CreateComment = ({ user }) => {
         }
     }
 
+    const handleAddComment = async (e) => {
+        if (e.key === "Enter") {
+            if (commentImage) {
+                const path = `iNeedSomething/${user.email}/commentImages`
+                const res = await addComment(comment, commentImage, path, commentPost, null, setLoading)
+                console.log(res)
+                dispatch(addCommentRedux(res?.comment))
+                setComment("")
+                setCommentImage(null)
+            } else {
+                const res = await addComment(comment, null, null, commentPost, null, setLoading)
+                console.log(res)
+                dispatch(addCommentRedux(res?.comment))
+                setComment("")
+            }
+
+        }
+    }
+
     useOutsideClick(emojiBox, () => {
         setPicker(false)
     })
@@ -74,7 +98,11 @@ const CreateComment = ({ user }) => {
                         placeholder="Write a comment..."
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
+                        onKeyUp={handleAddComment}
                     />
+                    <div className="comment_circle">
+                        <RingLoader size={20} color="#1876f2" loading={loading} />
+                    </div>
                     <div className="comment_circle_icon hover2">
                         <i className="emoji_icon" onClick={() => setPicker((prev) => !prev)}></i>
                     </div>

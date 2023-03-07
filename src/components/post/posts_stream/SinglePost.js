@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Moment from 'react-moment'
 import Public from './../../../svg/public';
 import Dots from './../../../svg/dots';
@@ -10,15 +10,23 @@ import PostMenu from './PostMenu';
 import "./singlePost.css"
 import { getPostReacts } from '../../../services/PostReactService';
 import { addPostReact } from './../../../services/PostReactService';
+import { getPostComments, fetchCommentsThunk } from './../../../services/CommentServices';
+import SingleComment from '../SingleComment';
+//import { singlePostComments } from '../../../redux/commentsSlice';
 
 const SinglePost = ({ user, post, profile }) => {
-    const { loggedUser } = useSelector(store => store.currentUser)
+    //const { loggedUser } = useSelector(store => store.currentUser)
+    const { comments } = useSelector(store => store.comments)
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
+    //const [loading, setLoading] = useState(false)
     const [postReacts, setPostReacts] = useState([])
+    const [postComments, setPostComments] = useState([])
     const [check, setCheck] = useState("")
     const [count, setCount] = useState(0)
+    const [commentSize, setCommentSize] = useState(3)
     const dotRef = useRef(null)
+    const dispatch = useDispatch()
     //console.log(post.images)
 
     const fetchPostReacts = useCallback(async () => {
@@ -32,6 +40,16 @@ const SinglePost = ({ user, post, profile }) => {
     useEffect(() => {
         fetchPostReacts()
     }, [fetchPostReacts])
+
+    useEffect(() => {
+        dispatch(fetchCommentsThunk())
+    }, [dispatch])
+    useEffect(() => {
+        setPostComments(comments.filter(com => com.commentPost === post?._id))
+    }, [comments, post, dispatch])
+
+    console.log(postComments)
+    //console.log(comments)
     //console.log(check)
     const handleReact = async (react) => {
         await addPostReact(react, post._id)
@@ -43,7 +61,7 @@ const SinglePost = ({ user, post, profile }) => {
                 setPostReacts([...postReacts, postReacts[index].count -= 1])
                 setCount(prev => --prev)
             }
-            console.log(postReacts)
+            //console.log(postReacts)
         } else {
             setCheck(react)
             //First time I react
@@ -58,7 +76,7 @@ const SinglePost = ({ user, post, profile }) => {
             if (index2 !== -1) {
                 setPostReacts([...postReacts, (postReacts[index2].count = --postReacts[index2].count)])
                 setCount(prev => --prev)
-                console.log(postReacts)
+                //console.log(postReacts)
             }
         }
     }
@@ -149,7 +167,7 @@ const SinglePost = ({ user, post, profile }) => {
                     <div className="react_count_num">{count}</div>
                 </div>
                 <div className="to_right">
-                    <div className="comments_count">13 comments</div>
+                    <div className="comments_count">{postComments.length} comments</div>
                     <div className="share_count">1 share</div>
                 </div>
             </div>
@@ -194,7 +212,17 @@ const SinglePost = ({ user, post, profile }) => {
             </div>
             <div className="comments_wrap">
                 <div className="comments_order"></div>
-                <CreateComment user={user} />
+                <div>
+                    <CreateComment user={user} commentPost={post?._id} />
+                    {postComments && postComments.length > 0 &&
+                        postComments.slice(0, commentSize).map(com => (
+                            <SingleComment key={com._id} com={com} />
+                        ))
+                    }
+                    {commentSize < postComments.length &&
+                        <div onClick={() => setCommentSize(prev => prev + 3)} className='view_comments'>view more</div>
+                    }
+                </div>
             </div>
             {showMenu && <PostMenu dotRef={dotRef} setShowMenu={setShowMenu} userId={user?._id} postUserId={post?.user._id} imagesLength={post?.images?.length} />}
         </div>

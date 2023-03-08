@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import Header from './../../components/header/Header';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import HomeLeft from '../../components/home/left/HomeLeft';
 import HomeRight from './../../components/home/right/HomeRight';
 import Stories from '../../components/home/stories/Stories';
-import "./home.css"
 import CreatePost from '../../components/post/create_post/CreatePost';
 import NotActivateUser from './../../components/home/activation/NotActivateUser';
 import SinglePost from '../../components/post/posts_stream/SinglePost';
@@ -14,16 +13,44 @@ import CreatePostSkeleton from '../../components/post/create_post/CreatePostSkel
 import SinglePostSkeleton from '../../components/post/posts_stream/SinglePostSkeleton';
 import HomeLeftSkeleton from '../../components/home/left/HomeLeftSkeleton';
 import HomeRightSkeleton from '../../components/home/right/HomeRightSkeleton';
+import "./home.css"
+import { getAllPostsRedux } from '../../redux/postsSlicer';
+import axios from './../../axios';
+import { toast } from 'react-toastify';
 
 const Home = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { posts } = useSelector(store => store.posts)
     const homeMiddle = useRef(null)
+    const dispatch = useDispatch();
     const [height, setHeight] = useState()
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         setHeight(homeMiddle.current.clientHeight)
     }, [])
+
+    const fetchAllPosts = useCallback(async () => {
+        try {
+            setLoading(true)
+            const { data } = await axios.get("/posts/getAllPosts");
+            //console.log(data);
+            dispatch(
+                getAllPostsRedux(data)
+            );
+            setLoading(false)
+
+        } catch (error) {
+            setLoading(false)
+            toast.error(error.response.data.message)
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (loggedUser) {
+            fetchAllPosts()
+        }
+    }, [fetchAllPosts, loggedUser])
 
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>

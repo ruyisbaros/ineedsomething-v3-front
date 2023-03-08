@@ -19,6 +19,9 @@ const UserMenu = ({ user }) => {
             await axios.get("/auth/logout")
             dispatch(authLogout())
             Cookies.set("user", "")
+            Cookies.set("session", "")
+            Cookies.set("session.sig", "")
+
             navigate("/login")
         } catch (error) {
             toast.error(error.response.data.message)

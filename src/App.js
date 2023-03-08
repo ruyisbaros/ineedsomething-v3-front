@@ -15,15 +15,13 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
 import { useCallback, useState } from "react";
-import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup";
-import { getAllPostsRedux } from "./redux/postsSlicer";
+import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup"
 
 
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
-  const [loading, setLoading] = useState(false)
 
   const refreshTokenFunc = useCallback(async () => {
     try {
@@ -37,28 +35,6 @@ function App() {
       toast.error(error.response.data.message)
     }
   }, [dispatch]);
-
-  const fetchAllPosts = useCallback(async () => {
-    try {
-      setLoading(true)
-      const { data } = await axios.get("/posts/getAllPosts");
-      //console.log(data);
-      dispatch(
-        getAllPostsRedux(data)
-      );
-      setLoading(false)
-
-    } catch (error) {
-      setLoading(false)
-      toast.error(error.response.data.message)
-    }
-  }, [dispatch]);
-
-  useEffectOnce(() => {
-    if (loggedUser) {
-      fetchAllPosts()
-    }
-  })
 
   useEffectOnce(() => {
     if (loggedUser) {

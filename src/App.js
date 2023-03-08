@@ -16,6 +16,7 @@ import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
 import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup"
+import Error from './pages/Error';
 
 
 function App() {
@@ -59,6 +60,10 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Route>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
+
+
+        <Route path="*" element={<Error />} />
+
 
       </Routes>
     </>

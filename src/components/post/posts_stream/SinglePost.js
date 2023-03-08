@@ -72,7 +72,7 @@ const SinglePost = ({ user, post, profile }) => {
             if (index !== -1) {
                 setPostReacts([...postReacts, (postReacts[index].count = ++postReacts[index].count)])
                 setCount(prev => ++prev)
-                console.log(postReacts)
+                //console.log(postReacts)
             }
             if (index2 !== -1) {
                 setPostReacts([...postReacts, (postReacts[index2].count = --postReacts[index2].count)])

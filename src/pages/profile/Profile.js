@@ -20,15 +20,18 @@ import PeopleYouMayKnowSkeleton from './PeopleYouMayKnowSkeleton';
 import HeaderSkeleton from './../../components/header/HeaderSkeleton';
 import { fetchProfileThunk } from './../../services/profileServices';
 import "./profile.css"
+import CreatePostPopup from './../../components/post/create_post_popup/CreatePostPopup';
 
-const Profile = ({ setShowCreatePostPopup }) => {
+const Profile = () => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { profilePosts, loading, profile } = useSelector(store => store.profile)
+    console.log(profilePosts)
     const { username } = useParams()
     const dispatch = useDispatch()
     const pageUsername = username === undefined ? loggedUser?.username : username
     const [loading1, setLoading1] = useState(false)
     const [photos, setPhotos] = useState([])
+    const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
     const visitor = pageUsername === loggedUser?.username ? false : true
 
     useEffect(() => {
@@ -77,6 +80,8 @@ const Profile = ({ setShowCreatePostPopup }) => {
 
     return (
         <div className='profile'>
+            {showCreatePostPopup && <CreatePostPopup profile setShowCreatePostPopup={setShowCreatePostPopup}
+                user={loggedUser} />}
             {!loggedUser ? <HeaderSkeleton /> : <Header page="profile" />}
             <div className="profile_top" ref={profileTopRef}>
                 <div className="profile_container">

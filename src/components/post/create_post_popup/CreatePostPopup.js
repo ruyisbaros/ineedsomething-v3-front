@@ -2,18 +2,19 @@ import React, { useState, useRef } from 'react'
 import EmojiPickerComp from './EmojiPickerComp'
 import AddToYourPost from './AddToYourPost'
 import ImagePreview from './ImagePreview'
-import { dataURItoBlob, readImageAsBase64, useOutsideClick } from './../../../utils/helpers';
+import { useOutsideClick } from './../../../utils/helpers';
 import { useDispatch } from 'react-redux';
 import { createPostWithBackground, createPostWithImage } from '../../../services/PostServices'
 import { addPostRedux } from '../../../redux/postsSlicer';
 import { PulseLoader } from 'react-spinners';
 import CreatePostError from './CreatePostError';
-import "./createPostPopup.css"
 import { toast } from 'react-toastify';
 import { createPostWithText } from './../../../services/PostServices';
+import "./createPostPopup.css"
+import { updateProfilePosts } from '../../../redux/profileSlicer';
 
 
-const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
+const CreatePostPopup = ({ user, setShowCreatePostPopup, profile }) => {
     //console.log(user)
     const postBoxRef = useRef(null)
     const dispatch = useDispatch();
@@ -35,8 +36,12 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             if (data) {
                 setBackground("")
                 setText("")
-                dispatch(addPostRedux(data))
-                console.log(data)
+                if (profile) {
+                    dispatch(updateProfilePosts(data))
+                } else {
+                    dispatch(addPostRedux(data))
+                }
+                //console.log(data)
                 setTimeout(() => {
                     setShowCreatePostPopup(false)
                 }, 1000)
@@ -46,11 +51,15 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             //console.log(response)
             const path = `iNeedSomething/${user.email}/postImages`
             const data = await createPostWithImage(path, user?._id, null, text, images, setLoading, setError)
-                /* type, user, background, text, images, setLoading, setError */
+            /* path, user, background, text, images, setLoading, setError */
                 if (data) {
                     setBackground("")
                     setText("")
-                    dispatch(addPostRedux(data))
+                    if (profile) {
+                        dispatch(updateProfilePosts(data))
+                    } else {
+                        dispatch(addPostRedux(data))
+                    }
                     ///console.log(data)
                     setTimeout(() => {
                         setShowCreatePostPopup(false)
@@ -62,7 +71,11 @@ const CreatePostPopup = ({ user, setShowCreatePostPopup }) => {
             if (data) {
                 setBackground("")
                 setText("")
-                dispatch(addPostRedux(data))
+                if (profile) {
+                    dispatch(updateProfilePosts(data))
+                } else {
+                    dispatch(addPostRedux(data))
+                }
                 //console.log(data)
                 setTimeout(() => {
                     setShowCreatePostPopup(false)

@@ -19,6 +19,9 @@ const postSlicer = createSlice({
         updateProfile: (state, action) => {
             state.profile = action.payload;
         },
+        updateProfilePosts: (state, action) => {
+            state.profilePosts = [action.payload, ...state.profilePosts];
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProfileThunk.pending, (state) => {
@@ -38,7 +41,8 @@ const postSlicer = createSlice({
 
 export const {
     fetchProfile,
-    updateProfile
+    updateProfile,
+    updateProfilePosts
 } = postSlicer.actions;
 
 export default postSlicer.reducer;

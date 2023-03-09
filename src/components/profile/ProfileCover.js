@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import { updateCurrentUserCoverPic } from '../../redux/currentUserSlice';
 import OldCoversSelectPopup from './OldCoversSelectPopup';
 
-const ProfileCover = ({ photos, visitor, user }) => {
+const ProfileCover = ({ photos, visitor, user, profile }) => {
     const [showCoverMenu, setShowCoverMenu] = useState(false)
     const [error, setError] = useState("")
     const [coverImage, setCoverImage] = useState("")
@@ -153,8 +153,8 @@ const ProfileCover = ({ photos, visitor, user }) => {
                     />
                 </div>
             </div>}
-            {user?.cover && !coverImage &&
-                <img className='cover' src={user?.cover} alt="" />
+            {profile?.cover && !coverImage &&
+                <img className='cover' src={profile?.cover} alt="" />
             }
             {!visitor && <div className="update_cover_wrapper" ref={coverRef}>
                 <div className="open_cover_update" onClick={() => setShowCoverMenu(prev => !prev)}>

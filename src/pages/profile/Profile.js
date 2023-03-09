@@ -88,7 +88,7 @@ const Profile = () => {
                     {loading ?
                         <ProfileSkeleton /> :
                         <>
-                            <ProfileCover photos={photos} user={loggedUser} visitor={visitor} />
+                            <ProfileCover profile={profile} photos={photos} user={loggedUser} visitor={visitor} />
                             <ProfilePictureInfos photos={photos} user={loggedUser} 
                                 profile={profile} visitor={visitor}
                             />

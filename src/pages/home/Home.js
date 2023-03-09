@@ -30,7 +30,7 @@ const Home = ({ setShowCreatePostPopup }) => {
     const [loading, setLoading] = useState(false)
 
 
-    console.log(unRead)
+    //console.log(unRead)
     useEffect(() => {
         dispatch(unReadCount())
     }, [dispatch, notifications])

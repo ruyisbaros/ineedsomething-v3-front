@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { updateCurrentUserCoverPic } from '../../redux/currentUserSlice';
+import { updateProfileCoverPic } from '../../redux/profileSlicer';
 import OldCoversSelectPopup from './OldCoversSelectPopup';
 
 const ProfileCover = ({ photos, visitor, user, profile }) => {
@@ -103,7 +104,7 @@ const ProfileCover = ({ photos, visitor, user, profile }) => {
             toast.success(data.message)
             //pref.current.style.backgroundImage = `url(${data.url})`
             Cookies.set("user", JSON.stringify({ ...user, cover: data.url }))
-            dispatch(updateCurrentUserCoverPic(data.url))
+            dispatch(updateProfileCoverPic(data.url))
             setCoverImage("")
             setOldCoverShow(false)
 

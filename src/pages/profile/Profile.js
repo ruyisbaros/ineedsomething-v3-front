@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react'
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import ScrollToTop from "react-scroll-to-top";
 import axios from './../../axios';
 import { toast } from 'react-toastify';
 import Header from './../../components/header/Header';
@@ -25,7 +26,7 @@ import CreatePostPopup from './../../components/post/create_post_popup/CreatePos
 const Profile = () => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { profilePosts, loading, profile } = useSelector(store => store.profile)
-    console.log(profilePosts)
+    //console.log(profilePosts)
     const { username } = useParams()
     const dispatch = useDispatch()
     const pageUsername = username === undefined ? loggedUser?.username : username
@@ -79,7 +80,8 @@ const Profile = () => {
     //console.log(profileTopHeight, scrollHeight)
 
     return (
-        <div className='profile'>
+        <div className='profile' >
+            <ScrollToTop smooth={true} top={0} />
             {showCreatePostPopup && <CreatePostPopup profile setShowCreatePostPopup={setShowCreatePostPopup}
                 user={loggedUser} />}
             {!loggedUser ? <HeaderSkeleton /> : <Header page="profile" />}

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const PostMenuItem = ({ img, icon, title, subtitle }) => {
+const PostMenuItem = ({ img, icon, title, subtitle, itemFunc }) => {
     return (
-        <li className='hover1'>
+        <li className='hover1' onClick={itemFunc}>
             {img ? <img src={img} alt="" /> : <i className={icon}></i>}
             <div className="post_menu_text">
                 <span>{title}</span>

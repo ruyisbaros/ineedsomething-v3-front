@@ -13,6 +13,9 @@ const postSlicer = createSlice({
         addPostRedux: (state, action) => {
             state.posts = [action.payload, ...state.posts]
         },
+        removePostRedux: (state, action) => {
+            state.posts = state.posts.filter(post => post._id !== action.payload)
+        },
         getAllPostsRedux: (state, action) => {
             state.posts = [...action.payload]
         }
@@ -21,7 +24,8 @@ const postSlicer = createSlice({
 
 export const {
     addPostRedux,
-    getAllPostsRedux
+    getAllPostsRedux,
+    removePostRedux
 } = postSlicer.actions;
 
 export default postSlicer.reducer;

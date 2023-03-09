@@ -24,6 +24,7 @@ const SinglePost = ({ user, post, profile }) => {
     const [postReacts, setPostReacts] = useState([])
     const [postComments, setPostComments] = useState([])
     const [check, setCheck] = useState("")
+    const [isSaved, setIsSaved] = useState("")
     const [count, setCount] = useState(0)
     const [commentSize, setCommentSize] = useState(3)
     const dotRef = useRef(null)
@@ -35,6 +36,7 @@ const SinglePost = ({ user, post, profile }) => {
         setPostReacts(res.reacts)
         setCheck(res.check?.react)
         setCount(res.total)
+        setIsSaved(res.checkSaved)
         //console.log(res)
     }, [post._id])
 
@@ -49,9 +51,6 @@ const SinglePost = ({ user, post, profile }) => {
         setPostComments(comments.filter(com => com.commentPost === post?._id))
     }, [comments, post, dispatch])
 
-    //console.log(postComments)
-    //console.log(comments)
-    //console.log(check)
     const handleReact = async (react) => {
         await addPostReact(react, post._id)
         if (check === react) {
@@ -229,7 +228,7 @@ const SinglePost = ({ user, post, profile }) => {
                     }
                 </div>
             </div>
-            {showMenu && <PostMenu dotRef={dotRef} setShowMenu={setShowMenu} userId={user?._id} postUserId={post?.user._id} imagesLength={post?.images?.length} />}
+            {showMenu && <PostMenu setIsSaved={setIsSaved} isSaved={isSaved} post={post} user={user} />}
         </div>
     )
 }

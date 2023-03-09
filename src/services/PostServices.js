@@ -1,4 +1,5 @@
 import axios from './../axios';
+import { toast } from 'react-toastify';
 
 export const createPostWithBackground = async (type, user, background, text, images, setLoading, setError) => {
     try {
@@ -37,4 +38,26 @@ export const createPostWithText = async (type, user, background, text, images, s
         setLoading(false)
     }
 
+}
+
+export const savePost = async (postId) => {
+    try {
+        const { data } = await axios.get(`/posts/save_post/${postId}`)
+        toast.success(data.message)
+        return data
+
+    } catch (error) {
+        toast.error(error.response.data.message)
+    }
+}
+
+export const deletePost = async (postId, email) => {
+    try {
+        const { data } = await axios.delete(`/posts/delete_post/${postId}/${email}`)
+        toast.success(data.message)
+        return data
+
+    } catch (error) {
+        toast.error(error.response.data.message)
+    }
 }

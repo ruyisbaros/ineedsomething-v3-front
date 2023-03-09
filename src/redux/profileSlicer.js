@@ -19,6 +19,9 @@ const postSlicer = createSlice({
         updateProfile: (state, action) => {
             state.profile = action.payload;
         },
+        removeFromProfilePosts: (state, action) => {
+            state.profilePosts = state.profilePosts.filter(post => post._id !== action.payload);
+        },
         updateProfilePosts: (state, action) => {
             state.profilePosts = [action.payload, ...state.profilePosts];
         },
@@ -42,7 +45,8 @@ const postSlicer = createSlice({
 export const {
     fetchProfile,
     updateProfile,
-    updateProfilePosts
+    updateProfilePosts,
+    removeFromProfilePosts
 } = postSlicer.actions;
 
 export default postSlicer.reducer;

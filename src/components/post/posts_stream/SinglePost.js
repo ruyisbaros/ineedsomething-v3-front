@@ -228,7 +228,7 @@ const SinglePost = ({ user, post, profile }) => {
                     }
                 </div>
             </div>
-            {showMenu && <PostMenu setIsSaved={setIsSaved} isSaved={isSaved} post={post} user={user} />}
+            {showMenu && <PostMenu profile setIsSaved={setIsSaved} isSaved={isSaved} post={post} user={user} />}
         </div>
     )
 }

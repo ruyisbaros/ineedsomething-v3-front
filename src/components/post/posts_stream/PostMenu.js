@@ -6,8 +6,9 @@ import { saveAs } from 'file-saver';
 import { deletePost } from './../../../services/PostServices';
 import { useDispatch } from 'react-redux';
 import { removePostRedux } from '../../../redux/postsSlicer';
+import { removeFromProfilePosts } from '../../../redux/profileSlicer';
 
-const PostMenu = ({ setIsSaved, user, post, isSaved }) => {
+const PostMenu = ({ setIsSaved, user, post, isSaved, profile }) => {
     const [test, setTest] = useState(user?._id === post?.user._id ? true : false)
     const menuRef = useRef(null)
     const dispatch = useDispatch()
@@ -29,7 +30,11 @@ const PostMenu = ({ setIsSaved, user, post, isSaved }) => {
 
     const removePost = async () => {
         await deletePost(post?._id, user.email)
-        dispatch(removePostRedux(post?._id))
+        if (profile) {
+            dispatch(removeFromProfilePosts(post?._id))
+        } else {
+            dispatch(removePostRedux(post?._id))
+        }
     }
     return (
         <ul className='post_menu' ref={menuRef}>
@@ -41,7 +46,8 @@ const PostMenu = ({ setIsSaved, user, post, isSaved }) => {
             }
             <div className="line"></div>
             {test && <PostMenuItem icon="edit_icon" title="Edit Post" />}
-            {post?.images.length && <PostMenuItem icon="download_icon" title="Download" itemFunc={downloadImage} />}
+            {post?.images.length && <PostMenuItem icon="download_icon" title="Download"
+                itemFunc={downloadImage} />}
             {post?.images.length && <PostMenuItem icon="fullscreen_icon" title="See Fullscreen" />}
             {post?.images.length && <div className="line"></div>}
             {!test && <PostMenuItem icon="turnOnNotification_icon" title="Turn on notification" />}

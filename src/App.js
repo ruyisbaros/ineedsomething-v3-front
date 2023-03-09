@@ -17,6 +17,7 @@ import { useEffectOnce } from './utils/helpers';
 import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup"
 import Error from './pages/Error';
+import Notifications from "./pages/notification/Notifications";
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>
           <Route path="/" element={<Home setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/notifications" element={<Notifications />} />
           <Route path="/activate/:token" element={<Activate />} />
           <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/profile" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />

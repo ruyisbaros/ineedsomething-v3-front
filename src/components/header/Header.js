@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import logo from "../../assets/output-onlinejpgtools (1).png"
@@ -18,6 +18,7 @@ import "./header.css"
 const Header = ({ page }) => {
     const color = "#65676b"
     const { loggedUser } = useSelector(store => store.currentUser)
+    const { unRead } = useSelector(store => store.notifications)
     const [showSearchMenu, setShowSearchMenu] = useState(false)
     const [showAllMenu, setShowAllMenu] = useState(false)
     const [showUserMenu, setShowUserMenu] = useState(false)
@@ -86,10 +87,10 @@ const Header = ({ page }) => {
                 <div className="circle_icon hover1">
                     <Messenger />
                 </div>
-                <div className="circle_icon hover1">
+                <Link to="/notifications" className={`circle_icon hover1 ${page === "notification" ? "active_link" : ""}`}>
                     <Notifications />
-                    <div className="right_notifications">9</div>
-                </div>
+                    {unRead > 0 && <div className="right_notifications">{unRead === 0 ? "" : unRead <= 9 ? unRead : "9+"}</div>}
+                </Link>
                 <div ref={userMenuRef} className={showUserMenu ? "circle_icon active_header hover1" : "circle_icon hover1"} >
                     <div onClick={() => {
                         setShowUserMenu((prev) => !prev)

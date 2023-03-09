@@ -17,14 +17,23 @@ import "./home.css"
 import { getAllPostsRedux } from '../../redux/postsSlicer';
 import axios from './../../axios';
 import { toast } from 'react-toastify';
+import { fetchNotificationsThunk } from '../../services/NotificationService';
+import { unReadCount } from '../../redux/notificationSlice';
 
 const Home = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
+    const { notifications, unRead } = useSelector(store => store.notifications)
     const { posts } = useSelector(store => store.posts)
     const homeMiddle = useRef(null)
     const dispatch = useDispatch();
     const [height, setHeight] = useState()
     const [loading, setLoading] = useState(false)
+
+
+    console.log(unRead)
+    useEffect(() => {
+        dispatch(unReadCount())
+    }, [dispatch, notifications])
 
     useEffect(() => {
         setHeight(homeMiddle.current.clientHeight)
@@ -51,6 +60,14 @@ const Home = ({ setShowCreatePostPopup }) => {
             fetchAllPosts()
         }
     }, [fetchAllPosts, loggedUser])
+
+    useEffect(() => {
+        dispatch(fetchNotificationsThunk())
+    }, [dispatch])
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>

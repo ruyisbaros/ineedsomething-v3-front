@@ -18,10 +18,6 @@ const notifySlicer = createSlice({
         deleteNotifyRedux: (state, action) => {
             state.notifications = state.notifications.filter(not => not._id !== action.payload);
         },
-        updateNotifyRedux: (state, action) => {
-            const index = state.notifications.findIndex(not => not._id === action.payload)
-            state.notifications = [...state.notifications, state.notifications[index].read = true]
-        },
         unReadCount: (state, action) => {
             state.unRead = state.notifications.filter(a => a.read === false).length
         }
@@ -43,7 +39,6 @@ const notifySlicer = createSlice({
 
 export const {
     addNotifyRedux,
-    updateNotifyRedux,
     unReadCount,
     deleteNotifyRedux
 } = notifySlicer.actions;

@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './../../components/header/Header';
-import "./notifications.css"
 import { useDispatch, useSelector } from 'react-redux';
 import { unReadCount } from '../../redux/notificationSlice';
 import NotificationComp from '../../components/notifications/NotificationComp';
 import { fetchNotificationsThunk } from '../../services/NotificationService';
-
+import "./notifications.css"
 
 const Notifications = () => {
     const { notifications, unRead } = useSelector(store => store.notifications)
     const dispatch = useDispatch()
     console.log(notifications)
+    const [notifies, setNotifies] = useState([])
+
+    useEffect(() => {
+        setNotifies(notifications)
+    }, [notifications])
 
     useEffect(() => {
         dispatch(unReadCount())
@@ -31,9 +35,9 @@ const Notifications = () => {
                 <div className="notifications_middle">
 
                     <div className="notifications_middle_content">
-                        {notifications.length > 0 &&
-                            notifications.map(nots => (
-                                <NotificationComp key={nots._id} {...nots} />
+                        {notifies.length > 0 &&
+                            notifies.map(nots => (
+                                <NotificationComp key={nots._id} {...nots} notifies={notifies} setNotifies={setNotifies} />
                             ))
                         }
                     </div>

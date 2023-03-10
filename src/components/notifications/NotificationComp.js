@@ -3,15 +3,20 @@ import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import { viewNotify, deleteNotify } from '../../services/NotificationService'
 import { Dots } from '../../svg'
+import { cloneDeep } from 'lodash';
 import { useDispatch } from 'react-redux';
 import { deleteNotifyRedux, updateNotifyRedux } from '../../redux/notificationSlice'
 
-const NotificationComp = ({ _id, content, createdAt, from, read }) => {
+const NotificationComp = ({ _id, content, createdAt, from, read, notifies, setNotifies }) => {
     const [showMenu, setShowMenu] = useState(false)
     const dispatch = useDispatch()
     const handleView = async () => {
         await viewNotify(_id)
-        dispatch(updateNotifyRedux(_id))
+        //dispatch(updateNotifyRedux(_id))
+        let copyArray = cloneDeep(notifies)
+        const index = copyArray.findIndex(n => n._id === _id)
+        copyArray[index].read = true
+        setNotifies(copyArray)
     }
     const handleDelete = async () => {
         await deleteNotify(_id)

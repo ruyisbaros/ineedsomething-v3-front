@@ -14,7 +14,7 @@
     position: fixed;
     left: -6px;
     max-height: 100vh;
-    width: 20vw;
+    width: 300px !important;
     overflow-y: auto;
 }
 
@@ -105,8 +105,8 @@
 /* Right */
 .notifications_right {
     position: fixed;
-    left: 80.7vw;
-    width: 17vw;
+    right: 2rem;
+    width: 300px !important;
     max-height: 100vh;
     overflow-y: auto;
 }
@@ -118,4 +118,70 @@
     border-radius: 5px;
     padding: 1rem;
     box-shadow: 0 1px 2px var(--shadow-1);
+}
+
+/* Responsives */
+
+@media (max-width:1100px) {
+    .notifications_left {
+        left: -20px;
+    }
+
+    .notifications_right {
+        right: 0;
+    }
+}
+
+@media (max-width:950px) {
+    .notifications_left {
+        left: -30px;
+    }
+
+    .notifications_right {
+        right: -2rem;
+    }
+}
+
+@media (max-width:800px) {
+    .notifications_middle {
+        margin-top: 10rem;
+        width: 90vw !important;
+    }
+
+    .notifications_left {
+        position: absolute;
+        left: 50vw;
+        transform: translateX(-50%);
+        width: 100% !important;
+    }
+
+    .notifications_right {
+        position: absolute;
+        left: 50vw;
+        top: 9rem;
+        transform: translateX(-50%);
+        width: 100% !important;
+    }
+
+    .notifications_left_content,
+    .notifications_right_content {
+        width: 90vw;
+    }
+}
+
+@media (max-width:500px) {
+    .notifications_middle {
+        margin-top: 10rem;
+        width: 98vw !important;
+    }
+
+    .notifications_left_content,
+    .notifications_right_content {
+        width: 98vw;
+    }
+
+    .nots_name {
+        font-size: 14px;
+        word-break: break-all;
+    }
 }

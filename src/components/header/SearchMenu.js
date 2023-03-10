@@ -1,12 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
+import { toast } from 'react-toastify';
+import { searchUsersRegex, useDebounce } from '../../services/SearchService';
 import { Return, Search } from '../../svg'
 import { useOutsideClick } from './../../utils/helpers';
 
 const SearchMenu = ({ setShowSearchMenu, showSearchMenu }) => {
     const color = "#65676b"
     const [iconShow, setIconShow] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
+    const [searchResults, setSearchResults] = useState([])
     const menuRef = useRef(null)
     const inputRef = useRef(null)
+    const debouncedValue = useDebounce(search, 1000) //make soft search
 
     useOutsideClick(menuRef, () => {
         setShowSearchMenu(!showSearchMenu)
@@ -15,6 +21,25 @@ const SearchMenu = ({ setShowSearchMenu, showSearchMenu }) => {
     useEffect(() => {
         inputRef.current.focus()
     }, [])
+
+    const searchUserHandler = useCallback(async (query) => {
+        try {
+            setSearch(query)
+            if (query) {
+                const res = await searchUsersRegex(query, setLoading)
+                setSearchResults(res)
+                console.log(res)
+            }
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (debouncedValue) {
+            searchUserHandler(debouncedValue)
+        }
+    }, [searchUserHandler, debouncedValue])
 
     return (
         <div className='header_left search_area scrollbar' ref={menuRef}>
@@ -32,6 +57,8 @@ const SearchMenu = ({ setShowSearchMenu, showSearchMenu }) => {
                     </div>}
                     <input
                         type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
                         placeholder='Search iNeedSomething'
                         ref={inputRef}
                         onFocus={() => setIconShow(false)}

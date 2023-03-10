@@ -51,7 +51,8 @@ const Header = ({ page }) => {
                     />
                 </div>
             </div>
-            {showSearchMenu && <SearchMenu setShowSearchMenu={setShowSearchMenu} showSearchMenu={setShowSearchMenu} />}
+            {showSearchMenu && <SearchMenu setShowSearchMenu={setShowSearchMenu}
+                showSearchMenu={showSearchMenu} />}
             <div className="header_middle">
                 <Link to="/" className={`middle_icon ${page === "home" ? "active" : "hover1"}`}>
                     {page === "home" ? <HomeActive color={color} /> :

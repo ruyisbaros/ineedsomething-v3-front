@@ -9,6 +9,7 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
+/* Left */
 .notifications_left {
     position: fixed;
     left: -6px;
@@ -26,6 +27,7 @@
     box-shadow: 0 1px 2px var(--shadow-1);
 }
 
+/* Middle */
 .notifications_middle {
     position: absolute;
     width: 50vw;
@@ -43,6 +45,64 @@
     overflow-y: auto;
 }
 
+.nots {
+    height: 100px;
+    display: flex;
+    position: relative;
+}
+
+.nots_img {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.nots_right {
+    position: absolute;
+    right: 1rem;
+}
+
+.nots_right .nots_date {
+    font-size: 12px;
+    margin-left: 20px;
+    color: var(--color-secondary);
+}
+
+.nots_right .nots_dots {
+    margin-top: 15px;
+    margin-left: 70px;
+    cursor: pointer;
+    color: var(--color-secondary);
+}
+
+.notification_delete {
+    width: 200px;
+    height: 40px;
+    position: absolute;
+    right: 0rem;
+    top: 3rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 2px var(--shadow-1);
+    background: #f5f4f4;
+    z-index: 99;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.notification_delete i {
+    transform: scale(.90);
+}
+
+.notification_delete span {
+    font-size: 14px;
+}
+
+/* Right */
 .notifications_right {
     position: fixed;
     left: 80.7vw;

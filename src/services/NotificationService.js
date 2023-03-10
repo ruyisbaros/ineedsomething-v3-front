@@ -12,3 +12,12 @@ export const fetchNotificationsThunk = createAsyncThunk("user/notifications", as
     }
 
 })
+
+export const viewNotify = async (id) => {
+    await axios.patch(`/user/notifications/view_notify/${id}`, {})
+
+}
+export const deleteNotify = async (id) => {
+    const { data } = await axios.delete(`/user/notifications/delete_notify/${id}`)
+    return data
+}

@@ -65,10 +65,6 @@ const Home = ({ setShowCreatePostPopup }) => {
         dispatch(fetchNotificationsThunk())
     }, [dispatch])
 
-    useEffect(() => {
-
-    }, [])
-
     return (
         <div className='home' style={{ height: `${height + 100}px` }}>
             {!loggedUser ? <HeaderSkeleton /> : <Header page="home" />}

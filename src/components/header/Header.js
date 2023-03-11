@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import logo from "../../assets/output-onlinejpgtools (1).png"
-import { Search, HomeActive, Menu, Notifications, Home } from "../../svg"
+import { Search, HomeActive, Menu, Notifications, Home, FriendsActive } from "../../svg"
 import Friends from './../../svg/friends';
 import Watch from './../../svg/watch';
 import Market from './../../svg/market';
@@ -58,8 +58,8 @@ const Header = ({ page }) => {
                     {page === "home" ? <HomeActive color={color} /> :
                         <Home color={color} />}
                 </Link>
-                <Link to="/" className='middle_icon hover1'>
-                    <Friends color={color} />
+                <Link to="/friends" className={`middle_icon hover1 ${page === "friends" ? "active" : ""}`}>
+                    {page === "friends" ? <FriendsActive color={color} /> : <Friends color={color} />}
                 </Link>
                 <Link to="/" className='middle_icon hover1'>
                     <Watch color={color} />

@@ -18,6 +18,8 @@ import { useCallback, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup"
 import Error from './pages/Error';
 import Notifications from "./pages/notification/Notifications";
+import Friends from "./pages/friends/Friends";
+
 
 
 function App() {
@@ -57,6 +59,7 @@ function App() {
           <Route path="/activate/:token" element={<Activate />} />
           <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/profile" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/friends" element={<Friends />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

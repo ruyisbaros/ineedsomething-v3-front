@@ -222,7 +222,7 @@
 /* Footer */
 .login_footer {
     height: 22vh;
-    background: #fff;
+    background: var(--bg-primary);
     padding: 1.5rem;
     padding-bottom: 2rem
 }

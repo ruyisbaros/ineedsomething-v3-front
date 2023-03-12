@@ -19,7 +19,7 @@
 }
 
 .notifications_left_content {
-    background: #fff;
+    background: var(--bg-primary);
     width: 50%;
     margin: 1rem auto;
     border-radius: 5px;
@@ -36,7 +36,7 @@
 }
 
 .notifications_middle_content {
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 5px;
     margin: 1rem auto;
     padding: 1rem;
@@ -112,7 +112,7 @@
 }
 
 .notifications_right_content {
-    background: #fff;
+    background: var(--bg-primary);
     width: 50%;
     margin: 1rem auto;
     border-radius: 5px;

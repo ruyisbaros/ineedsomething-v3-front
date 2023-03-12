@@ -1,5 +1,5 @@
 .send_verification {
-    background: #fff;
+    background: var(--bg-primary);
     box-shadow: 0 1px 2px var(--shadow-1);
     font-size: 14px;
     color: var(--color-primary);

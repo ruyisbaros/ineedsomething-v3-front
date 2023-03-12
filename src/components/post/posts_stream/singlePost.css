@@ -6,7 +6,7 @@
 .post {
     position: relative;
     width: 685px;
-    background: #fff;
+    background: var(--bg-primary);
     border-radius: 10px;
     box-shadow: 0 1px 2px var(--shadow-1);
     user-select: none;
@@ -96,7 +96,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
-    background: #fff;
+    background: var(--bg-primary);
     gap: 1px;
 }
 
@@ -121,7 +121,7 @@
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     grid-template-rows: 1fr 1fr;
-    background: #fff;
+    background: var(--bg-primary);
     gap: 1px;
 }
 
@@ -166,7 +166,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    background: #fff;
+    background: var(--bg-primary);
     gap: 1px;
 }
 
@@ -222,7 +222,7 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr 1fr;
-    background: #fff;
+    background: var(--bg-primary);
     gap: 1px;
 }
 
@@ -374,7 +374,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #fff;
+    background: var(--bg-primary);
     padding: 5px 15px;
     border-radius: 50px;
     box-shadow: 0 1px 2px var(--shadow-1);
@@ -538,7 +538,7 @@
     position: absolute;
     top: 3rem;
     right: 10px;
-    background: #fff;
+    background: var(--bg-primary);
     width: 300px;
     box-shadow: 1px 0 2px var(--shadow-1);
     list-style: none;

@@ -109,6 +109,8 @@ button {
   --shadow-inset: rgba(255, 255, 255, 0.5);
 }
 
+.dark {}
+
 /* Blur screen */
 .blur {
   position: fixed;

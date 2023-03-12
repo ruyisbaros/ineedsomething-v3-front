@@ -60,6 +60,7 @@ function App() {
           <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/profile" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/friends" element={<Friends />} />
+          <Route path="/friends/:type" element={<Friends />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

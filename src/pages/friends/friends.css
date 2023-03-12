@@ -39,6 +39,11 @@
     background: var(--blue-color);
 }
 
+.friends_left_wrap .active_friends .small_circle i {
+    filter: invert(100%);
+}
+
+/* Right */
 .friends_right {
     background: var(--bg-secondary);
     padding: 2rem;
@@ -46,6 +51,116 @@
     top: 56px;
     left: 360px;
     right: 0;
-    bottom: 0;
     width: calc(100% - 360px);
+    padding-bottom: 3rem;
+}
+
+.see_link {
+    color: var(--blue-color);
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+
+/* friend card */
+.friends_right_wrap {
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--bg-third);
+}
+
+.flex_wrap {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.req_card {
+    background: #fff;
+    box-shadow: 1px 1px 1px var(--shadow-1);
+    width: 210px;
+    height: fit-content;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.req_card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.req_name {
+    text-transform: capitalize;
+}
+
+.req_card button {
+    width: 170px;
+}
+
+/* Responsive */
+@media (max-width:870px) {
+    .friends_left {
+        width: 100px;
+    }
+
+    .friends_left .friends_left_header .small_circle {
+        display: none;
+    }
+
+    .friends_left .menu_item span {
+        display: none;
+    }
+
+    .friends_left .menu_item .rArrow i {
+        transform: scale(.7);
+    }
+
+    .friends_right {
+        left: 100px;
+        width: calc(100% - 100px);
+    }
+}
+
+@media (max-width:400px) {
+    .see_link {
+
+        font-size: 14px;
+    }
+
+    .req_card {
+        width: 100%;
+    }
+
+    .req_card button {
+        width: 130px;
+    }
+
+    .friends_right {
+        padding: 10px;
+    }
+
+    .friends h3 {
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width:345px) {
+    .see_link {
+        font-size: 12px;
+    }
+
+    .friends h3 {
+        font-size: 13px !important;
+    }
+
+    .friends_left .menu_item .rArrow i {
+        display: none;
+    }
 }

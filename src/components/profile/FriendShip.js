@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { addFriendRequest, cancelFriendRequest, followUnFollow, ignoreFriendRequest, unFriend } from '../../services/FriendShipServices';
 import { useOutsideClick } from './../../utils/helpers';
 import { useSelector, useDispatch } from 'react-redux';

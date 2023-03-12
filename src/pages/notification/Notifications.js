@@ -9,7 +9,7 @@ import "./notifications.css"
 const Notifications = () => {
     const { notifications, unRead } = useSelector(store => store.notifications)
     const dispatch = useDispatch()
-    console.log(notifications)
+    //console.log(notifications)
     const [notifies, setNotifies] = useState([])
 
     useEffect(() => {

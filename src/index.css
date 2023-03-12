@@ -92,6 +92,7 @@ button {
   --bg-third: #e4e6eb;
   --bg-forth: #f0f2f5;
   --color-primary: #050505;
+  --color-primary2: #050505;
   --color-secondary: #65676b;
   --divider: #ced0d4;
   --dark-bg-primary: #18191a;
@@ -109,7 +110,6 @@ button {
   --shadow-inset: rgba(255, 255, 255, 0.5);
 }
 
-.dark {}
 
 /* Blur screen */
 .blur {
@@ -237,4 +237,5 @@ button {
   cursor: pointer;
 }
 
-@import url("./styles/icons/icons.css")
+@import url("./styles/icons/icons.css");
+@import url("./DarkMode.css")

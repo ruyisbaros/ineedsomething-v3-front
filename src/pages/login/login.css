@@ -16,6 +16,7 @@
 .login_1 span {
     display: block;
     font-size: 20px;
+    color: var(--color-secondary)
 }
 
 .login_1 img {
@@ -332,7 +333,7 @@
     }
 
     .login_1 span {
-        color: #000;
+
         font-size: 25px;
     }
 

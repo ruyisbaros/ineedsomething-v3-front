@@ -47,7 +47,7 @@ function App() {
   })
 
   return (
-    <>
+    <div className="">
       <ToastContainer position="bottom-center" limit={1} />
       {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup}
         user={loggedUser} />}
@@ -72,7 +72,7 @@ function App() {
 
 
       </Routes>
-    </>
+    </div>
   );
 }
 

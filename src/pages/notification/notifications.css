@@ -1,5 +1,6 @@
 .notifications {
     padding: 1rem 2rem 0 2rem;
+    height: 100% !important;
 
 }
 
@@ -7,6 +8,7 @@
     margin-top: 56px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    height: 100%;
 }
 
 /* Left */
@@ -25,6 +27,7 @@
     border-radius: 5px;
     padding: 1rem;
     box-shadow: 0 1px 2px var(--shadow-1);
+    color: var(--color-primary2)
 }
 
 /* Middle */
@@ -77,6 +80,10 @@
     color: var(--color-secondary);
 }
 
+.nots_name {
+    color: var(--color-primary2)
+}
+
 .notification_delete {
     width: 200px;
     height: 40px;
@@ -118,6 +125,7 @@
     border-radius: 5px;
     padding: 1rem;
     box-shadow: 0 1px 2px var(--shadow-1);
+    color: var(--color-primary2)
 }
 
 /* Responsives */
@@ -183,5 +191,6 @@
     .nots_name {
         font-size: 14px;
         word-break: break-all;
+
     }
 }

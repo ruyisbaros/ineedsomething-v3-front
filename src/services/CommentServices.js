@@ -53,3 +53,14 @@ export const getAllComments = async (setLoading) => {
     }
 
 }
+export const likeUnlikeComment = async (id) => {
+    try {
+
+        const { data } = await axios.get(`/post/comments/like_unlike_comment/${id}`)
+        return data
+
+    } catch (error) {
+        toast.error(error.response.data.message)
+    }
+
+}

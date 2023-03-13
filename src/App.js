@@ -24,6 +24,7 @@ import Friends from "./pages/friends/Friends";
 
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
+  const { darkTheme } = useSelector(store => store.screenTheme)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
 
@@ -47,7 +48,7 @@ function App() {
   })
 
   return (
-    <div className="">
+    <div className={darkTheme ? "dark" : ""}>
       <ToastContainer position="bottom-center" limit={1} />
       {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup}
         user={loggedUser} />}

@@ -49,8 +49,9 @@ const FriendsSkeleton = () => {
                     </div>
                     <div className="flex_wrap" style={{ borderBottom: "none" }}>
                         {
-                            [1, 2, 3].map(user => (
+                            [1, 2, 3].map((user, i) => (
                                 <Skeleton
+                                    key={i}
                                     width={210}
                                     height={250}
                                     containerClassName='avatar-skeleton'
@@ -74,8 +75,9 @@ const FriendsSkeleton = () => {
                     </div>
                     <div className="flex_wrap" >
                         {
-                            [1, 2, 3].map(user => (
+                            [1, 2, 3].map((user, i) => (
                                 <Skeleton
+                                    key={i}
                                     width={210}
                                     height={250}
                                     containerClassName='avatar-skeleton'
@@ -99,8 +101,9 @@ const FriendsSkeleton = () => {
                     </div>
                     <div className="flex_wrap" >
                         {
-                            [1, 2, 3, 4, 5].map(user => (
+                            [1, 2, 3, 4, 5].map((user, i) => (
                                 <Skeleton
+                                    key={i}
                                     width={210}
                                     height={250}
                                     containerClassName='avatar-skeleton'

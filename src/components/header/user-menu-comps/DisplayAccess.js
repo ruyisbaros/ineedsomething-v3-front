@@ -1,6 +1,22 @@
 import React from 'react'
 import { MdViewCompact } from "react-icons/md"
+import { useDispatch, useSelector } from 'react-redux';
+import { setDarkTheme, setLightTheme } from '../../../redux/screenModeSlicer';
+import Cookies from "js-cookie"
+
 const DisplayAccess = ({ setVisible }) => {
+    const { darkTheme } = useSelector(store => store.screenTheme)
+    const dispatch = useDispatch()
+
+    const handleDarkOff = () => {
+        dispatch(setLightTheme())
+        Cookies.set("darkTheme", JSON.stringify(false))
+    }
+
+    const handleDarkOn = () => {
+        dispatch(setDarkTheme())
+        Cookies.set("darkTheme", JSON.stringify(true))
+    }
     return (
         <div className="absolute_wrap">
             <div className="absolute_wrap_header">
@@ -26,13 +42,15 @@ const DisplayAccess = ({ setVisible }) => {
                     </span>
                 </div>
             </div>
-            <label htmlFor="darkOff" className="hover1">
+            <label htmlFor="darkOff" className="hover1"
+                onClick={handleDarkOff}
+            >
                 <span>Off</span>
-                <input type="radio" name="dark" id="darkOff" />
+                <input type="radio" name="dark" id="darkOff" readOnly checked={!darkTheme} />
             </label>
-            <label htmlFor="darkOn" className="hover1">
+            <label htmlFor="darkOn" className="hover1" onClick={handleDarkOn}>
                 <span>On</span>
-                <input type="radio" name="dark" id="darkOn" />
+                <input type="radio" name="dark" id="darkOn" readOnly checked={darkTheme} />
             </label>
             <div className="menu_main">
                 <div className="small_circle" style={{ width: "50px" }}>

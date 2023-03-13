@@ -5,6 +5,7 @@ import currentUserSlice from "./currentUserSlice";
 import notificationSlice from "./notificationSlice";
 import postsSlicer from "./postsSlicer";
 import profileSlicer from "./profileSlicer";
+import screenModeSlicer from "./screenModeSlicer";
 
 
 export const store = configureStore({
@@ -13,6 +14,7 @@ export const store = configureStore({
         posts: postsSlicer,
         profile: profileSlicer,
         comments: commentsSlice,
-        notifications: notificationSlice
+        notifications: notificationSlice,
+        screenTheme: screenModeSlicer
     },
 });

@@ -471,6 +471,7 @@
     transform: scale(0.8);
 }
 
+/* Comment Card */
 .comment {
     display: flex;
     gap: 5px;
@@ -481,6 +482,12 @@
 
 .comment_col {
     width: 60%;
+}
+
+.comment_wrap {
+    background: var(--bg-forth);
+    padding: 5px 15px;
+    border-radius: 50px;
 }
 
 .comment_name {
@@ -503,12 +510,6 @@
     object-fit: cover;
 }
 
-.comment_wrap {
-    background: var(--bg-forth);
-    padding: 5px 15px;
-    border-radius: 50px;
-}
-
 .comment_actions {
     display: flex;
     align-items: center;
@@ -517,6 +518,12 @@
     font-weight: 600;
     color: var(--color-secondary);
     margin-left: 15px;
+    margin: 5px 0 5px 10px;
+}
+
+.comment_actions .comment_like {
+    width: 20px;
+
 }
 
 .view_comments {

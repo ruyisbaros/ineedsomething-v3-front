@@ -10,8 +10,8 @@ import PostMenu from './PostMenu';
 import "./singlePost.css"
 import { getPostReacts } from '../../../services/PostReactService';
 import { addPostReact } from './../../../services/PostReactService';
-import { getPostComments, fetchCommentsThunk } from './../../../services/CommentServices';
-import SingleComment from '../SingleComment';
+import { fetchCommentsThunk } from './../../../services/CommentServices';
+import CommentDisplay from './CommentDisplay';
 //import { singlePostComments } from '../../../redux/commentsSlice';
 
 const SinglePost = ({ user, post, profile }) => {
@@ -218,7 +218,7 @@ const SinglePost = ({ user, post, profile }) => {
                         <>
                             {postComments && postComments.length > 0 &&
                                 postComments.slice(0, commentSize).map(com => (
-                                    <SingleComment key={com._id} com={com} />
+                                    <CommentDisplay key={com._id} comment={com} />
                                 ))
                             }
                             {commentSize < postComments.length &&

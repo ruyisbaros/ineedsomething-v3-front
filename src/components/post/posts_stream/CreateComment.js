@@ -5,8 +5,9 @@ import { addComment } from './../../../services/CommentServices';
 import { RingLoader } from "react-spinners"
 import { useDispatch } from 'react-redux';
 import { addCommentRedux } from '../../../redux/commentsSlice';
+import { Link } from 'react-router-dom';
 
-const CreateComment = ({ user, commentPost, setShowComment }) => {
+const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply, replyTo, commentId, setShowReplies }) => {
     const [picker, setPicker] = useState(false)
     const [loading, setLoading] = useState(false)
     const [cursorPosition, setCursorPosition] = useState()
@@ -54,17 +55,39 @@ const CreateComment = ({ user, commentPost, setShowComment }) => {
         if (e.key === "Enter") {
             if (commentImage) {
                 const path = `iNeedSomething/${user.email}/commentImages`
-                const res = await addComment(comment, commentImage, path, commentPost, null, setLoading)
+                const res = await addComment(comment, commentImage, path, commentPost, null, null, setLoading)
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
                 setComment("")
                 setCommentImage(null)
             } else {
-                const res = await addComment(comment, null, null, commentPost, null, setLoading)
+                const res = await addComment(comment, null, null, commentPost, null, null, setLoading)
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
+                setComment("")
+            }
+
+        }
+    }
+    const handleReplyComment = async (e) => {
+        if (e.key === "Enter") {
+            if (commentImage) {
+                const path = `iNeedSomething/${user.email}/commentImages`
+                const res = await addComment(comment, commentImage, path, commentPost, commentId, replyTo, setLoading)
+                //console.log(res)
+                dispatch(addCommentRedux(res?.comment))
+                setOnReply(false)
+                setShowReplies(true)
+                setComment("")
+                setCommentImage(null)
+            } else {
+                const res = await addComment(comment, null, null, commentPost, commentId, replyTo, setLoading)
+                //console.log(res)
+                dispatch(addCommentRedux(res?.comment))
+                setOnReply(false)
+                setShowReplies(true)
                 setComment("")
             }
 
@@ -74,6 +97,7 @@ const CreateComment = ({ user, commentPost, setShowComment }) => {
     useOutsideClick(emojiBox, () => {
         setPicker(false)
     })
+
     return (
         <div className='create_comment_wrap'>
             <div className="create_comment">
@@ -94,13 +118,21 @@ const CreateComment = ({ user, commentPost, setShowComment }) => {
                         <div className="postError_error">{error}</div>
                         <div className="blue_btn" onClick={() => setError("")}>Try Again</div>
                     </div>}
+                    {replyCom && replyTo.username !== user.username &&
+                        <Link to={`/profile/${replyTo.username}`}>
+                            <span style={{ color: "#1876f2", textTransform: "capitalize" }}>@{replyTo.first_name}</span>
+                        </Link>
+                    }
                     <input
                         type="text"
                         ref={commentRef}
-                        placeholder="Write a comment..."
+                        placeholder={replyCom ? "Reply comment..." : "Write a comment..."}
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
-                        onKeyUp={handleAddComment}
+                        onKeyUp={(e) => {
+                            replyCom ? handleReplyComment(e) :
+                                handleAddComment(e)
+                        }}
                     />
                     <div className="comment_circle">
                         <RingLoader size={20} color="#1876f2" loading={loading} />
@@ -127,6 +159,7 @@ const CreateComment = ({ user, commentPost, setShowComment }) => {
                     <i className="exit_icon"></i>
                 </div>
             </div>}
+
         </div>
     )
 }

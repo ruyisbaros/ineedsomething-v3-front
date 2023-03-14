@@ -481,7 +481,7 @@
 }
 
 .comment_col {
-    width: 60%;
+    width: 100%;
 }
 
 .comment_wrap {
@@ -561,6 +561,31 @@
 
 .view_comments:hover {
     text-decoration: underline;
+}
+
+.create_comment_wrap {
+    position: relative;
+}
+
+.create_comment_wrap .cancel_reply {
+    position: absolute;
+    top: -6px;
+    right: -1.2rem;
+    background: #ccc;
+    color: #1876f2;
+    border: none;
+    border-radius: 50%;
+    padding: 3px 5px;
+    font-weight: bold;
+}
+
+.create_comment_reply {
+    margin-top: 10px;
+}
+
+.create_comment_reply img {
+    width: 25px;
+    height: 25px;
 }
 
 /* Post menu */

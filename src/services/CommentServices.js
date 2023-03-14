@@ -14,10 +14,10 @@ export const fetchCommentsThunk = createAsyncThunk("post/comments", async (post,
 
 })
 
-export const addComment = async (comment, pic, path, commentPost, reply, setLoading) => {
+export const addComment = async (comment, pic, path, commentPost, reply, tag, setLoading) => {
     try {
         setLoading(true)
-        const { data } = await axios.post("/post/comments/add_comment", { comment, pic, path, commentPost, reply })
+        const { data } = await axios.post("/post/comments/add_comment", { comment, pic, path, commentPost, reply, tag })
         setLoading(false)
         return data
 

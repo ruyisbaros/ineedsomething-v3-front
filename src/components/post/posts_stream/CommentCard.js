@@ -5,9 +5,11 @@ import { AiOutlineLike, AiFillLike } from "react-icons/ai"
 import { BsReplyFill, BsReply } from "react-icons/bs"
 import { likeUnlikeComment } from '../../../services/CommentServices'
 import { useSelector } from 'react-redux';
-const CommentCard = ({ comment }) => {
+import CreateComment from './CreateComment'
+const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const [isLiked, setIsLiked] = useState(false)
+    const [onReply, setOnReply] = useState(false)
     const [commentLikes, setCommentLikes] = useState(comment.likes.length)
 
     useEffect(() => {
@@ -20,6 +22,11 @@ const CommentCard = ({ comment }) => {
         //console.log(comment.likes.includes(loggedUser._id))
         setCommentLikes(prev => isLiked ? prev -= 1 : prev += 1)
     }
+
+    const handleReplyComment = async () => {
+        setOnReply(!onReply)
+    }
+
     return (
         <div className='comment_card'>
             <div className='comment'>
@@ -43,19 +50,36 @@ const CommentCard = ({ comment }) => {
                     {comment?.image &&
                         <img src={comment?.image} alt="" className='comment_image' />
                     }
-                    <div className="comment_actions">
-                            <span className='comment_like'
+                        {
+                            !comment.reply &&
+                            <div className="comment_actions">
+                                <span className='comment_like'
                                 onClick={handleLikeComment}>
                                 {isLiked ? <AiFillLike size={20} fill="#1876f2" /> : <AiOutlineLike size={20} />}
                                 <span>{commentLikes} </span>
-                        </span>
-                        <span className='comment_reply'>
-                                <BsReply size={20} /> reply
-                        </span>
+                                    </span>
+
+                                    <span className='comment_reply' onClick={handleReplyComment}>
+                                        {onReply ? <BsReplyFill fill="#1876f2" size={20} /> : <BsReply size={20} />}
+                                        {onReply ? "cancel" : "reply"}
+                                    </span>
+                                {item && <small style={{ textTransform: "uppercase", color: showReplies ? "crimson" : "#1876f2", cursor: "pointer" }} className="font-weight-bold mx-2"
+                                    onClick={() => setShowReplies(!showReplies)}
+                                >{showReplies ? "hide" : "replies..."}</small>}
+                            </div>
+                        }
+
 
                     </div>
+                    {children}
+                    <div className='create_comment_reply'>
+                        {
+                            onReply && <CreateComment commentId={commentId} replyTo={comment?.commentBy} replyCom user={user} commentPost={commentPost}
+                                setOnReply={setOnReply} setShowReplies={setShowReplies} />
+                        }
                     </div>
                 </div>
+
             </div>
         </div>
     )

@@ -23,6 +23,7 @@ const SinglePost = ({ user, post, profile }) => {
     //const [loading, setLoading] = useState(false)
     const [postReacts, setPostReacts] = useState([])
     const [postComments, setPostComments] = useState([])
+    const [repliedPostComments, setRepliedPostComments] = useState([])
     const [check, setCheck] = useState("")
     const [isSaved, setIsSaved] = useState("")
     const [count, setCount] = useState(0)
@@ -48,9 +49,10 @@ const SinglePost = ({ user, post, profile }) => {
         dispatch(fetchCommentsThunk())
     }, [dispatch])
     useEffect(() => {
-        setPostComments(comments.filter(com => com.commentPost === post?._id))
+        setPostComments(comments.filter(com => com.commentPost === post?._id && !com.reply))
+        setRepliedPostComments(comments.filter(com => com.reply))
     }, [comments, post, dispatch])
-
+    //console.log(repliedPostComments)
     const handleReact = async (react) => {
         await addPostReact(react, post._id)
         if (check === react) {
@@ -218,7 +220,13 @@ const SinglePost = ({ user, post, profile }) => {
                         <>
                             {postComments && postComments.length > 0 &&
                                 postComments.slice(0, commentSize).map(com => (
-                                    <CommentDisplay key={com._id} comment={com} />
+                                    <CommentDisplay
+                                        key={com._id}
+                                        user={user}
+                                        commentPost={post?._id}
+                                        comment={com}
+                                        commentReplies={repliedPostComments.filter(rep => rep.reply === com._id)}
+                                    />
                                 ))
                             }
                             {commentSize < postComments.length &&

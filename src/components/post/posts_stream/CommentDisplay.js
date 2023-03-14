@@ -16,8 +16,8 @@ const CommentDisplay = ({ comment, user, commentPost, commentReplies }) => {
             <div className="replay-message">
                 {
                     commentReplies.map((item, i) => (
-                        showReplies && <CommentCard key={i} comment={item} user={user}
-                            commentPost={commentPost} />
+                        showReplies && <CommentCard key={i} comment={item} commentId={comment._id} user={user}
+                            commentPost={commentPost} tag={item?.tag} />
                     ))
                 }
             </div>

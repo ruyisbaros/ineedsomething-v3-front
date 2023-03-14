@@ -19,6 +19,9 @@ const commentSlicer = createSlice({
         updateCommentRedux: (state, action) => {
             state.comments = action.payload;
         },
+        deleteCommentRedux: (state, action) => {
+            state.comments = state.comments.filter(com => com._id !== action.payload);
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCommentsThunk.pending, (state) => {
@@ -38,6 +41,7 @@ const commentSlicer = createSlice({
 export const {
     addCommentRedux,
     updateCommentRedux,
+    deleteCommentRedux
 } = commentSlicer.actions;
 
 export default commentSlicer.reducer;

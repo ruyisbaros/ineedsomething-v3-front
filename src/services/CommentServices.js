@@ -64,3 +64,14 @@ export const likeUnlikeComment = async (id) => {
     }
 
 }
+export const deleteComment = async (id) => {
+    try {
+
+        const { data } = await axios.delete(`/post/comments/delete_comment/${id}`)
+        return data
+
+    } catch (error) {
+        toast.error(error.response.data.message)
+    }
+
+}

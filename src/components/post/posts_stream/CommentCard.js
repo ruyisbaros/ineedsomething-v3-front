@@ -3,15 +3,20 @@ import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 import { AiOutlineLike, AiFillLike } from "react-icons/ai"
 import { BsReplyFill, BsReply } from "react-icons/bs"
-import { likeUnlikeComment } from '../../../services/CommentServices'
-import { useSelector } from 'react-redux';
+import { RiDeleteBin5Line } from "react-icons/ri"
+import { deleteComment, likeUnlikeComment } from '../../../services/CommentServices'
+import { useSelector, useDispatch } from 'react-redux';
 import CreateComment from './CreateComment'
-const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item }) => {
+import Dots from '../../../svg/dots'
+import { deleteCommentRedux } from '../../../redux/commentsSlice'
+const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item, tag }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const [isLiked, setIsLiked] = useState(false)
     const [onReply, setOnReply] = useState(false)
+    const [deleteMenu, setDeleteMenu] = useState(false)
     const [commentLikes, setCommentLikes] = useState(comment.likes.length)
-
+    const color = "#65676b"
+    const dispatch = useDispatch()
     useEffect(() => {
         setIsLiked(comment?.likes?.includes(loggedUser._id))
     }, [comment?.likes, loggedUser])
@@ -21,6 +26,10 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
         setIsLiked(!isLiked)
         //console.log(comment.likes.includes(loggedUser._id))
         setCommentLikes(prev => isLiked ? prev -= 1 : prev += 1)
+    }
+    const handleDeleteComment = async () => {
+        await deleteComment(comment._id)
+        dispatch(deleteCommentRedux(comment._id))
     }
 
     const handleReplyComment = async () => {
@@ -44,14 +53,23 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
                             </span>
                         </div>
                         <div className="comment_text">
-                            {comment?.comment}
+                            {(tag) ?
+                                <>
+                                    <Link to={`profile/${tag.username}`}
+                                        style={{ color: "#1876f2", marginRight: "5px", textTransform: "capitalize" }}>
+                                        @{tag.first_name}:
+                                    </Link>
+                                    <span>{comment?.comment}</span>
+                                </>
+                                :
+                                comment?.comment
+                            }
                         </div>
 
                     {comment?.image &&
                         <img src={comment?.image} alt="" className='comment_image' />
                     }
-                        {
-                            !comment.reply &&
+
                             <div className="comment_actions">
                                 <span className='comment_like'
                                 onClick={handleLikeComment}>
@@ -66,10 +84,20 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
                                 {item && <small style={{ textTransform: "uppercase", color: showReplies ? "crimson" : "#1876f2", cursor: "pointer" }} className="font-weight-bold mx-2"
                                     onClick={() => setShowReplies(!showReplies)}
                                 >{showReplies ? "hide" : "replies..."}</small>}
-                            </div>
-                        }
+                        </div>
 
-
+                        {comment.commentBy._id === user._id &&
+                            <div className="comment_card_delete" onClick={() => setDeleteMenu(prev => !prev)}>
+                                <div className="contact_circle">
+                                    <Dots color={color} />
+                                </div>
+                            </div>}
+                        {deleteMenu &&
+                            <div className="post_menu hover1"
+                                onClick={handleDeleteComment}>
+                                <RiDeleteBin5Line size={15} />
+                                <span>Delete</span>
+                            </div>}
                     </div>
                     {children}
                     <div className='create_comment_reply'>
@@ -78,9 +106,11 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
                                 setOnReply={setOnReply} setShowReplies={setShowReplies} />
                         }
                     </div>
+
                 </div>
 
             </div>
+
         </div>
     )
 }

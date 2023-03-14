@@ -488,6 +488,7 @@
     background: var(--bg-forth);
     padding: 5px 15px;
     border-radius: 10px;
+    position: relative;
 }
 
 .comment_text {
@@ -586,6 +587,31 @@
 .create_comment_reply img {
     width: 25px;
     height: 25px;
+}
+
+.comment_card_delete {
+    position: absolute;
+    right: 0;
+    top: 1.5rem;
+}
+
+.comment_wrap .post_menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+    top: 3.5rem;
+    cursor: pointer;
+}
+
+.comment_wrap .post_menu span {
+    font-size: 13px;
+    color: crimson;
+    font-weight: bold;
+}
+
+.comment_card_delete .contact_circle {
+    transform: rotate(90deg);
 }
 
 /* Post menu */

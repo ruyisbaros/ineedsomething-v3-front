@@ -75,7 +75,7 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
         if (e.key === "Enter") {
             if (commentImage) {
                 const path = `iNeedSomething/${user.email}/commentImages`
-                const res = await addComment(comment, commentImage, path, commentPost, commentId, replyTo, setLoading)
+                const res = await addComment(comment, commentImage, path, commentPost, commentId, replyTo.username !== user.username ? replyTo : null, setLoading)
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setOnReply(false)
@@ -83,7 +83,7 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 setComment("")
                 setCommentImage(null)
             } else {
-                const res = await addComment(comment, null, null, commentPost, commentId, replyTo, setLoading)
+                const res = await addComment(comment, null, null, commentPost, commentId, replyTo.username !== user.username ? replyTo : null, setLoading)
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setOnReply(false)

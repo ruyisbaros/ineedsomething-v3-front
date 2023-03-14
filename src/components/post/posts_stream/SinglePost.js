@@ -50,7 +50,7 @@ const SinglePost = ({ user, post, profile }) => {
     }, [dispatch])
     useEffect(() => {
         setPostComments(comments.filter(com => com.commentPost === post?._id && !com.reply))
-        setRepliedPostComments(comments.filter(com => com.reply))
+        setRepliedPostComments(comments.filter(com => com.reply).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)))
     }, [comments, post, dispatch])
     //console.log(repliedPostComments)
     const handleReact = async (react) => {

@@ -2,6 +2,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import commentsSlice from "./commentsSlice";
 import currentUserSlice from "./currentUserSlice";
+import friendOffersSlice from "./friendOffersSlice";
 import notificationSlice from "./notificationSlice";
 import postsSlicer from "./postsSlicer";
 import profileSlicer from "./profileSlicer";
@@ -15,6 +16,7 @@ export const store = configureStore({
         profile: profileSlicer,
         comments: commentsSlice,
         notifications: notificationSlice,
-        screenTheme: screenModeSlicer
+        screenTheme: screenModeSlicer,
+        suggestions: friendOffersSlice
     },
 });

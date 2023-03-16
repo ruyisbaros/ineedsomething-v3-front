@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Contact = ({ user }) => {
+const FriendOffers = ({ user }) => {
     return (
         <div className='contact hover3'>
             <div className="contact_img">
@@ -11,4 +11,4 @@ const Contact = ({ user }) => {
     )
 }
 
-export default Contact
+export default FriendOffers

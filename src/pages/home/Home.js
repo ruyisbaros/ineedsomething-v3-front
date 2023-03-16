@@ -19,6 +19,7 @@ import axios from './../../axios';
 import { toast } from 'react-toastify';
 import { fetchNotificationsThunk } from '../../services/NotificationService';
 import { unReadCount } from '../../redux/notificationSlice';
+import { fetchFriendOffersThunk } from '../../services/FriendOffers';
 
 const Home = ({ setShowCreatePostPopup }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
@@ -63,6 +64,10 @@ const Home = ({ setShowCreatePostPopup }) => {
 
     useEffect(() => {
         dispatch(fetchNotificationsThunk())
+    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(fetchFriendOffersThunk())
     }, [dispatch])
 
     return (

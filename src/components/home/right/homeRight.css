@@ -1,7 +1,7 @@
 .right_home {
     position: fixed;
     top: 4.5rem;
-    left: 80.7vw;
+    left: 75.7vw;
     width: 17vw;
 }
 
@@ -12,6 +12,10 @@
     margin: 9px 2px 0 3px;
 }
 
+.contacts_wrap {
+    padding: 1rem 0 1rem 1rem;
+}
+
 .contacts_header {
     position: relative;
     display: flex;
@@ -20,6 +24,10 @@
     padding: 12px 0 7px 10px;
     font-weight: 600;
     color: var(--color-secondary);
+}
+
+.contacts_header h5 {
+    color: var(--blue-color);
 }
 
 .contacts_header_right {

@@ -743,6 +743,11 @@ header {
     .header_middle {
         transform: translateX(10%);
     }
+
+    .right_notifications {
+        padding: 2px;
+        font-size: 11px;
+    }
 }
 
 @media (max-width:400px) {

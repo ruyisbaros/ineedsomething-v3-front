@@ -4,7 +4,7 @@ import { menu, create } from '../../utils/static'
 
 const AllMenu = () => {
     return (
-        <div className='all_menu'>
+        <div className='all_menu scrollbar'>
             <div className="all_menu_header">Menu</div>
             <div className="all_menu_wrap scrollbar">
                 <div className="all_left">
@@ -113,7 +113,8 @@ const AllMenu = () => {
                 </div>
                 <div className="all_right">
                     <div className="all_right_header">Create</div>
-                    {create.map((item, index) => (
+                    {create.slice(0, 8)
+                        .map((item, index) => (
                         <div key={index} className="all_right_item hover1">
                             <div className="all_right_circle">
                                 <i className={`${item.icon}`}></i>

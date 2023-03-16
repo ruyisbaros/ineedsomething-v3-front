@@ -81,7 +81,7 @@ const Profile = () => {
 
     return (
         <div className='profile' >
-            <ScrollToTop smooth={true} top={0} />
+            {/*  <ScrollToTop smooth={true} top={0} /> */}
             {showCreatePostPopup && <CreatePostPopup profile setShowCreatePostPopup={setShowCreatePostPopup}
                 user={loggedUser} />}
             {!loggedUser ? <HeaderSkeleton /> : <Header page="profile" />}

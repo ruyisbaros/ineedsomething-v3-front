@@ -262,11 +262,12 @@ header {
     top: 45px;
     background: var(--bg-secondary);
     border-radius: 10px;
-    height: 90vh;
+    max-height: 90vh;
     width: 575px;
     padding: 10px 1rem;
     box-shadow: -2px 1px 5px 2px var(--shadow-1);
     user-select: none;
+    overflow-y: auto;
 }
 
 .all_menu_header {
@@ -359,7 +360,7 @@ header {
     background: var(--bg-primary);
     margin-right: 1rem;
     border-radius: 10px;
-    height: 550px;
+    height: 480px;
     width: 170px;
     position: fixed;
     right: 2rem;
@@ -745,8 +746,10 @@ header {
     }
 
     .right_notifications {
-        padding: 2px;
+        padding: 4px;
         font-size: 11px;
+        top: -13px;
+        right: -10px;
     }
 }
 

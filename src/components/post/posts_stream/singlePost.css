@@ -711,6 +711,13 @@
     }
 }
 
+@media (max-width:485px) {
+    .to_right {
+        font-size: 13px;
+        padding-right: 1rem;
+    }
+}
+
 @media (max-width:400px) {
     .post {
         width: 97%;

@@ -1,6 +1,7 @@
 .pictureBox {
     width: 700px !important;
     height: 700px;
+    overflow-y: auto;
 }
 
 .update_picture_wrap {
@@ -348,12 +349,18 @@
 }
 
 
-@media (max-height:563px) {
-    .pictureBox {
+@media (max-height:720px) {
+
+    .postBox.pictureBox {
         width: 700px !important;
-        min-height: 700px !important;
+        max-height: 590px !important;
         overflow-y: auto;
+
     }
 
-    .update_img {}
+    .postBox.update_img {
+        max-height: 570px !important;
+        overflow-y: auto;
+        padding: 1rem 0;
+    }
 }

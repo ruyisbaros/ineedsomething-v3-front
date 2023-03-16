@@ -1,14 +1,16 @@
 import React from 'react'
 import { TbReload } from "react-icons/tb"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import FriendOffers from './FriendOffers';
 import PuffLoader from "react-spinners/PuffLoader"
 import "./homeRight.css"
+import { fetchNotificationsThunk } from '../../../services/NotificationService';
 
 const HomeRight = ({ user }) => {
     const { suggestions, loading } = useSelector(store => store.suggestions)
-    console.log(suggestions)
+    //console.log(suggestions)
+    const dispatch = useDispatch();
 
     return (
         <div className='right_home'>
@@ -21,7 +23,10 @@ const HomeRight = ({ user }) => {
                 </Link>
                 <div className="contacts_header">
                     <h5>People you may know</h5>
-                    <span style={{ cursor: "pointer" }}><TbReload size={20} /></span>
+                    <span style={{ cursor: "pointer" }}
+                        onClick={() => {
+                            dispatch(fetchNotificationsThunk())
+                        }}><TbReload size={20} /></span>
                 </div>
                 <div className="contact_list">
                     {

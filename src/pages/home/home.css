@@ -184,7 +184,16 @@
         width: 90%;
     }
 
-    .home .create_comment_reply .create_comment {
-        width: 90%;
+    .home .create_comment_reply .create_comment_wrap {
+        width: 85% !important;
+    }
+
+    .home .create_comment_reply .create_comment_wrap .comment_circle_icon {
+        display: none;
+    }
+
+    .home .comments_wrap img {
+        width: 28px;
+        height: 28px;
     }
 }

@@ -549,3 +549,9 @@
         bottom: 3rem;
     }
 }
+
+@media (max-width:485px) {
+    .profile_cover .cover {
+        transform: scale(.95);
+    }
+}

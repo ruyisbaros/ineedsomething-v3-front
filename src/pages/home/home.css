@@ -4,7 +4,7 @@
     grid-template-columns: repeat(3, 1fr);
 }
 
-.home .home_middle {
+.home_middle {
     margin-top: 75px;
     position: absolute;
     left: 50%;
@@ -101,7 +101,7 @@
 @media (max-width:820px) {
 
     .home {
-        width: 100vw;
+        width: 100vw !important;
     }
 
     .stories {
@@ -162,7 +162,29 @@
 }
 
 @media (max-width:550px) {
+
+    .home .stories,
+    .home .create_post,
+    .home .post {
+        width: 95% !important;
+    }
+
     .stories {
         grid-template-columns: repeat(6, 16vw);
+
+    }
+
+    .home_middle {
+        width: 100% !important;
+    }
+}
+
+@media (max-width:485px) {
+    .home .comment_col {
+        width: 90%;
+    }
+
+    .home .create_comment_reply .create_comment {
+        width: 90%;
     }
 }

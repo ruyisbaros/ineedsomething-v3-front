@@ -702,7 +702,7 @@ header {
 @media (max-width:500px) {
     .all_menu {
         width: 340px;
-        right: -11.5rem;
+        right: -7rem;
     }
 
     .all_menu_wrap {
@@ -718,6 +718,19 @@ header {
         width: 100%;
         padding-left: 3rem;
         margin-bottom: 1rem;
+    }
+
+    .header_right {
+        padding-right: 2rem;
+    }
+
+    .header_right .circle_icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .header_right .circle_icon svg {
+        transform: scale(.8);
     }
 
 }

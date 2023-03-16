@@ -1,40 +1,44 @@
 import React from 'react'
-import NewRoom from './../../../svg/newRoom';
-import Search from './../../../svg/search';
-import Dots from './../../../svg/dots';
-import FriendOffers from './FriendOffers';
 import { TbReload } from "react-icons/tb"
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import FriendOffers from './FriendOffers';
+import PuffLoader from "react-spinners/PuffLoader"
 import "./homeRight.css"
 
 const HomeRight = ({ user }) => {
-    const color = "#65676b"
+    const { suggestions, loading } = useSelector(store => store.suggestions)
+    console.log(suggestions)
+
     return (
         <div className='right_home'>
-            {/* <div className="heading">Sponsored</div>
-            <div className="splitter1"></div> */}
             <div className="contacts_wrap">
-                <div className='contact hover3'>
+                <Link to={`/profile/${user.username}`} className='contact hover3'>
                     <div className="contact_img">
                         <img src={user?.picture} alt="" />
                     </div>
                     <span>{user?.first_name}{" "}{user?.last_name}</span>
-                </div>
+                </Link>
                 <div className="contacts_header">
                     <h5>People you may know</h5>
-                    <TbReload size={20} />
-                    {/*  <div className="contacts_header_right">
-                        <div className="contact_circle">
-                            <NewRoom color={color} />
-                        </div>
-                        <div className="contact_circle">
-                            <Search color={color} />
-                        </div>
-                        <div className="contact_circle">
-                            <Dots color={color} />
-                        </div>
-                    </div> */}
+                    <span style={{ cursor: "pointer" }}><TbReload size={20} /></span>
                 </div>
-
+                <div className="contact_list">
+                    {
+                        loading ?
+                            <div className="puffLoader">
+                                <PuffLoader loading={loading} color="#1876f2" size={30} />
+                            </div> :
+                            <div className="contact_list_content">
+                                {
+                                    suggestions.length > 0 &&
+                                    suggestions.map(sug => (
+                                        <FriendOffers key={sug._id} sug={sug} />
+                                    ))
+                                }
+                            </div>
+                    }
+                </div>
             </div>
         </div>
     )

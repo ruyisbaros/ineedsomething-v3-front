@@ -2,7 +2,7 @@
     position: fixed;
     top: 4.5rem;
     left: 75.7vw;
-    width: 17vw;
+    width: 20%;
 }
 
 .splitter1 {
@@ -13,47 +13,7 @@
 }
 
 .contacts_wrap {
-    padding: 1rem 0 1rem 1rem;
-}
-
-.contacts_header {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 0 7px 10px;
-    font-weight: 600;
-    color: var(--color-secondary);
-}
-
-.contacts_header h5 {
-    color: var(--blue-color);
-}
-
-.contacts_header_right {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transform: translateY(4px);
-}
-
-.contact_circle {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.contact_circle:hover {
-    background: var(--bg-secondary);
-}
-
-.contacts_list {
-    padding: 5px;
+    padding: 1rem;
 }
 
 .contact {
@@ -78,4 +38,72 @@
 .contact span {
     transform: translateY(-5px);
     text-transform: capitalize;
+}
+
+.contacts_header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0 7px 10px;
+    font-weight: 600;
+    color: var(--color-secondary);
+}
+
+.contacts_header h5 {
+    color: var(--blue-color);
+}
+
+/* Offer list */
+.contact_list {
+    width: 100%;
+    min-height: 300px;
+}
+
+.contact_list .puffLoader {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact_list_content {
+    background: var(--bg-primary);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0 2px 2px var(--shadow-1);
+}
+
+.suggestion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 3px;
+    cursor: pointer;
+}
+
+.suggestion_context {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.suggestion_context img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.suggestion_context span {
+    text-transform: capitalize;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.suggestion_button .blue_btn {
+    height: 25px;
 }

@@ -9,20 +9,21 @@ import LoggedInRoutes from './routes/LoggedInRoutes';
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from './pages/home/Activate';
 import axios from './axios';
+import io from "socket.io-client"
 import { refreshToken } from "./redux/currentUserSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useEffectOnce } from './utils/helpers';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import CreatePostPopup from "./components/post/create_post_popup/CreatePostPopup"
 import Error from './pages/Error';
 import Notifications from "./pages/notification/Notifications";
 import Friends from "./pages/friends/Friends";
-
-
+import { BASE_ENDPOINT } from "./axios"
 
 function App() {
+  const socket = io(BASE_ENDPOINT)
   const { loggedUser } = useSelector(store => store.currentUser)
   const { darkTheme } = useSelector(store => store.screenTheme)
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ function App() {
       refreshTokenFunc()
     }
   })
+
+  useEffect(() => {
+
+    console.log(socket)
+  }, [])
 
   return (
     <div className={darkTheme ? "dark" : ""}>

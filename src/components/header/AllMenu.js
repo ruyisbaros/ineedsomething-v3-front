@@ -113,7 +113,7 @@ const AllMenu = () => {
                 </div>
                 <div className="all_right">
                     <div className="all_right_header">Create</div>
-                    {create.slice(0, 8)
+                    {create.slice(0, 7)
                         .map((item, index) => (
                         <div key={index} className="all_right_item hover1">
                             <div className="all_right_circle">

@@ -3,11 +3,12 @@ import { useOutsideClick } from './../../../utils/helpers';
 import Picker from "emoji-picker-react"
 import { addComment } from './../../../services/CommentServices';
 import { RingLoader } from "react-spinners"
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addCommentRedux } from '../../../redux/commentsSlice';
 import { Link } from 'react-router-dom';
 
-const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply, replyTo, commentId, setShowReplies }) => {
+const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply, replyTo, commentId, setShowReplies, socket }) => {
+    const { loggedUser } = useSelector(store => store.currentUser)
     const [picker, setPicker] = useState(false)
     const [loading, setLoading] = useState(false)
     const [cursorPosition, setCursorPosition] = useState()
@@ -51,6 +52,21 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
         }
     }
 
+    //SOCKET IMP
+    useEffect(() => {
+        socket?.off("addCommentToClient").on("addCommentToClient", (payload) => {
+            dispatch(addCommentRedux(payload?.comment))
+        })
+    }, [socket, dispatch])
+
+    useEffect(() => {
+        if (replyCom) {
+            socket?.off("replyCommentToClient").on("replyCommentToClient", (payload) => {
+                dispatch(addCommentRedux(payload?.comment))
+            })
+        }
+    }, [socket, dispatch, replyCom])
+
     const handleAddComment = async (e) => {
         if (e.key === "Enter") {
             if (commentImage) {
@@ -59,6 +75,7 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
+                socket?.emit("addComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
                 setCommentImage(null)
             } else {
@@ -66,6 +83,7 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 //console.log(res)
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
+                socket?.emit("addComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
             }
 
@@ -80,14 +98,16 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 dispatch(addCommentRedux(res?.comment))
                 setOnReply(false)
                 setShowReplies(true)
+                socket?.emit("replyComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
                 setCommentImage(null)
             } else {
                 const res = await addComment(comment, null, null, commentPost, commentId, replyTo.username !== user.username ? replyTo : null, setLoading)
-                //console.log(res)
+                console.log(res.comment)
                 dispatch(addCommentRedux(res?.comment))
                 setOnReply(false)
                 setShowReplies(true)
+                socket?.emit("replyComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
             }
 

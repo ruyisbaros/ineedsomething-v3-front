@@ -14,8 +14,9 @@ import { fetchCommentsThunk } from './../../../services/CommentServices';
 import CommentDisplay from './CommentDisplay';
 //import { singlePostComments } from '../../../redux/commentsSlice';
 
-const SinglePost = ({ user, post, profile }) => {
-    //const { loggedUser } = useSelector(store => store.currentUser)
+const SinglePost = ({ user, post, profile, socket }) => {
+    const { loggedUser } = useSelector(store => store.currentUser)
+    //const { socket } = useSelector(store => store.sockets)
     const { comments } = useSelector(store => store.comments)
     const [showPopup, setShowPopup] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
@@ -28,6 +29,7 @@ const SinglePost = ({ user, post, profile }) => {
     const [isSaved, setIsSaved] = useState("")
     const [count, setCount] = useState(0)
     const [commentSize, setCommentSize] = useState(3)
+    const [showReplies, setShowReplies] = useState(false)
     const dotRef = useRef(null)
     const dispatch = useDispatch()
     //console.log(post.images)
@@ -53,15 +55,29 @@ const SinglePost = ({ user, post, profile }) => {
         setRepliedPostComments(comments.filter(com => com.reply).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)))
     }, [comments, post, dispatch])
     //console.log(repliedPostComments)
+    //SOCKET IMP
+    useEffect(() => {
+        socket?.on("likePostToClient", (payload) => {
+            setPostReacts(payload.postReacts)
+            setCount(payload.count)
+        })
+
+        return () => socket?.off("likePostToClient")
+    })
+
     const handleReact = async (react) => {
         await addPostReact(react, post._id)
+
         if (check === react) {
             setCheck()
             //my previous react and new react same
             let index = postReacts.findIndex(item => item.react === check)
             if (index !== -1) {
                 setPostReacts([...postReacts, postReacts[index].count -= 1])
-                setCount(prev => --prev)
+                console.log("before", count)
+                setCount(prev => prev - 1)
+                console.log(count)
+                socket.emit("likePost", { count: count - 1, postReacts, id: loggedUser._id })
             }
             //console.log(postReacts)
         } else {
@@ -71,15 +87,21 @@ const SinglePost = ({ user, post, profile }) => {
             //I make different react than previous
             let index2 = postReacts.findIndex(item => item.react === check)
             if (index !== -1) {
-                setPostReacts([...postReacts, (postReacts[index].count = ++postReacts[index].count)])
-                setCount(prev => ++prev)
-                //console.log(postReacts)
+                setPostReacts([...postReacts, postReacts[index].count += 1])
+                console.log("before", count)
+                setCount(count + 1)
+                console.log(count)
+                socket.emit("likePost", { count: count + 1, postReacts, id: loggedUser._id })
             }
             if (index2 !== -1) {
-                setPostReacts([...postReacts, (postReacts[index2].count = --postReacts[index2].count)])
-                setCount(prev => --prev)
+                setPostReacts([...postReacts, postReacts[index2].count -= 1])
+                console.log("before", count)
+                setCount(count)
                 //console.log(postReacts)
+                console.log(count)
+                socket.emit("likePost", { count, postReacts, id: loggedUser._id })
             }
+
         }
     }
     //console.log(postReacts)
@@ -215,7 +237,8 @@ const SinglePost = ({ user, post, profile }) => {
             <div className="comments_wrap">
                 <div className="comments_order"></div>
                 <div>
-                    <CreateComment setShowComment={setShowComment} user={user} commentPost={post?._id} />
+                    <CreateComment setShowComment={setShowComment} user={user}
+                        commentPost={post?._id} socket={socket} setShowReplies={setShowReplies} />
                     {showComment &&
                         <>
                             {postComments && postComments.length > 0 &&
@@ -226,6 +249,9 @@ const SinglePost = ({ user, post, profile }) => {
                                         commentPost={post?._id}
                                         comment={com}
                                         commentReplies={repliedPostComments.filter(rep => rep.reply === com._id)}
+                                        showReplies={showReplies}
+                                        setShowReplies={setShowReplies}
+                                        socket={socket}
                                     />
                                 ))
                             }

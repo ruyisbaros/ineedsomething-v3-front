@@ -21,7 +21,7 @@ import { fetchNotificationsThunk } from '../../services/NotificationService';
 import { unReadCount } from '../../redux/notificationSlice';
 import { fetchFriendOffersThunk } from '../../services/FriendOffers';
 
-const Home = ({ setShowCreatePostPopup }) => {
+const Home = ({ setShowCreatePostPopup, socket }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { notifications, unRead } = useSelector(store => store.notifications)
     const { posts } = useSelector(store => store.posts)
@@ -39,7 +39,9 @@ const Home = ({ setShowCreatePostPopup }) => {
     useEffect(() => {
         setHeight(homeMiddle.current.clientHeight)
     }, [])
-
+    useEffect(() => {
+        socket?.emit("joinUser", loggedUser._id)
+    }, [loggedUser._id, socket])
     const fetchAllPosts = useCallback(async () => {
         try {
             setLoading(true)
@@ -83,7 +85,7 @@ const Home = ({ setShowCreatePostPopup }) => {
                         posts?.map(post =>
 
                         (
-                            <SinglePost key={post._id} user={loggedUser} post={post} />
+                            <SinglePost key={post._id} user={loggedUser} post={post} socket={socket} />
                         )
 
                         )

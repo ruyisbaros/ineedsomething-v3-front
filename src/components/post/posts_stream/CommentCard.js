@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateComment from './CreateComment'
 import Dots from '../../../svg/dots'
 import { deleteCommentRedux } from '../../../redux/commentsSlice'
-const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item, tag }) => {
+const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item, tag, socket }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const [isLiked, setIsLiked] = useState(false)
     const [onReply, setOnReply] = useState(false)
@@ -21,15 +21,35 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
         setIsLiked(comment?.likes?.includes(loggedUser._id))
     }, [comment?.likes, loggedUser])
 
+    //SOCKET IMP
+    useEffect(() => {
+        socket?.off("likeCommentToClient").on("likeCommentToClient", (payload) => {
+            if (payload.comId === comment._id) {
+                console.log(payload)
+                //setIsLiked(!isLiked)
+                setCommentLikes(payload.likes)
+            }
+        })
+    }, [comment._id, isLiked, socket, loggedUser])
+
     const handleLikeComment = async () => {
         await likeUnlikeComment(comment._id)
         setIsLiked(!isLiked)
-        //console.log(comment.likes.includes(loggedUser._id))
         setCommentLikes(prev => isLiked ? prev -= 1 : prev += 1)
+        socket?.emit("likeComment", { likes: isLiked ? commentLikes - 1 : commentLikes + 1, comId: comment._id, id: loggedUser._id })
     }
+    //SOCKET IMP
+    useEffect(() => {
+        socket.on("deleteCommentToClient", (payload) => {
+            dispatch(deleteCommentRedux(payload.comId))
+        })
+
+        return () => socket?.off("deleteCommentToClient")
+    }, [socket, dispatch])
     const handleDeleteComment = async () => {
         await deleteComment(comment._id)
         dispatch(deleteCommentRedux(comment._id))
+        socket?.emit("deleteComment", { comId: comment._id, id: loggedUser._id })
     }
 
     const handleReplyComment = async () => {

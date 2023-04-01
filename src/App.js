@@ -21,13 +21,17 @@ import Error from './pages/Error';
 import Notifications from "./pages/notification/Notifications";
 import Friends from "./pages/friends/Friends";
 import { BASE_ENDPOINT } from "./axios"
+import { addSocketRedux } from "./redux/socketsSlicer";
+//import SocketClient from "./SocketClient";
 
+//const url = BASE_ENDPOINT
+let socket;
 function App() {
-  const socket = io(BASE_ENDPOINT)
   const { loggedUser } = useSelector(store => store.currentUser)
   const { darkTheme } = useSelector(store => store.screenTheme)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
+  //const [socket, setSocket] = useState(null)
 
   const refreshTokenFunc = useCallback(async () => {
     try {
@@ -49,19 +53,20 @@ function App() {
   })
 
   useEffect(() => {
-
-    console.log(socket)
+    socket = io(BASE_ENDPOINT)
   }, [])
+
 
   return (
     <div className={darkTheme ? "dark" : ""}>
       <ToastContainer position="bottom-center" limit={1} />
       {showCreatePostPopup && <CreatePostPopup setShowCreatePostPopup={setShowCreatePostPopup}
         user={loggedUser} />}
+
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>
-          <Route path="/" element={<Home setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/" element={<Home socket={socket} setShowCreatePostPopup={setShowCreatePostPopup} />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/activate/:token" element={<Activate />} />
           <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />

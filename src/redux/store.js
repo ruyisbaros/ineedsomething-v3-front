@@ -7,6 +7,7 @@ import notificationSlice from "./notificationSlice";
 import postsSlicer from "./postsSlicer";
 import profileSlicer from "./profileSlicer";
 import screenModeSlicer from "./screenModeSlicer";
+import socketsSlicer from "./socketsSlicer";
 
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
         comments: commentsSlice,
         notifications: notificationSlice,
         screenTheme: screenModeSlicer,
-        suggestions: friendOffersSlice
+        suggestions: friendOffersSlice,
+        sockets: socketsSlicer
     },
 });

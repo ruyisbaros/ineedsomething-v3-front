@@ -31,7 +31,8 @@ function App() {
   const { darkTheme } = useSelector(store => store.screenTheme)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
-  //const [socket, setSocket] = useState(null)
+  const [notReview, setNotReview] = useState(false)
+  const [not, setNot] = useState(null)
 
   const refreshTokenFunc = useCallback(async () => {
     try {
@@ -66,11 +67,11 @@ function App() {
       <Routes>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
         <Route element={<LoggedInRoutes />}>
-          <Route path="/" element={<Home socket={socket} setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/" element={<Home socket={socket} setShowCreatePostPopup={setShowCreatePostPopup} not={not} setNot={setNot} setNotReview={setNotReview} notReview={notReview} />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/activate/:token" element={<Activate />} />
-          <Route path="/profile/:username" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
-          <Route path="/profile" element={<Profile setShowCreatePostPopup={setShowCreatePostPopup} />} />
+          <Route path="/profile/:username" element={<Profile socket={socket} not={not} setNot={setNot} setNotReview={setNotReview} notReview={notReview} />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/friends/:type" element={<Friends />} />
         </Route>

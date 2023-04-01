@@ -12,9 +12,12 @@ import { getPostReacts } from '../../../services/PostReactService';
 import { addPostReact } from './../../../services/PostReactService';
 import { fetchCommentsThunk } from './../../../services/CommentServices';
 import CommentDisplay from './CommentDisplay';
+import axios from '../../../axios';
+import { createNotify } from '../../../services/NotificationService';
+import { addNotifyRedux } from '../../../redux/notificationSlice';
 //import { singlePostComments } from '../../../redux/commentsSlice';
 
-const SinglePost = ({ user, post, profile, socket }) => {
+const SinglePost = ({ user, post, profile, socket, setNot, setNotReview }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     //const { socket } = useSelector(store => store.sockets)
     const { comments } = useSelector(store => store.comments)
@@ -64,6 +67,27 @@ const SinglePost = ({ user, post, profile, socket }) => {
 
         return () => socket?.off("likePostToClient")
     })
+    useEffect(() => {
+        socket?.off("likePostNotificationToClient").on("likePostNotificationToClient", (payload) => {
+            if (payload.id !== loggedUser._id) {
+                dispatch(addNotifyRedux(payload.not))
+                console.log(payload)
+                setNot(payload.not)
+                setNotReview(true)
+                setTimeout(() => {
+                    setNotReview(false)
+                }, 5000)
+            }
+        })
+    })
+
+    //not !== null && console.log(not)
+    const createNotification = async (ntfy) => {
+        const not = await createNotify(ntfy)
+        dispatch(addNotifyRedux(not))
+        //socket
+        socket?.emit("likePostNotification", { not, id: loggedUser._id })
+    }
 
     const handleReact = async (react) => {
         await addPostReact(react, post._id)
@@ -74,12 +98,9 @@ const SinglePost = ({ user, post, profile, socket }) => {
             let index = postReacts.findIndex(item => item.react === check)
             if (index !== -1) {
                 setPostReacts([...postReacts, postReacts[index].count -= 1])
-                console.log("before", count)
                 setCount(prev => prev - 1)
-                console.log(count)
-                socket.emit("likePost", { count: count - 1, postReacts, id: loggedUser._id })
+                socket?.emit("likePost", { count: count - 1, postReacts, id: loggedUser._id })
             }
-            //console.log(postReacts)
         } else {
             setCheck(react)
             //First time I react
@@ -88,19 +109,20 @@ const SinglePost = ({ user, post, profile, socket }) => {
             let index2 = postReacts.findIndex(item => item.react === check)
             if (index !== -1) {
                 setPostReacts([...postReacts, postReacts[index].count += 1])
-                console.log("before", count)
                 setCount(count + 1)
-                console.log(count)
-                socket.emit("likePost", { count: count + 1, postReacts, id: loggedUser._id })
+                socket?.emit("likePost", { count: count + 1, postReacts, id: loggedUser._id })
             }
             if (index2 !== -1) {
                 setPostReacts([...postReacts, postReacts[index2].count -= 1])
-                console.log("before", count)
                 setCount(count)
-                //console.log(postReacts)
-                console.log(count)
-                socket.emit("likePost", { count, postReacts, id: loggedUser._id })
+                socket?.emit("likePost", { count, postReacts, id: loggedUser._id })
             }
+            const notify = {
+                from: loggedUser._id,
+                to: post.user._id,
+                content: `${loggedUser.first_name} reacted your post`,
+            }
+            loggedUser._id !== post.user._id && createNotification(notify)
 
         }
     }
@@ -238,7 +260,7 @@ const SinglePost = ({ user, post, profile, socket }) => {
                 <div className="comments_order"></div>
                 <div>
                     <CreateComment setShowComment={setShowComment} user={user}
-                        commentPost={post?._id} socket={socket} setShowReplies={setShowReplies} />
+                        commentPost={post?._id} post={post} socket={socket} setShowReplies={setShowReplies} setNot={setNot} setNotReview={setNotReview} />
                     {showComment &&
                         <>
                             {postComments && postComments.length > 0 &&
@@ -252,6 +274,8 @@ const SinglePost = ({ user, post, profile, socket }) => {
                                         showReplies={showReplies}
                                         setShowReplies={setShowReplies}
                                         socket={socket}
+                                        setNot={setNot}
+                                        setNotReview={setNotReview}
                                     />
                                 ))
                             }

@@ -22,8 +22,10 @@ import HeaderSkeleton from './../../components/header/HeaderSkeleton';
 import { fetchProfileThunk } from './../../services/profileServices';
 import "./profile.css"
 import CreatePostPopup from './../../components/post/create_post_popup/CreatePostPopup';
+import { createNotify } from '../../services/NotificationService';
+import { addNotifyRedux } from '../../redux/notificationSlice';
 
-const Profile = () => {
+const Profile = ({ socket, notReview, setNotReview, not, setNot }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { profilePosts, loading, profile } = useSelector(store => store.profile)
     //console.log(profilePosts)
@@ -35,10 +37,39 @@ const Profile = () => {
     const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
     const visitor = pageUsername === loggedUser?.username ? false : true
 
+    const createNotification = useCallback(async (ntfy) => {
+        const not = await createNotify(ntfy)
+        dispatch(addNotifyRedux(not))
+        //socket
+        not && socket?.emit("viewProfileNotification", { not, id: loggedUser._id })
+    }, [dispatch, loggedUser, socket])
+    useEffect(() => {
+        socket?.off("viewProfileNotificationToClient").on("viewProfileNotificationToClient", (payload) => {
+            if (payload.id !== loggedUser._id) {
+                dispatch(addNotifyRedux(payload.not))
+                //console.log(payload)
+                setNot(payload.not)
+                setNotReview(true)
+                setTimeout(() => {
+                    setNotReview(false)
+                }, 5000)
+            }
+        })
+    })
     useEffect(() => {
         dispatch(fetchProfileThunk(pageUsername))
-    }, [dispatch, pageUsername])
 
+    }, [dispatch, pageUsername])
+    useEffect(() => {
+        if (pageUsername !== loggedUser?.username) {
+            const notify = {
+                from: loggedUser?._id,
+                to: profile?._id,
+                content: `${loggedUser?.first_name} viewed your profile`,
+            }
+            createNotification(notify)
+        }
+    }, [pageUsername, createNotification, loggedUser, profile])
     const getImages = useCallback(async () => {
         try {
             setLoading1(true)
@@ -134,6 +165,12 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
+            {notReview && <div className={`not_review ${notReview ? "go_up" : ""}`}>
+                <img src={not?.from?.picture} alt="" />
+                <div className="not_review-right">
+                    <p>{not?.content}</p>
+                </div>
+            </div>}
         </div>
     )
 }

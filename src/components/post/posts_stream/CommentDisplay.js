@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import CommentCard from './CommentCard'
 
-const CommentDisplay = ({ comment, user, commentPost, commentReplies, showReplies, setShowReplies, socket }) => {
+const CommentDisplay = ({ comment, user, commentPost, commentReplies, showReplies, setShowReplies, socket, setNot, setNotReview }) => {
 
     return (
         <CommentCard
@@ -13,6 +13,8 @@ const CommentDisplay = ({ comment, user, commentPost, commentReplies, showReplie
             setShowReplies={setShowReplies}
             item={commentReplies.length > 0}
             socket={socket}
+            setNot={setNot}
+            setNotReview={setNotReview}
         >
             <div className="replay-message">
                 {

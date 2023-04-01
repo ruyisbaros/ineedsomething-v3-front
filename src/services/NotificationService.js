@@ -13,6 +13,12 @@ export const fetchNotificationsThunk = createAsyncThunk("user/notifications", as
 
 })
 
+export const createNotify = async (not) => {
+    const { data } = await axios.post(`/user/notifications/create_notify`, { ...not })
+    //console.log(data)
+    return data
+}
+
 export const viewNotify = async (id) => {
     await axios.patch(`/user/notifications/view_notify/${id}`, {})
 

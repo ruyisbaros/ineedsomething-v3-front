@@ -6,8 +6,10 @@ import { RingLoader } from "react-spinners"
 import { useDispatch, useSelector } from 'react-redux';
 import { addCommentRedux } from '../../../redux/commentsSlice';
 import { Link } from 'react-router-dom';
+import { createNotify } from '../../../services/NotificationService';
+import { addNotifyRedux } from '../../../redux/notificationSlice';
 
-const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply, replyTo, commentId, setShowReplies, socket }) => {
+const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply, replyTo, commentId, setShowReplies, socket, setNot, setNotReview, post }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const [picker, setPicker] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -51,8 +53,26 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
             setCommentImage(e.target.result)
         }
     }
-
+    const createNotification = async (ntfy) => {
+        const not = await createNotify(ntfy)
+        dispatch(addNotifyRedux(not))
+        //socket
+        not && socket?.emit("commentNotification", { not, id: loggedUser._id })
+    }
     //SOCKET IMP
+    useEffect(() => {
+        socket?.off("commentNotificationToClient").on("commentNotificationToClient", (payload) => {
+            if (payload.id !== loggedUser._id) {
+                dispatch(addNotifyRedux(payload.not))
+                console.log(payload)
+                setNot(payload.not)
+                setNotReview(true)
+                setTimeout(() => {
+                    setNotReview(false)
+                }, 5000)
+            }
+        })
+    }, [socket, loggedUser, dispatch])
     useEffect(() => {
         socket?.off("addCommentToClient").on("addCommentToClient", (payload) => {
             dispatch(addCommentRedux(payload?.comment))
@@ -76,6 +96,7 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 dispatch(addCommentRedux(res?.comment))
                 setShowComment(true)
                 socket?.emit("addComment", { comment: res?.comment, id: loggedUser._id })
+
                 setComment("")
                 setCommentImage(null)
             } else {
@@ -86,8 +107,14 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 socket?.emit("addComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
             }
-
+            const notify = {
+                from: loggedUser._id,
+                to: post?.user._id,
+                content: `${loggedUser.first_name} commented your post`,
+            }
+            loggedUser._id !== post.user._id && createNotification(notify)
         }
+
     }
     const handleReplyComment = async (e) => {
         if (e.key === "Enter") {
@@ -110,8 +137,14 @@ const CreateComment = ({ user, commentPost, setShowComment, replyCom, setOnReply
                 socket?.emit("replyComment", { comment: res?.comment, id: loggedUser._id })
                 setComment("")
             }
-
+            const notify = {
+                from: loggedUser._id,
+                to: post?.user._id,
+                content: `${loggedUser.first_name} replied your comment`,
+            }
+            replyTo.username !== user.username && createNotification(notify)
         }
+
     }
 
     useOutsideClick(emojiBox, () => {

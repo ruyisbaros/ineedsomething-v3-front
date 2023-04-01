@@ -9,7 +9,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import CreateComment from './CreateComment'
 import Dots from '../../../svg/dots'
 import { deleteCommentRedux } from '../../../redux/commentsSlice'
-const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item, tag, socket }) => {
+import { createNotify } from '../../../services/NotificationService'
+import { addNotifyRedux } from '../../../redux/notificationSlice'
+const CommentCard = ({ comment, commentId, user, commentPost, children, showReplies, setShowReplies, item, tag, socket, setNot, setNotReview }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const [isLiked, setIsLiked] = useState(false)
     const [onReply, setOnReply] = useState(false)
@@ -32,11 +34,39 @@ const CommentCard = ({ comment, commentId, user, commentPost, children, showRepl
         })
     }, [comment._id, isLiked, socket, loggedUser])
 
+    const createNotification = async (ntfy) => {
+        const not = await createNotify(ntfy)
+        dispatch(addNotifyRedux(not))
+        //socket
+        socket?.emit("commentLikeNotification", { not, id: loggedUser._id })
+    }
+
+    useEffect(() => {
+        socket?.off("commentLikeNotificationToClient").on("commentLikeNotificationToClient", (payload) => {
+            if (payload.id !== loggedUser._id) {
+                dispatch(addNotifyRedux(payload.not))
+                console.log(payload)
+                setNot(payload.not)
+                setNotReview(true)
+                setTimeout(() => {
+                    setNotReview(false)
+                }, 5000)
+            }
+        })
+    }, [socket, loggedUser])
+
     const handleLikeComment = async () => {
         await likeUnlikeComment(comment._id)
         setIsLiked(!isLiked)
         setCommentLikes(prev => isLiked ? prev -= 1 : prev += 1)
         socket?.emit("likeComment", { likes: isLiked ? commentLikes - 1 : commentLikes + 1, comId: comment._id, id: loggedUser._id })
+
+        const notify = {
+            from: loggedUser._id,
+            to: comment?.commentBy._id,
+            content: `${loggedUser.first_name} reacted your comment`,
+        }
+        loggedUser._id !== comment?.commentBy._id && createNotification(notify)
     }
     //SOCKET IMP
     useEffect(() => {

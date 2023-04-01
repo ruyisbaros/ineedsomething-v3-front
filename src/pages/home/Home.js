@@ -21,7 +21,7 @@ import { fetchNotificationsThunk } from '../../services/NotificationService';
 import { unReadCount } from '../../redux/notificationSlice';
 import { fetchFriendOffersThunk } from '../../services/FriendOffers';
 
-const Home = ({ setShowCreatePostPopup, socket }) => {
+const Home = ({ setShowCreatePostPopup, socket, notReview, setNotReview, not, setNot }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { notifications, unRead } = useSelector(store => store.notifications)
     const { posts } = useSelector(store => store.posts)
@@ -29,7 +29,6 @@ const Home = ({ setShowCreatePostPopup, socket }) => {
     const dispatch = useDispatch();
     const [height, setHeight] = useState()
     const [loading, setLoading] = useState(false)
-
 
     //console.log(unRead)
     useEffect(() => {
@@ -85,7 +84,7 @@ const Home = ({ setShowCreatePostPopup, socket }) => {
                         posts?.map(post =>
 
                         (
-                            <SinglePost key={post._id} user={loggedUser} post={post} socket={socket} />
+                            <SinglePost key={post._id} user={loggedUser} post={post} socket={socket} not={not} setNot={setNot} setNotReview={setNotReview} />
                         )
 
                         )
@@ -93,6 +92,13 @@ const Home = ({ setShowCreatePostPopup, socket }) => {
                 </div>
             </div>
             {!loggedUser ? <HomeRightSkeleton /> : <HomeRight user={loggedUser} />}
+
+            {notReview && <div className={`not_review ${notReview ? "go_up" : ""}`}>
+                <img src={not?.from?.picture} alt="" />
+                <div className="not_review-right">
+                    <p>{not?.content}</p>
+                </div>
+            </div>}
         </div>
     )
 }

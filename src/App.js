@@ -9,7 +9,7 @@ import LoggedInRoutes from './routes/LoggedInRoutes';
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Activate from './pages/home/Activate';
 import axios from './axios';
-import io from "socket.io-client"
+import { io } from "socket.io-client"
 import { refreshToken } from "./redux/currentUserSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -54,10 +54,20 @@ function App() {
   })
 
   useEffect(() => {
-    socket = io(BASE_ENDPOINT)
+    socket = io(BASE_ENDPOINT, {
+      transports: ['websocket'],
+      secure: true
+    })
+  }, [])
+  useEffect(() => {
+    socket.on("connection", () => {
+      console.log("I am connected")
+    })
   }, [])
 
-
+  useEffect(() => {
+    socket?.emit("joinUser", loggedUser?._id)
+  }, [loggedUser?._id])
   return (
     <div className={darkTheme ? "dark" : ""}>
       <ToastContainer position="bottom-center" limit={1} />

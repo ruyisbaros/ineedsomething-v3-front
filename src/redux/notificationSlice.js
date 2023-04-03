@@ -16,10 +16,10 @@ const notifySlicer = createSlice({
             state.notifications = [action.payload, ...state.notifications];
         },
         deleteNotifyRedux: (state, action) => {
-            state.notifications = state.notifications.filter(not => not._id !== action.payload);
+            state.notifications = state.notifications.filter(not => not?._id !== action.payload);
         },
         unReadCount: (state, action) => {
-            state.unRead = state.notifications.filter(a => a.read === false).length
+            state.unRead = state.notifications.filter(a => a?.read === false).length
         }
     },
     extraReducers: (builder) => {

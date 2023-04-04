@@ -101,7 +101,7 @@ const LeftSide = ({ socket }) => {
                             }}>
                             <UserCard
                                 user={user} msg={true} /* border="border" */ /* handleClose={handleClose} */ >
-                                <i style={{ color: user.isOnline ? "teal" : "red" }} className="fas fa-circle active"></i>
+                                <i style={{ color: user.isOnline ? "teal" : "red" }} className="fas fa-circle"></i>
 
                             </UserCard>
                         </div>

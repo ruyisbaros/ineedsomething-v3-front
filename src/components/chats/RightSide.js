@@ -28,7 +28,7 @@ const RightSide = ({ user, socket }) => {
     }
     const textMessage = (e) => {
         setChatMessage(e.target.value)
-        socket.emit("openTyping", { id, id2: loggedUser._id })
+        //socket.emit("openTyping", { id, id2: loggedUser._id })
 
     }
     useEffect(() => {
@@ -47,7 +47,7 @@ const RightSide = ({ user, socket }) => {
             </div>
 
             <div className="chat_container">
-                <div className="chat_display">
+                <div className="chat_display" ref={displayRef}>
                     <div className="chat-row other_message">
                         <MessageDisplay user={user} />
                     </div>
@@ -60,12 +60,12 @@ const RightSide = ({ user, socket }) => {
                 <input type="text" placeholder="Enter your message..."
                     value={chatMessage} onChange={textMessage} />
                 <Icons setContent={setChatMessage} content={chatMessage} />
-                <div className="file_upload">
+                {/*  <div className="file_upload">
                     <i className="fas fa-image text-danger"></i>
                     <input type="file" name="file" id="file" multiple accept="image/*,video/*,audio/*"
 
                     />
-                </div>
+                </div> */}
                 <button className="material-icons" type="submit" disabled={(chatMessage || images.length > 0) ? false : true}>
                     near_me
                 </button>

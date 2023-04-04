@@ -30,10 +30,10 @@ const UserCard = ({ children, user, border, handleClose, msg }) => {
                     }}>
                     <img src={user?.picture} alt="avatar" className="medium-avatar" />
                     <div className="ml-3">
-                        <span className="d-block">{user?.username}</span>
+                        <span className="d-block" style={{ color: "#1876f2" }}>{user?.username}</span>
                         {chatBox.length > 0
                             ? <small style={{ opacity: "0.6" }}>{chatBox[chatBox.length - 1].chatMessage}</small>
-                            : <small style={{ opacity: "0.6" }}>{user?.first_name}{ }{user?.last_name}</small>
+                            : <small style={{ opacity: "0.6", textTransform: "capitalize" }}>{user?.first_name}{" "}{user?.last_name}</small>
                         }
                     </div>
                 </div>

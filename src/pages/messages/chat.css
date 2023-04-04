@@ -140,10 +140,6 @@
 }
 
 .chat_text .time_box {
-    /* min-width: fit-content;
-    position: absolute;
-    right: 5px;
-    bottom: 2px; */
     transform: translateY(15px);
     font-size: 12px;
 }

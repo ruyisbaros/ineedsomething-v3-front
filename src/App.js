@@ -22,6 +22,8 @@ import Notifications from "./pages/notification/Notifications";
 import Friends from "./pages/friends/Friends";
 import { BASE_ENDPOINT } from "./axios"
 import { addSocketRedux } from "./redux/socketsSlicer";
+import Chat from "./pages/messages/Chat";
+import Conversation from "./pages/messages/Conversation";
 //import SocketClient from "./SocketClient";
 
 //const url = BASE_ENDPOINT
@@ -81,6 +83,8 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/activate/:token" element={<Activate />} />
           <Route path="/profile/:username" element={<Profile socket={socket} not={not} setNot={setNot} setNotReview={setNotReview} notReview={notReview} />} />
+          <Route path="/chat" element={<Chat socket={socket} not={not} setNot={setNot} setNotReview={setNotReview} notReview={notReview} />} />
+          <Route path="/message/:id" element={<Conversation socket={socket} not={not} setNot={setNot} setNotReview={setNotReview} notReview={notReview} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/friends/:type" element={<Friends />} />

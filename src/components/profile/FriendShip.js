@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateProfile } from '../../redux/profileSlicer';
 import { updateCurrentUserFriendShip } from '../../redux/currentUserSlice';
 import { acceptFriendRequest } from './../../services/FriendShipServices';
+import { Link } from 'react-router-dom';
 
 const FriendShip = () => {
     const { profile } = useSelector(store => store.profile)
@@ -137,8 +138,10 @@ const FriendShip = () => {
                     </button>
             }
             <button className={loggedUser?.friends?.includes(profile?._id) ? "blue_btn" : "gray_btn"} >
-                <img src="../../../icons/message.png" alt="" className={loggedUser?.friends?.includes(profile?._id) ? "invert" : ""} />
-                <span>Message</span>
+                <Link to={`/message/${profile._id}`} style={{ textDecoration: "none", color: "inherit", width: "inherit" }}>
+                    <img src="../../../icons/message.png" alt="" className={loggedUser?.friends?.includes(profile?._id) ? "invert" : ""} />
+                    <span>Message</span>
+                </Link>
             </button>
         </div>
     )

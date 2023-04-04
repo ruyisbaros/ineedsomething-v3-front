@@ -20,7 +20,8 @@ a {
   color: inherit;
 }
 
-button {
+button,
+i {
   cursor: pointer;
 }
 
@@ -238,4 +239,5 @@ button {
 }
 
 @import url("./styles/icons/icons.css");
-@import url("./DarkMode.css")
+@import url("./DarkMode.css");
+@import url("./components/avatar.css");

@@ -85,9 +85,9 @@ const Header = ({ page }) => {
                     </div>
                     {showAllMenu && <AllMenu />}
                 </div>
-                <div className="circle_icon hover1">
+                <Link to="/chat" className={`circle_icon hover1 ${page === "chat" ? "active_link" : ""}`}>
                     <Messenger />
-                </div>
+                </Link>
                 <Link to="/notifications" className={`circle_icon hover1 ${page === "notification" ? "active_link" : ""}`}>
                     <Notifications />
                     {unRead > 0 && <div className="right_notifications">{unRead === 0 ? "" : unRead <= 9 ? unRead : "9+"}</div>}

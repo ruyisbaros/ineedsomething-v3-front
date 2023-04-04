@@ -10,24 +10,23 @@ import Avatar from './../Avatar';
 const UserCard = ({ children, user, border, handleClose, msg }) => {
 
     const { data } = useSelector(store => store.messages)
-    const chatBox = []
-    data.forEach(chat => {
-        if (chat.sender._id === user._id) {
-            chatBox.push(chat)
-        }
-    })
+    const [chatBox, setChatBox] = useState([])
 
+    useEffect(() => {
+        data.forEach(chat => {
+            if (chat.sender._id === user._id) {
+                setChatBox(prev => [...prev, chat])
+            }
+        })
 
-    //console.log(chatBox);
+    }, [data, user._id])
+
+    console.log(chatBox);
     //console.log(chatBox[chatBox.length - 1].sender);
     return (
         <div className={`d-flex p-2 align-items-center justify-content-between w-100 ${border}`}>
             <div>
-                <div className="d-flex align-item-center"
-                    onClick={() => {
-                        handleClose()
-                        /* getProfile(user._id) */
-                    }}>
+                <div className="d-flex align-item-center">
                     <img src={user?.picture} alt="avatar" className="medium-avatar" />
                     <div className="ml-3">
                         <span className="d-block" style={{ color: "#1876f2" }}>{user?.username}</span>

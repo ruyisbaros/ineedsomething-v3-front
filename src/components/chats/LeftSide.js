@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import { searchUsersRegex, useDebounce } from '../../services/SearchService';
 import { useOutsideClick } from '../../utils/helpers';
 import { Search } from '../../svg';
+import axios from '../../axios';
 
 const LeftSide = ({ socket }) => {
-    const color = "#65676b"
     const { loggedUser } = useSelector(store => store.currentUser)
-    const { chatUsers } = useSelector(store => store.messages)
+    const { chatUsers, data } = useSelector(store => store.messages)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { id } = useParams()
@@ -65,6 +65,23 @@ const LeftSide = ({ socket }) => {
             return "active"
         }
     }
+    const getConversations = useCallback(async () => {
+        const { data } = await axios.get("/chats/conversations")
+        //console.log(data);
+        let newArr = []
+        data.forEach(item => {
+            item.recipients.forEach(rcp => {
+                if (rcp._id !== loggedUser._id) {
+                    newArr.push({ ...rcp, chatMessage: item.chatMessage, images: item.images })
+                }
+            })
+        })
+
+        dispatch(fetchChatWith(newArr))
+    }, [dispatch, loggedUser])
+    useEffect(() => {
+        getConversations()
+    }, [getConversations, data])
     return (
         <>
             <form className="message_header" /* onClick={handleSearch} */>

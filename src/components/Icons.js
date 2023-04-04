@@ -12,7 +12,7 @@ const Icons = ({ setContent, content }) => {
 
       <span className="nav-link position-relative px-1" id="navbarDropdown"
         role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <span style={{ opacity: 0.4 }}>😄</span>
+        <span style={{ opacity: 0.7 }}>😄</span>
       </span>
 
       <div className="dropdown-menu icon_container" aria-labelledby="navbarDropdown">

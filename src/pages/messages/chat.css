@@ -286,10 +286,10 @@
 
 #isTyping span {
     display: inline-block;
-    animation: typing 1s alternate infinite;
+    /* animation: typing 1s alternate infinite; */
 }
 
-@keyframes typing {
+/* @keyframes typing {
     0% {
         transform: translateX(0);
         transform: scale(0)
@@ -299,14 +299,14 @@
         transform: translateX(5px);
         transform: scale(1.05)
     }
-}
+} */
 
 /* Icons */
+
 .reactions {
     position: relative;
     display: grid;
     grid-template-columns: repeat(12, 30px);
     text-align: center;
     cursor: pointer;
-
 }

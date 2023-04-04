@@ -5,14 +5,14 @@ import { deleteAMessage } from '../../redux/messageSlicer';
 
 const MessageDisplay = ({ user, msg, socket }) => {
     const { loggedUser, } = useSelector(store => store.currentUser)
-    const { isTyping, isRead } = useSelector(store => store.messages)
+    const { isRead } = useSelector(store => store.messages)
     const dispatch = useDispatch()
 
     const deleteMessage = async () => {
         console.log(msg);
         await axios.delete(`/chats/delete/${msg._id}`)
         dispatch(deleteAMessage(msg._id))
-        //socket.emit("deleteAMessage", msg)
+        socket.emit("deleteAMessage", msg)
     }
     return (
         <>
@@ -33,13 +33,7 @@ const MessageDisplay = ({ user, msg, socket }) => {
                             {user === loggedUser && <i style={{ color: isRead ? "teal" : "gray", marginLeft: "-6px" }} className="fa-solid fa-check"></i>}
                         </div>
                     </div>}
-                    {
-                        msg?.images?.map((img, index) => (
-                            <div key={index} className="container_img">
-                                <img src={img.url} alt="" />
-                            </div>
-                        ))
-                    }
+
                 </div>
 
             </div>

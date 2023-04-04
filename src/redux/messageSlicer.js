@@ -16,10 +16,11 @@ const messagesSlicer = createSlice({
         createSingleChat: (state, action) => {
             /* state.data = [...state.data, action.payload] */
             state.chatUsers = state.chatUsers.map(user =>
-                user._id === action.payload.recipient || user._id === action.payload.sender
+                user._id === action.payload.recipient._id || user._id === action.payload.sender._id
                     ? { ...user, chatMessage: action.payload.chatMessage, images: action.payload.images }
                     : user
             )
+            state.data = [...state.data, action.payload]
         },
         createChatUser: (state, action) => {
             const user = action.payload

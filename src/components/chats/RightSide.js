@@ -1,24 +1,41 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import axios from '../../axios'
 import UserCard from '../userCard/UserCard'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFullConversation } from '../../redux/messageSlicer';
+import { closeTyping, createSingleChat, deleteAMessage, deleteFullConversation, getBetweenChats, openTyping } from '../../redux/messageSlicer';
 import MessageDisplay from './MessageDisplay';
 import Icons from './../Icons';
+import { AiOutlineSend } from "react-icons/ai"
 
 const RightSide = ({ user, socket }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { data, isTyping, typingTo, chatUsers } = useSelector(store => store.messages)
     const { id } = useParams()
     console.log(id)
+    console.log(id, data)
     const dispatch = useDispatch()
-    const displayRef = useRef(null)
-    const typeRef = useRef(null)
+    const displayRef = useRef()
+    const typeRef = useRef()
+    const sendBtn = useRef()
     const navigate = useNavigate()
 
     const [chatMessage, setChatMessage] = useState("")
     const [images, setImages] = useState([])
+
+    const getMessages = useCallback(async () => {
+        const { data } = await axios.get(`/chats/between/${id}`)
+        console.log(data)
+        dispatch(getBetweenChats(data))
+        setTimeout(() => {
+            displayRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+        }, 50)
+    }, [dispatch, id])
+    useEffect(() => {
+        if (id) {
+            getMessages()
+        }
+    }, [getMessages, id])
 
     const deleteConversation = async () => {
         //console.log(user);
@@ -26,16 +43,80 @@ const RightSide = ({ user, socket }) => {
         dispatch(deleteFullConversation(user._id))
         navigate("/chat")
     }
+    const chatSubmit = async (e) => {
+        e.preventDefault()
+        let message = {
+            sender: loggedUser._id,
+            recipient: id,
+            chatMessage,
+            images: images
+        }
+
+        const { data } = await axios.post("/chats/new", { ...message })
+        console.log(data);
+        // setMsgData(data)
+        dispatch(createSingleChat(data))
+        setChatMessage("")
+        setImages([])
+        const { _id, picture, first_name, username } = loggedUser
+        socket?.emit("newMessage", { data, user: { _id, picture, first_name, username } })
+        socket?.emit("closeTyping", user._id)
+
+    }
     const textMessage = (e) => {
         setChatMessage(e.target.value)
-        //socket.emit("openTyping", { id, id2: loggedUser._id })
+        socket?.emit("openTyping", { id, id2: loggedUser._id })
 
     }
     useEffect(() => {
         setTimeout(() => {
-            displayRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
+            displayRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
         }, 50)
     }, [isTyping])
+
+
+    /*------------ CHATS-------- */
+    //receive emitted new message
+    useEffect(() => {
+        socket?.on("newMessageToClient", newMessage => {
+            //console.log(newMessage);
+            dispatch(createSingleChat(newMessage))
+            //dispatch(addToData(newMessage))
+        })
+
+        return () => socket?.off("newMessageToClient")
+    })
+
+    //receive emitted delete message
+    useEffect(() => {
+        socket?.on("deleteAMessageToClient", newMessage => {
+            //console.log(newMessage);
+            dispatch(deleteAMessage(newMessage._id))
+        })
+
+        return () => socket?.off("deleteAMessageToClient")
+    })
+
+    //receive emitted typing message
+    useEffect(() => {
+        socket?.on("openTypingToClient", (typeTo) => {
+            //console.log(newMessage);
+            dispatch(openTyping(typeTo))
+            //console.log(typeTo);
+        })
+
+        return () => socket?.off("openTypingToClient")
+    })
+
+    //receive emitted stop typing message
+    useEffect(() => {
+        socket?.on("closeTypingToClient", () => {
+            //console.log(newMessage);
+            dispatch(closeTyping())
+        })
+
+        return () => socket?.off("closeTypingToClient")
+    })
 
     return (
         <>
@@ -46,28 +127,32 @@ const RightSide = ({ user, socket }) => {
                 </UserCard>}
             </div>
 
-            <div className="chat_container">
+            <div className="chat_container" style={{ height: images.length === 0 ? "calc(100% - 110px)" : "calc(100% - 180px)" }}>
                 <div className="chat_display" ref={displayRef}>
-                    <div className="chat-row other_message">
-                        <MessageDisplay user={user} />
-                    </div>
-                    <div className="chat-row your_message">
-                        <MessageDisplay user={loggedUser} />
-                    </div>
+                    {
+                        data?.map((msg, i) => (
+                            <div key={i}>
+                                {msg.sender._id !== loggedUser._id &&
+                                    <div className="chat-row other_message">
+                                        <MessageDisplay user={user} msg={msg} />
+                                    </div>}
+                                {msg.sender._id === loggedUser._id &&
+                                    <div className="chat-row your_message">
+                                        <MessageDisplay user={loggedUser} msg={msg} />
+                                    </div>}
+                            </div>
+                        ))
+                    }
+
+                    {isTyping && id === typingTo && <span ref={typeRef} id="isTyping">{`${user.username} is typing `} <span>...</span></span>}
                 </div>
             </div>
-            <form className='chat_input'>
+            <form className='chat_input' onSubmit={chatSubmit}>
                 <input type="text" placeholder="Enter your message..."
                     value={chatMessage} onChange={textMessage} />
                 <Icons setContent={setChatMessage} content={chatMessage} />
-                {/*  <div className="file_upload">
-                    <i className="fas fa-image text-danger"></i>
-                    <input type="file" name="file" id="file" multiple accept="image/*,video/*,audio/*"
-
-                    />
-                </div> */}
-                <button className="material-icons" type="submit" disabled={(chatMessage || images.length > 0) ? false : true}>
-                    near_me
+                <button ref={sendBtn} className="material-icons" type="submit" disabled={(chatMessage || images.length > 0) ? false : true}>
+                    <AiOutlineSend color={chatMessage && "teal"} />
                 </button>
             </form>
         </>

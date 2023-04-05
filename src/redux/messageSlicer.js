@@ -56,7 +56,7 @@ const messagesSlicer = createSlice({
             state.chatUsers = state.chatUsers.filter(item => item._id !== id)
         },
         makeUserOnline: (state, action) => {
-            console.log(action.payload);
+            //console.log(action.payload);
             state.chatUsers = state.chatUsers.map(user =>
                 state.onlineUsers.map(onl => (
                     onl === user._id ? { ...user, isOnline: true } : { ...user, isOnline: false }

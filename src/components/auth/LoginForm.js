@@ -10,6 +10,7 @@ import { toast } from 'react-toastify'
 import CircleLoader from "react-spinners/CircleLoader"
 import { userLoggedSuccess } from '../../redux/currentUserSlice';
 import Cookies from "js-cookie"
+import { onlineStatusUpdate } from '../../services/profileServices';
 
 const LoginForm = ({ setVisible, visible, socket }) => {
     const dispatch = useDispatch()
@@ -26,6 +27,9 @@ const LoginForm = ({ setVisible, visible, socket }) => {
         email: Yup.string().required("Email address is required").email("Must be valid email"),
         password: Yup.string().required("Password is required").min(6)
     })
+    const makeOnline = async (id) => {
+        await onlineStatusUpdate(id)
+    }
     const submitLogin = async () => {
         try {
             setLoading(true)
@@ -35,6 +39,7 @@ const LoginForm = ({ setVisible, visible, socket }) => {
             dispatch(userLoggedSuccess(data))
             Cookies.set("user", JSON.stringify(data))
             navigate("/")
+            await makeOnline(data?._id)
             setLoading(false)
         } catch (error) {
             setLoading(false)

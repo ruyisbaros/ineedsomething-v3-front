@@ -31,7 +31,6 @@ const LoginForm = ({ setVisible, visible, socket }) => {
     })
     const makeOnline = async (id) => {
         await onlineStatusUpdate(id)
-        dispatch(addToOnlineList(id))
     }
     const submitLogin = async () => {
         try {

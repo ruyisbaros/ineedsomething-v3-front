@@ -15,12 +15,11 @@ const Chat = ({ socket }) => {
         ))
     }, [chatUsers, loggedUser, socket])
     useEffect(() => {
-        socket?.on("addOnlineListToClient", id => {
+        socket?.off("addOnlineListToClient").on("addOnlineListToClient", id => {
             dispatch(addToOnlineList(id))
             dispatch(makeOnlineChatUser(id))
         })
 
-        return () => socket?.off("addOnlineListToClient")
     }, [dispatch, socket])
     return (
         <div className='chats'>

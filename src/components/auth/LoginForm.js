@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../../assets/output-onlinejpgtools (1).png"
 import { Formik, Form } from 'formik'
@@ -11,6 +11,7 @@ import CircleLoader from "react-spinners/CircleLoader"
 import { userLoggedSuccess } from '../../redux/currentUserSlice';
 import Cookies from "js-cookie"
 import { onlineStatusUpdate } from '../../services/profileServices';
+import { addToOnlineList } from '../../redux/messageSlicer';
 
 const LoginForm = ({ setVisible, visible, socket }) => {
     const dispatch = useDispatch()
@@ -29,7 +30,16 @@ const LoginForm = ({ setVisible, visible, socket }) => {
     })
     const makeOnline = async (id) => {
         await onlineStatusUpdate(id)
+        dispatch(addToOnlineList(id))
+        socket?.emit("addOnlineList", id)
     }
+    useEffect(() => {
+        socket?.on("addOnlineListToClient", id => {
+            dispatch(addToOnlineList(id))
+        })
+
+        return () => socket?.off("addOnlineListToClient")
+    })
     const submitLogin = async () => {
         try {
             setLoading(true)

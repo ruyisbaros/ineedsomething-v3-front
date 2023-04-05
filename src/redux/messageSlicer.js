@@ -25,6 +25,9 @@ const messagesSlicer = createSlice({
         addToData: (state, action) => {
             state.data = [...state.data, action.payload]
         },
+        addToOnlineList: (state, action) => {
+            state.onlineUsers = !state.onlineUsers.includes(action.payload) ? [...state.onlineUsers, action.payload] : state.onlineUsers
+        },
         createChatUser: (state, action) => {
             const user = action.payload
             if (state.chatUsers.every(item => item._id !== user._id)) {
@@ -87,7 +90,7 @@ const messagesSlicer = createSlice({
 })
 
 export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, addToData, makeUserOnline, makeUserOffline, readMessageRedux,
-    openTyping, closeTyping, openRead, closeRead, onlineUsersList
+    openTyping, closeTyping, openRead, closeRead, onlineUsersList, addToOnlineList
 } = messagesSlicer.actions
 
 export default messagesSlicer.reducer

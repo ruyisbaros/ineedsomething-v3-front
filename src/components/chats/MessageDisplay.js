@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../axios';
 import { deleteAMessage } from '../../redux/messageSlicer';
 
-const MessageDisplay = ({ user, msg, delMesgSocketFunc }) => {
+const MessageDisplay = ({ user, msg, delMesgSocketFunc, readMesgSocketFunc }) => {
     const { loggedUser, } = useSelector(store => store.currentUser)
-    const { isRead } = useSelector(store => store.messages)
+    const { onlineUsers } = useSelector(store => store.messages)
     const dispatch = useDispatch()
     //console.log(msg)
     const deleteMessage = async (msg1) => {
@@ -14,6 +14,7 @@ const MessageDisplay = ({ user, msg, delMesgSocketFunc }) => {
         dispatch(deleteAMessage(msg._id))
         delMesgSocketFunc("deleteAMessageSocket", msg1)
     }
+
     return (
         <>
             <div className="chat_title">
@@ -30,8 +31,17 @@ const MessageDisplay = ({ user, msg, delMesgSocketFunc }) => {
                         </div>
                         <div className="time_box text-muted">
                             <small>{new Date(msg?.createdAt).toLocaleTimeString()}</small>
-                            {user === loggedUser && <i style={{ color: isRead ? "teal" : "gray", marginLeft: "4px" }} className="fa-solid fa-check"></i>}
-                            {user === loggedUser && <i style={{ color: isRead ? "teal" : "gray", marginLeft: "-6px" }} className="fa-solid fa-check"></i>}
+                            {
+                                user === loggedUser &&
+                                (user?.isOnline ?
+                                    <>
+                                        <i style={{ color: !msg?.isRead ? "gray" : "teal", marginLeft: "4px" }} className="fa-solid fa-check"></i>
+                                        <i style={{ color: !msg?.isRead ? "gray" : "teal", marginLeft: "-6px" }} className="fa-solid fa-check"></i>
+                                    </>
+                                    :
+                                    <i style={{ color: "gray", marginLeft: "4px" }} className="fa-solid fa-check"></i>)
+
+                            }
                         </div>
                     </div>}
 

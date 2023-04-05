@@ -8,7 +8,7 @@ import MessageDisplay from './MessageDisplay';
 import Icons from './../Icons';
 import { AiOutlineSend } from "react-icons/ai"
 
-const RightSide = ({ user, socket }) => {
+const RightSide = ({ user, socket, paramId }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { data, isTyping, typingTo, chatUsers } = useSelector(store => store.messages)
     const { id } = useParams()
@@ -123,6 +123,9 @@ const RightSide = ({ user, socket }) => {
     const delMesgSocketFunc = (em, con) => {
         socket?.emit(em, con)
     }
+    const readMesgSocketFunc = (em, con) => {
+        socket?.emit(em, con)
+    }
     return (
         <>
             <div className='message_header'>
@@ -139,11 +142,11 @@ const RightSide = ({ user, socket }) => {
                             <div key={i}>
                                 {msg.sender._id !== loggedUser._id &&
                                     <div className="chat-row other_message">
-                                        <MessageDisplay user={user} msg={msg} delMesgSocketFunc={delMesgSocketFunc} />
+                                        <MessageDisplay user={user} msg={msg} delMesgSocketFunc={delMesgSocketFunc} readMesgSocketFunc={readMesgSocketFunc} />
                                     </div>}
                                 {msg.sender._id === loggedUser._id &&
                                     <div className="chat-row your_message">
-                                        <MessageDisplay user={loggedUser} msg={msg} delMesgSocketFunc={delMesgSocketFunc} />
+                                        <MessageDisplay user={loggedUser} msg={msg} delMesgSocketFunc={delMesgSocketFunc} readMesgSocketFunc={readMesgSocketFunc} />
                                     </div>}
                             </div>
                         ))

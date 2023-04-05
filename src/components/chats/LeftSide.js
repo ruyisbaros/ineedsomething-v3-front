@@ -82,6 +82,7 @@ const LeftSide = ({ socket }) => {
     useEffect(() => {
         getConversations()
     }, [getConversations, data])
+    console.log(chatUsers)
     return (
         <>
             <form className="message_header" /* onClick={handleSearch} */>

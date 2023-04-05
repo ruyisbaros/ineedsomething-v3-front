@@ -15,7 +15,7 @@ export const fetchProfileThunk = createAsyncThunk("user/getProfile", async (user
 })
 
 export const onlineStatusUpdate = async (userId) => {
-    console.log(userId)
+    //console.log(userId)
     try {
         const { data } = await axios.get(`/users/update_status_on/${userId}`);
         return data

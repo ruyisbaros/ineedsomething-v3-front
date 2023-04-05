@@ -24,7 +24,7 @@ import { BASE_ENDPOINT } from "./axios"
 import { addSocketRedux } from "./redux/socketsSlicer";
 import Chat from "./pages/messages/Chat";
 import Conversation from "./pages/messages/Conversation";
-import { onlineUsersList } from "./redux/messageSlicer";
+import { makeUserOffline, makeUserOnline, onlineUsersList } from "./redux/messageSlicer";
 import { offlineStatusUpdate, onlineStatusUpdate } from "./services/profileServices";
 //import SocketClient from "./SocketClient";
 
@@ -49,7 +49,8 @@ function App() {
       );
       Cookies.set("user", JSON.stringify(data))
     } catch (error) {
-      toast.error(error.response.data.message)
+      console.log(error)
+      //toast.error(error.response.data.message)
     }
   }, [dispatch]);
 
@@ -82,7 +83,12 @@ function App() {
       dispatch(onlineUsersList(data.map(d => (d.id))))
     })
   }, [dispatch, onlineUsers])
-  const updateOnlineStatusOfUsers = useCallback(async (onlineUsers) => {
+  useEffect(() => {
+    dispatch(makeUserOnline())
+  }, [dispatch, onlineUsers])
+
+
+  /* const updateOnlineStatusOfUsers = useCallback(async (onlineUsers) => {
     onlineUsers.length > 0 && onlineUsers.map(async (u) => (
       await onlineStatusUpdate(u)
     ))
@@ -90,16 +96,17 @@ function App() {
 
   useEffect(() => {
     updateOnlineStatusOfUsers(onlineUsers)
-  }, [updateOnlineStatusOfUsers, onlineUsers])
-
+  }, [updateOnlineStatusOfUsers, onlineUsers]) */
 
   //Offline users
-  useEffect(() => {
+  /* useEffect(() => {
     socket?.on("offlineUsers", async (u) => {
       console.log(u)
-      await offlineStatusUpdate(u)
+      dispatch(makeUserOffline(u))
+      //await offlineStatusUpdate(u)
     })
-  }, [dispatch, onlineUsers])
+
+  }, [dispatch, onlineUsers]) */
 
   return (
     <div className={darkTheme ? "dark" : ""}>

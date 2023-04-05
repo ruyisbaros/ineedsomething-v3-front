@@ -5,7 +5,6 @@ const initialState = {
     chatUsers: [],
     numberOfUsers: 0,
     data: [],
-    isRead: false,
     typingTo: "",
     onlineUsers: []
 }
@@ -47,14 +46,26 @@ const messagesSlicer = createSlice({
                 }
             })
         },
+        readMessageRedux: (state, action) => {
+            state.data = state.data.map(dt => (
+                dt.recipient._id === action.payload ? { ...dt, isRead: true } : dt
+            ))
+        },
         deleteFullConversation: (state, action) => {
             const id = action.payload
             state.chatUsers = state.chatUsers.filter(item => item._id !== id)
         },
-        checkUserOnlineOffline: (state, action) => {
-            console.log(action.payload.id);
+        makeUserOnline: (state, action) => {
+            console.log(action.payload);
             state.chatUsers = state.chatUsers.map(user =>
-                user._id === action.payload.id ? { ...user, isOnline: true } : { ...user, isOnline: false })
+                state.onlineUsers.map(onl => (
+                    onl === user._id ? { ...user, isOnline: true } : { ...user, isOnline: false }
+                )))
+        },
+        makeUserOffline: (state, action) => {
+            console.log(action.payload);
+            state.chatUsers = state.chatUsers.map(user =>
+                user._id === action.payload && { ...user, isOnline: false })
         },
         openTyping: (state, action) => {
             state.isTyping = true;
@@ -63,19 +74,19 @@ const messagesSlicer = createSlice({
         closeTyping: (state, action) => {
             state.isTyping = false
         },
-        openRead: (state, action) => {
+        /* openRead: (state, action) => {
             state.isRead = true
         },
         closeRead: (state, action) => {
             state.isRead = false
-        },
+        }, */
         onlineUsersList: (state, action) => {
             state.onlineUsers = [...state.onlineUsers, ...action.payload]
         } 
     }
 })
 
-export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, checkUserOnlineOffline, addToData,
+export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, addToData, makeUserOnline, makeUserOffline, readMessageRedux,
     openTyping, closeTyping, openRead, closeRead, onlineUsersList
 } = messagesSlicer.actions
 

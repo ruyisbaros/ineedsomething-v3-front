@@ -80,7 +80,9 @@ function App() {
   useEffect(() => {
     socket.on("onlineUsers", data => {
       console.log(data)
-      dispatch(onlineUsersList(data.map(d => (d.id))))
+      dispatch(onlineUsersList(data.map(d => (
+        (data !== null && !onlineUsers.includes(d.id)) && d.id
+      ))))
     })
   }, [dispatch, onlineUsers])
   useEffect(() => {

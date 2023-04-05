@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import LeftSide from '../../components/chats/LeftSide'
 import RightSide from '../../components/chats/RightSide'
 import Header from '../../components/header/Header'
 import "./chat.css"
+import { useSelector } from 'react-redux';
 const Chat = ({ socket }) => {
+    const { chatUsers } = useSelector(store => store.messages)
+    const { loggedUser } = useSelector(store => store.currentUser)
+    useEffect(() => {
+        chatUsers.map(usr => (
+            socket?.emit("addOnlineList", { target: usr._id, me: loggedUser._id })
+        ))
+    }, [chatUsers, loggedUser, socket])
     return (
         <div className='chats'>
             <Header page="chat" />

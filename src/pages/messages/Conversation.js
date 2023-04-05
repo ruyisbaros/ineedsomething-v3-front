@@ -43,11 +43,6 @@ const Conversation = ({ socket }) => {
         return () => socket?.off("newMessageToClient")
     })
 
-    useEffect(() => {
-        chatUsers.map(usr => (
-            socket?.emit("addOnlineList", { target: usr._id, me: id })
-        ))
-    }, [chatUsers, id, socket])
     return (
         <div className='chats'>
             <Header page="chat" />

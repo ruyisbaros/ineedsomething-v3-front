@@ -138,7 +138,7 @@ const FriendShip = () => {
                     </button>
             }
             <button className={loggedUser?.friends?.includes(profile?._id) ? "blue_btn" : "gray_btn"} >
-                <Link to={`/message/${profile._id}`} style={{ textDecoration: "none", color: "inherit", width: "inherit" }}>
+                <Link to={`/message/${profile?._id}`} style={{ textDecoration: "none", color: "inherit", width: "inherit" }}>
                     <img src="../../../icons/message.png" alt="" className={loggedUser?.friends?.includes(profile?._id) ? "invert" : ""} />
                     <span>Message</span>
                 </Link>

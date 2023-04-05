@@ -3,16 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../axios';
 import { deleteAMessage } from '../../redux/messageSlicer';
 
-const MessageDisplay = ({ user, msg, socket }) => {
+const MessageDisplay = ({ user, msg, delMesgSocketFunc }) => {
     const { loggedUser, } = useSelector(store => store.currentUser)
     const { isRead } = useSelector(store => store.messages)
     const dispatch = useDispatch()
-
-    const deleteMessage = async () => {
-        console.log(msg);
-        await axios.delete(`/chats/delete/${msg._id}`)
+    //console.log(msg)
+    const deleteMessage = async (msg1) => {
+        //console.log(msg1.recipient._id);
+        await axios.delete(`/chats/delete/${msg1._id}`)
         dispatch(deleteAMessage(msg._id))
-        socket.emit("deleteAMessage", msg)
+        delMesgSocketFunc("deleteAMessageSocket", msg1)
     }
     return (
         <>
@@ -21,7 +21,8 @@ const MessageDisplay = ({ user, msg, socket }) => {
                 <span>{user?.first_name}</span>
             </div>
             <div className="your_content">
-                {user?._id === loggedUser._id && <i className="fas fa-trash text-danger" onClick={deleteMessage}></i>}
+                {user?._id === loggedUser._id && <i className="fas fa-trash text-danger"
+                    onClick={() => deleteMessage(msg)}></i>}
                 <div>
                     {msg?.chatMessage && <div className="chat_text">
                         <div>

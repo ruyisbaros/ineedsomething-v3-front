@@ -11,7 +11,7 @@ import CircleLoader from "react-spinners/CircleLoader"
 import { userLoggedSuccess } from '../../redux/currentUserSlice';
 import Cookies from "js-cookie"
 
-const LoginForm = ({ setVisible, visible }) => {
+const LoginForm = ({ setVisible, visible, socket }) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [login, setLogin] = useState({ email: "", password: "" })
@@ -30,7 +30,8 @@ const LoginForm = ({ setVisible, visible }) => {
         try {
             setLoading(true)
             const { data } = await axios.post("/auth/login", login)
-            //console.log(data)
+            console.log(data)
+            socket?.emit("joinUser", data?._id)
             dispatch(userLoggedSuccess(data))
             Cookies.set("user", JSON.stringify(data))
             navigate("/")

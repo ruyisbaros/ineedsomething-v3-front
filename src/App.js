@@ -24,6 +24,8 @@ import { BASE_ENDPOINT } from "./axios"
 import { addSocketRedux } from "./redux/socketsSlicer";
 import Chat from "./pages/messages/Chat";
 import Conversation from "./pages/messages/Conversation";
+import { onlineUsersList } from "./redux/messageSlicer";
+import { offlineStatusUpdate, onlineStatusUpdate } from "./services/profileServices";
 //import SocketClient from "./SocketClient";
 
 //const url = BASE_ENDPOINT
@@ -31,6 +33,8 @@ let socket;
 function App() {
   const { loggedUser } = useSelector(store => store.currentUser)
   const { darkTheme } = useSelector(store => store.screenTheme)
+  const { onlineUsers } = useSelector(store => store.messages)
+  console.log(onlineUsers)
   const dispatch = useDispatch();
   const [showCreatePostPopup, setShowCreatePostPopup] = useState(false)
   const [notReview, setNotReview] = useState(false)
@@ -70,6 +74,33 @@ function App() {
   useEffect(() => {
     socket?.emit("joinUser", loggedUser?._id)
   }, [loggedUser?._id])
+
+  //Online users
+  useEffect(() => {
+    socket.on("onlineUsers", data => {
+      console.log(data)
+      dispatch(onlineUsersList(data.map(d => (d.id))))
+    })
+  }, [dispatch, onlineUsers])
+  const updateOnlineStatusOfUsers = useCallback(async (onlineUsers) => {
+    onlineUsers.length > 0 && onlineUsers.map(async (u) => (
+      await onlineStatusUpdate(u)
+    ))
+  }, [])
+
+  useEffect(() => {
+    updateOnlineStatusOfUsers(onlineUsers)
+  }, [updateOnlineStatusOfUsers, onlineUsers])
+
+
+  //Offline users
+  useEffect(() => {
+    socket?.on("offlineUsers", async (u) => {
+      console.log(u)
+      await offlineStatusUpdate(u)
+    })
+  }, [dispatch, onlineUsers])
+
   return (
     <div className={darkTheme ? "dark" : ""}>
       <ToastContainer position="bottom-center" limit={1} />
@@ -90,7 +121,7 @@ function App() {
           <Route path="/friends/:type" element={<Friends />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login socket={socket} />} />
         </Route>
         <Route path="/forgot_pwd" element={<ForgotPassword />} />
 

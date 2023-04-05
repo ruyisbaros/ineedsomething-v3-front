@@ -3,7 +3,7 @@ import axios from '../../axios'
 import UserCard from '../userCard/UserCard'
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeTyping, createSingleChat, deleteAMessage, deleteFullConversation, getBetweenChats, openTyping } from '../../redux/messageSlicer';
+import { addToData, closeTyping, createSingleChat, deleteAMessage, deleteFullConversation, getBetweenChats, openTyping } from '../../redux/messageSlicer';
 import MessageDisplay from './MessageDisplay';
 import Icons from './../Icons';
 import { AiOutlineSend } from "react-icons/ai"
@@ -12,8 +12,8 @@ const RightSide = ({ user, socket }) => {
     const { loggedUser } = useSelector(store => store.currentUser)
     const { data, isTyping, typingTo, chatUsers } = useSelector(store => store.messages)
     const { id } = useParams()
-    console.log(id)
-    console.log(id, data)
+    //console.log(id)
+    //console.log(id, data)
     const dispatch = useDispatch()
     const displayRef = useRef()
     const typeRef = useRef()
@@ -25,7 +25,7 @@ const RightSide = ({ user, socket }) => {
 
     const getMessages = useCallback(async () => {
         const { data } = await axios.get(`/chats/between/${id}`)
-        console.log(data)
+        //console.log(data)
         dispatch(getBetweenChats(data))
         setTimeout(() => {
             displayRef.current.scrollIntoView({ behavior: "smooth", block: "end" })
@@ -53,9 +53,10 @@ const RightSide = ({ user, socket }) => {
         }
 
         const { data } = await axios.post("/chats/new", { ...message })
-        console.log(data);
+        //console.log(data);
         // setMsgData(data)
         dispatch(createSingleChat(data))
+        dispatch(addToData(data))
         setChatMessage("")
         setImages([])
         const { _id, picture, first_name, username } = loggedUser
@@ -79,9 +80,11 @@ const RightSide = ({ user, socket }) => {
     //receive emitted new message
     useEffect(() => {
         socket?.on("newMessageToClient", newMessage => {
-            //console.log(newMessage);
-            dispatch(createSingleChat(newMessage))
-            //dispatch(addToData(newMessage))
+            console.log(newMessage);
+            if (id === newMessage.sender._id) {
+                dispatch(createSingleChat(newMessage))
+                dispatch(addToData(newMessage))
+            }
         })
 
         return () => socket?.off("newMessageToClient")
@@ -89,9 +92,9 @@ const RightSide = ({ user, socket }) => {
 
     //receive emitted delete message
     useEffect(() => {
-        socket?.on("deleteAMessageToClient", newMessage => {
+        socket?.on("deleteAMessageToClient", id => {
             //console.log(newMessage);
-            dispatch(deleteAMessage(newMessage._id))
+            dispatch(deleteAMessage(id))
         })
 
         return () => socket?.off("deleteAMessageToClient")
@@ -117,7 +120,9 @@ const RightSide = ({ user, socket }) => {
 
         return () => socket?.off("closeTypingToClient")
     })
-
+    const delMesgSocketFunc = (em, con) => {
+        socket?.emit(em, con)
+    }
     return (
         <>
             <div className='message_header'>
@@ -134,11 +139,11 @@ const RightSide = ({ user, socket }) => {
                             <div key={i}>
                                 {msg.sender._id !== loggedUser._id &&
                                     <div className="chat-row other_message">
-                                        <MessageDisplay user={user} msg={msg} />
+                                        <MessageDisplay user={user} msg={msg} delMesgSocketFunc={delMesgSocketFunc} />
                                     </div>}
                                 {msg.sender._id === loggedUser._id &&
                                     <div className="chat-row your_message">
-                                        <MessageDisplay user={loggedUser} msg={msg} />
+                                        <MessageDisplay user={loggedUser} msg={msg} delMesgSocketFunc={delMesgSocketFunc} />
                                     </div>}
                             </div>
                         ))

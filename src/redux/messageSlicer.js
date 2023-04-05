@@ -6,7 +6,8 @@ const initialState = {
     numberOfUsers: 0,
     data: [],
     isRead: false,
-    typingTo: ""
+    typingTo: "",
+    onlineUsers: []
 }
 
 const messagesSlicer = createSlice({
@@ -20,6 +21,9 @@ const messagesSlicer = createSlice({
                     ? { ...user, chatMessage: action.payload.chatMessage, images: action.payload.images }
                     : user
             )
+
+        },
+        addToData: (state, action) => {
             state.data = [...state.data, action.payload]
         },
         createChatUser: (state, action) => {
@@ -65,14 +69,14 @@ const messagesSlicer = createSlice({
         closeRead: (state, action) => {
             state.isRead = false
         },
-        /* checkUserOffline: (state, action) => {
-            state.chatUsers = state.chatUsers.map(user => user !== action.payload)
-        } */
+        onlineUsersList: (state, action) => {
+            state.onlineUsers = [...state.onlineUsers, ...action.payload]
+        } 
     }
 })
 
-export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, checkUserOnlineOffline,
-    openTyping, closeTyping, openRead, closeRead
+export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, checkUserOnlineOffline, addToData,
+    openTyping, closeTyping, openRead, closeRead, onlineUsersList
 } = messagesSlicer.actions
 
 export default messagesSlicer.reducer

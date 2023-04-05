@@ -32,9 +32,6 @@ const LoginForm = ({ setVisible, visible, socket }) => {
     const makeOnline = async (id) => {
         await onlineStatusUpdate(id)
         dispatch(addToOnlineList(id))
-        chatUsers.map(usr => (
-            socket?.emit("addOnlineList", { target: usr._id, me: id })
-        ))
     }
     useEffect(() => {
         socket?.on("addOnlineListToClient", id => {

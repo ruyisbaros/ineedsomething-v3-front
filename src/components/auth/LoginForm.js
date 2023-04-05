@@ -33,14 +33,6 @@ const LoginForm = ({ setVisible, visible, socket }) => {
         await onlineStatusUpdate(id)
         dispatch(addToOnlineList(id))
     }
-    useEffect(() => {
-        socket?.on("addOnlineListToClient", id => {
-            dispatch(addToOnlineList(id))
-            dispatch(makeOnlineChatUser(id))
-        })
-
-        return () => socket?.off("addOnlineListToClient")
-    })
     const submitLogin = async () => {
         try {
             setLoading(true)

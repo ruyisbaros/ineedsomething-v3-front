@@ -81,7 +81,7 @@ function App() {
     socket.on("onlineUsers", data => {
       console.log(data)
       dispatch(onlineUsersList(data.map(d => (
-        (d.id !== null && !onlineUsers.includes(d.id)) && d.id
+        (d.id !== null && !onlineUsers.includes(d.id)) ? d.id : ""
       ))))
     })
   }, [dispatch, onlineUsers])

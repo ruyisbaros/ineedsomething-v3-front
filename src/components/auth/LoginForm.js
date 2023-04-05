@@ -4,7 +4,7 @@ import logo from "../../assets/output-onlinejpgtools (1).png"
 import { Formik, Form } from 'formik'
 import * as Yup from "yup"
 import LoginInput from '../inputs/loginInput/LoginInput';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from '../../axios'
 import { toast } from 'react-toastify'
 import CircleLoader from "react-spinners/CircleLoader"
@@ -14,6 +14,7 @@ import { onlineStatusUpdate } from '../../services/profileServices';
 import { addToOnlineList, makeOnlineChatUser } from '../../redux/messageSlicer';
 
 const LoginForm = ({ setVisible, visible, socket }) => {
+    const { chatUsers } = useSelector(store => store.messages)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [login, setLogin] = useState({ email: "", password: "" })
@@ -31,7 +32,9 @@ const LoginForm = ({ setVisible, visible, socket }) => {
     const makeOnline = async (id) => {
         await onlineStatusUpdate(id)
         dispatch(addToOnlineList(id))
-        socket?.emit("addOnlineList", id)
+        chatUsers.map(usr => (
+            socket?.emit("addOnlineList", { target: usr._id, me: id })
+        ))
     }
     useEffect(() => {
         socket?.on("addOnlineListToClient", id => {

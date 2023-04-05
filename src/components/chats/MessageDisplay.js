@@ -32,8 +32,8 @@ const MessageDisplay = ({ user, msg, delMesgSocketFunc, readMesgSocketFunc }) =>
                         <div className="time_box text-muted">
                             <small>{new Date(msg?.createdAt).toLocaleTimeString()}</small>
                             {
-                                user === loggedUser &&
-                                (user?.isOnline ?
+                                user?._id === loggedUser?._id &&
+                                (msg?.recipient.isOnline ?
                                     <>
                                         <i style={{ color: !msg?.isRead ? "gray" : "teal", marginLeft: "4px" }} className="fa-solid fa-check"></i>
                                         <i style={{ color: !msg?.isRead ? "gray" : "teal", marginLeft: "-6px" }} className="fa-solid fa-check"></i>

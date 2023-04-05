@@ -22,6 +22,11 @@ const messagesSlicer = createSlice({
             )
 
         },
+        makeOnlineChatUser: (state, action) => {
+            state.chatUsers = state.chatUsers.map(cu => (
+                cu._id === action.payload ? { ...cu, isOnline: true } : cu
+            ))
+        },
         addToData: (state, action) => {
             state.data = [...state.data, action.payload]
         },
@@ -90,7 +95,7 @@ const messagesSlicer = createSlice({
 })
 
 export const { createSingleChat, createChatUser, fetchChatWith, getBetweenChats, deleteAMessage, deleteFullConversation, addToData, makeUserOnline, makeUserOffline, readMessageRedux,
-    openTyping, closeTyping, openRead, closeRead, onlineUsersList, addToOnlineList
+    openTyping, closeTyping, openRead, closeRead, onlineUsersList, addToOnlineList, makeOnlineChatUser
 } = messagesSlicer.actions
 
 export default messagesSlicer.reducer

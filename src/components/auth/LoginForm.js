@@ -11,7 +11,7 @@ import CircleLoader from "react-spinners/CircleLoader"
 import { userLoggedSuccess } from '../../redux/currentUserSlice';
 import Cookies from "js-cookie"
 import { onlineStatusUpdate } from '../../services/profileServices';
-import { addToOnlineList } from '../../redux/messageSlicer';
+import { addToOnlineList, makeOnlineChatUser } from '../../redux/messageSlicer';
 
 const LoginForm = ({ setVisible, visible, socket }) => {
     const dispatch = useDispatch()
@@ -36,6 +36,7 @@ const LoginForm = ({ setVisible, visible, socket }) => {
     useEffect(() => {
         socket?.on("addOnlineListToClient", id => {
             dispatch(addToOnlineList(id))
+            dispatch(makeOnlineChatUser(id))
         })
 
         return () => socket?.off("addOnlineListToClient")
